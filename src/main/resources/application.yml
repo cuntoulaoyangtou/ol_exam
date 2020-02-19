@@ -1,0 +1,33 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    password: 123456
+    username: root
+    url: jdbc:mysql://127.0.0.1:3306/ol_exam?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+    timeout: 10000
+mybatis:
+  type-aliases-package: cn.ctlyt.exam.pojo
+
+#pagehelper配置项
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countsql
+
+#打印Mybatis生成的SQL
+logging:
+  level:
+    cn.ctlyt.exam.mapper: debug
