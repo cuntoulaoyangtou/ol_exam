@@ -58,9 +58,6 @@ public class ClazzController {
     @PostMapping("/getclazz")
     public Result getClazz(Integer c_id){
         Clazz clazz = clazzService.getClazz(c_id);
-        if(clazz!=null){
-            return ResultGenerator.genSuccessResult(clazz);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(clazz);
     }
 }

@@ -73,8 +73,8 @@ public class UserController {
         return ResultGenerator.genFailResult("删除失败").setData(u_id);
     }
     @PostMapping("getusers")
-    public Result getUsers(@RequestParam(value="pageNo",defaultValue="1" ,required=false) Integer pageNo,@RequestParam(value="pageSize",defaultValue="20" ,required=false)  Integer pageSize, User user,@RequestParam(value="g_id",defaultValue="0" ,required=false)  Integer g_id,@RequestParam(value="s_id",defaultValue="0" ,required=false)  Integer s_id, @RequestParam(value="m_id",defaultValue="0" ,required=false) Integer m_id){
-        PageInfo<User> users = userService.getUsers(pageNo, pageSize, user, g_id, s_id,m_id);
+    public Result getUsers(@RequestParam(value="pageNo",defaultValue="1" ,required=false) Integer pageNo,@RequestParam(value="pageSize",defaultValue="20" ,required=false)  Integer pageSize, User user,@RequestParam(value="g_id",defaultValue="0" ,required=false)  Integer g_id,@RequestParam(value="s_id",defaultValue="0" ,required=false)  Integer s_id, @RequestParam(value="m_id",defaultValue="0" ,required=false) Integer m_id,@RequestParam(value="cm",defaultValue="false" ,required=false) Boolean cm){
+        PageInfo<User> users = userService.getUsers(pageNo, pageSize, user, g_id, s_id,m_id, cm);
         return ResultGenerator.genSuccessResult(users);
     }
     @PostMapping("olusers")

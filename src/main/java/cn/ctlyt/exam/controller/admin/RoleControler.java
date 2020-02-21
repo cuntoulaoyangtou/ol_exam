@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -46,19 +47,13 @@ public class RoleControler {
         return ResultGenerator.genFailResult("删除失败");
     }
     @PostMapping("getroles")
-    public Result getRoles(Integer pageNo,Integer pageSize,String r_name){
+    public Result getRoles(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo, @RequestParam(value="pageSize",defaultValue="20" ,required=false) Integer pageSize, @RequestParam(value="r_name",defaultValue="" ,required=false) String r_name){
         PageInfo<Role> roles = roleService.getRoles(pageNo, pageSize, r_name);
-        if(roles.getList().size()>0){
-            return ResultGenerator.genSuccessResult(roles);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(roles);
     }
     @PostMapping("getrole")
     public Result getRole(Integer r_id){
         Role role = roleService.getRole(r_id);
-        if(role!=null){
-            return ResultGenerator.genSuccessResult(role);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(role);
     }
 }

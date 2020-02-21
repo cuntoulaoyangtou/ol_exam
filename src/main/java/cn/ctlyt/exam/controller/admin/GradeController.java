@@ -56,10 +56,7 @@ public class GradeController {
     @PostMapping("/getgrade")
     public Result getGrade(Integer g_id){
         Grade grade = gradeService.getGrade(g_id);
-        if(grade!=null){
-            return ResultGenerator.genSuccessResult(grade);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(grade);
     }
 
 }

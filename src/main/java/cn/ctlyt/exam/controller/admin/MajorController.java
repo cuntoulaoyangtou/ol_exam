@@ -46,18 +46,12 @@ public class MajorController {
     @PostMapping("getmajors")
     public Result getMajors(Integer pageNo,Integer pageSize,String m_name){
         PageInfo<Major> majors = majorService.getMajors(pageNo, pageSize, m_name);
-        if(majors.getList().size()>0){
-            return ResultGenerator.genSuccessResult(majors);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(majors);
     }
     @PostMapping("getmajor")
     public Result getMajor(Integer m_id){
         Major major = majorService.getMajor(m_id);
-        if(major!=null){
-            return ResultGenerator.genSuccessResult(major);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(major);
     }
 
 }

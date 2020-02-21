@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -31,9 +32,9 @@ public class User {
     private String avatar;
     private Integer integral;
     private Integer c_id;
-    private Clazz clazz;
     private Integer r_id;
     private Role role;
+    private List<ClazzManage> clazzManages;
 
     public Integer getU_id() {
         return u_id;
@@ -99,14 +100,6 @@ public class User {
         this.c_id = c_id;
     }
 
-    public Clazz getClazz() {
-        return clazz;
-    }
-
-    public void setClazz(Clazz clazz) {
-        this.clazz = clazz;
-    }
-
     public Integer getR_id() {
         return r_id;
     }
@@ -169,4 +162,11 @@ public class User {
         }
     }
 
+    public List<ClazzManage> getClazzManages() {
+        return clazzManages;
+    }
+
+    public void setClazzManages(List<ClazzManage> clazzManages) {
+        this.clazzManages = clazzManages;
+    }
 }

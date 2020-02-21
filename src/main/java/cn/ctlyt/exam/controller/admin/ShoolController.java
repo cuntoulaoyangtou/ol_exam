@@ -52,9 +52,6 @@ public class ShoolController {
     @PostMapping("/getshool")
     public Result getShoolBySID(Integer s_id){
         Shool shoolBySID = shoolService.getShoolBySID(s_id);
-        if(shoolBySID!=null){
-            return ResultGenerator.genSuccessResult(shoolBySID);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(shoolBySID);
     }
 }

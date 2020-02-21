@@ -1,9 +1,11 @@
 package cn.ctlyt.exam.service;
 
+import cn.ctlyt.exam.mapper.ClazzManageMapper;
 import cn.ctlyt.exam.mapper.ClazzMapper;
 import cn.ctlyt.exam.mapper.GradeMapper;
 import cn.ctlyt.exam.mapper.UserMapper;
 import cn.ctlyt.exam.pojo.Clazz;
+import cn.ctlyt.exam.pojo.ClazzManage;
 import cn.ctlyt.exam.pojo.Grade;
 import cn.ctlyt.exam.pojo.User;
 import com.github.pagehelper.PageHelper;
@@ -26,6 +28,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    ClazzManageMapper clazzManageMapper;
 
     /*
      * 功能描述：添加用户
@@ -68,7 +72,7 @@ public class UserService {
      * @Date: 2020/2/18 0018 21:46
      *
      */
-    public PageInfo<User> getUsers(Integer pageNo,Integer pageSize,User user,Integer g_id,Integer s_id,Integer m_id){
+    public PageInfo<User> getUsers(Integer pageNo,Integer pageSize,User user,Integer g_id,Integer s_id,Integer m_id,Boolean cm){
         PageHelper.startPage(pageNo,pageSize);
         List<User> users;
         Example example = new Example(User.class);
@@ -94,7 +98,7 @@ public class UserService {
             if(m_id!=null && m_id!=0){
                 users = userMapper.getUsersBy(m_id,s_id,g_id);
             }else{
-                users = userMapper.getUsersBySID(s_id);
+                users = userMapper.getUsersBySID(s_id,user.getR_id());
             }
 
         }else{
@@ -107,6 +111,11 @@ public class UserService {
                 }else{
                     users = userMapper.selectByExample(example);
                 }
+            }
+        }
+        if(cm){
+            for(User user1 : users){
+                user1.setClazzManages(clazzManageMapper.getClazzManages(user1.getU_id(),null));
             }
         }
         return new PageInfo<>(users);
