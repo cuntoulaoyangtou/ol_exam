@@ -3,13 +3,14 @@ package cn.ctlyt.exam.exception;
 import cn.ctlyt.exam.pojo.Result;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import com.alibaba.fastjson.JSON;
-import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -95,6 +96,18 @@ public class GlobalException {
         return ResultGenerator.genFailResult("MyBatis异常");
     }
 
+    /**
+     * 绑定的异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = BindException.class)
+    @ResponseBody
+    public Result exceptionHandler(HttpServletRequest req, BindException e){
+        logger.error("绑定异常！原因是:{}",e);
+        return ResultGenerator.genFailResult("API接口参数错误");
+    }
     /**
      * 处理空指针的异常
      * @param req

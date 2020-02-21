@@ -83,7 +83,7 @@ public class ClazzService {
             criteria.andEqualTo("m_id",clazz.getM_id());
         }
         if(s_id!=null && s_id!=0){
-            clazzs = clazzMapper.getClazzsBySID(s_id);
+            clazzs = clazzMapper.getClazzsBySID(s_id,clazz.getM_id());
         }else {
             clazzs = clazzMapper.selectByExample(example);
         }

@@ -16,6 +16,6 @@ import java.util.List;
  **/
 @Repository
 public interface ClazzMapper extends Mapper<Clazz> {
-    @Select("select * from u_clazz where g_id in(select g_id from u_grade where s_id = #{s_id})")
-    public List<Clazz> getClazzsBySID(Integer s_id);
+    @Select("<script>select * from u_clazz where g_id in(select g_id from u_grade where s_id = #{s_id})<if test='m_id!=null and m_id!=0'>and m_id = #{m_id}</if>order by c_priority</script>")
+    public List<Clazz> getClazzsBySID(Integer s_id,Integer m_id);
 }

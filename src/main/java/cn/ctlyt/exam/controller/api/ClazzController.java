@@ -27,11 +27,7 @@ public class ClazzController {
     @GetMapping("getclazzs")
     public Result getClazzs(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo, @RequestParam(value="pageSize",defaultValue="20" ,required=false)Integer pageSize, Clazz clazz, @RequestParam(value="s_id",defaultValue="0" ,required=false)Integer s_id){
         PageInfo<Clazz> clazzs = clazzService.getClazzs(pageNo, pageSize, clazz, s_id);
-        if(clazzs.getList().size()>0){
-            return ResultGenerator.genSuccessResult(clazzs);
-        }else{
-            throw new BizException("没有班级数据",clazz);
-        }
+        return ResultGenerator.genSuccessResult(clazzs);
     }
     @GetMapping("getclazz")
     public Result getClazz(Integer c_id){

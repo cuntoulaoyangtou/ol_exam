@@ -23,5 +23,5 @@ public interface UserMapper extends Mapper<User> {
     @Select("<script>select * from u_user where c_id in (select c_id from u_clazz where m_id=#{m_id})" +
             "<if test='s_id != null'>and c_id in(select c_id from u_clazz where g_id in (select g_id from u_grade where s_id = #{s_id} " +
             "<if test='g_id!=null'>and g_id = #{g_id} </if>) )</if></script>")
-    public List<User> getUsersBy(Integer s_id, Integer g_id, Integer m_id);
+    public List<User> getUsersBy(Integer m_id, Integer s_id, Integer g_id);
 }

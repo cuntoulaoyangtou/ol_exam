@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -47,12 +48,10 @@ public class GradeController {
         return ResultGenerator.genFailResult("删除失败");
     }
     @PostMapping("/getgrades")
-    public Result getGrades(Integer pageNo,Integer pageSize,String g_name,Integer s_id){
+    public Result getGrades(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo, @RequestParam(value="pageSize",defaultValue="20" ,required=false)Integer pageSize, @RequestParam(value="g_name",defaultValue="" ,required=false)String g_name, @RequestParam(value="s_id",defaultValue="0" ,required=false)Integer s_id){
         PageInfo<Grade> grades = gradeService.getGrades(pageNo, pageSize, g_name,s_id);
-        if(grades.getList().size()>0){
-            return ResultGenerator.genSuccessResult(grades);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(grades);
+
     }
     @PostMapping("/getgrade")
     public Result getGrade(Integer g_id){

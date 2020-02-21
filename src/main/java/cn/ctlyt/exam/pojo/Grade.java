@@ -25,8 +25,6 @@ public class Grade {
     private String g_name;
     private Integer g_priority;
     private Integer s_id;
-    private Shool shool;
-    private List<Clazz> clazzes;
 
     public Integer getG_id() {
         return g_id;
@@ -60,19 +58,4 @@ public class Grade {
         this.s_id = s_id;
     }
 
-    public Shool getShool() {
-        return shool;
-    }
-
-    public void setShool(Shool shool) {
-        this.shool = shool;
-    }
-
-    public List<Clazz> getClazzes() {
-        return clazzes;
-    }
-
-    public void setClazzes(List<Clazz> clazzes) {
-        this.clazzes = clazzes;
-    }
 }

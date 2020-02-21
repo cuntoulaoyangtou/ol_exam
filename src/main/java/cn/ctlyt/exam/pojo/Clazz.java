@@ -24,9 +24,7 @@ public class Clazz {
     private String c_name;
     private Integer c_priority;
     private Integer g_id;
-    private Grade grade;
     private Integer m_id;
-    private Major major;
 
     public Integer getC_id() {
         return c_id;
@@ -60,14 +58,6 @@ public class Clazz {
         this.g_id = g_id;
     }
 
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
-    }
-
     public Integer getM_id() {
         return m_id;
     }
@@ -76,11 +66,4 @@ public class Clazz {
         this.m_id = m_id;
     }
 
-    public Major getMajor() {
-        return major;
-    }
-
-    public void setMajor(Major major) {
-        this.major = major;
-    }
 }

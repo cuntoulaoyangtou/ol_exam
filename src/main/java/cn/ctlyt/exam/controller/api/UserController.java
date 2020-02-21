@@ -4,6 +4,7 @@ import cn.ctlyt.exam.config.GlobalConfig;
 import cn.ctlyt.exam.pojo.Result;
 import cn.ctlyt.exam.pojo.ResultCodeEnum;
 import cn.ctlyt.exam.pojo.User;
+import cn.ctlyt.exam.service.RoleService;
 import cn.ctlyt.exam.service.UserService;
 import cn.ctlyt.exam.utils.Constant;
 import cn.ctlyt.exam.utils.JwtUtil;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    RoleService roleService;
     @GetMapping("login")
     public Result doLogin(User user) throws Exception {
         user.setU_id(0);
@@ -62,13 +65,19 @@ public class UserController {
 
         user.setU_id(u_id);
         User user1 = userService.getUser(user);
+        user1.setRole(roleService.getRole(user1.getR_id()));
         return ResultGenerator.genSuccessResult(user1);
     }
     @GetMapping("logout")
     public Result logout(String token){
         Claims claims = JwtUtil.parseJWT(token);
         User user = JSON.parseObject(claims.getSubject(), User.class);
-        RedisUtil.del(GlobalConfig.getToken(claims.getId(),user.getC_id(),user.getR_id()));
-        return ResultGenerator.genSuccessResult("退出登录");
+        try{
+            RedisUtil.del(GlobalConfig.getToken(claims.getId(),user.getC_id(),user.getR_id()));
+        }catch (Exception e){
+
+        }finally {
+            return ResultGenerator.genSuccessResult("退出登录");
+        }
     }
 }

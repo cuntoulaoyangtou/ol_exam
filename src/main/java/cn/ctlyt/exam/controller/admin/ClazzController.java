@@ -25,6 +25,12 @@ public class ClazzController {
     ClazzService clazzService;
     @PostMapping("/add")
     public Result addClazz(Clazz clazz){
+        if(clazz.getM_id()==null || clazz.getM_id()<=0){
+            return ResultGenerator.genFailResult("请选择专业ID");
+        }
+        if(clazz.getG_id()==null || clazz.getG_id()<=0){
+            return ResultGenerator.genFailResult("请选择年级ID");
+        }
         if(clazzService.addClazz(clazz)>0){
             return ResultGenerator.genSuccessResult(clazz.getG_id());
         }
@@ -47,10 +53,7 @@ public class ClazzController {
     @PostMapping("/getclazzs")
     public Result getClazz(Integer pageNo, Integer pageSize, Clazz clazz,Integer s_id){
         PageInfo<Clazz> clazzs = clazzService.getClazzs(pageNo, pageSize,clazz,s_id);
-        if(clazzs.getList().size()>0){
-            return ResultGenerator.genSuccessResult(clazzs);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(clazzs);
     }
     @PostMapping("/getclazz")
     public Result getClazz(Integer c_id){

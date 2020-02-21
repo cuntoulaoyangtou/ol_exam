@@ -73,12 +73,9 @@ public class UserController {
         return ResultGenerator.genFailResult("删除失败").setData(u_id);
     }
     @PostMapping("getusers")
-    public Result getUsers(Integer pageNo, Integer pageSize, User user, Integer g_id, Integer s_id, Integer m_id){
+    public Result getUsers(@RequestParam(value="pageNo",defaultValue="1" ,required=false) Integer pageNo,@RequestParam(value="pageSize",defaultValue="20" ,required=false)  Integer pageSize, User user,@RequestParam(value="g_id",defaultValue="0" ,required=false)  Integer g_id,@RequestParam(value="s_id",defaultValue="0" ,required=false)  Integer s_id, @RequestParam(value="m_id",defaultValue="0" ,required=false) Integer m_id){
         PageInfo<User> users = userService.getUsers(pageNo, pageSize, user, g_id, s_id,m_id);
-        if(users.getList().size()>0){
-            return ResultGenerator.genSuccessResult(users);
-        }
-        return ResultGenerator.genFailResult("查询失败").setData(user);
+        return ResultGenerator.genSuccessResult(users);
     }
     @PostMapping("olusers")
     public Result olUsers(Clazz clazz,@RequestParam(value="s_id",defaultValue="0" ,required=false) Integer s_id,@RequestParam(value="r_id",defaultValue="0" ,required=false) Integer r_id){

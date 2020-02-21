@@ -92,7 +92,7 @@ public class UserService {
         //根据学校查询
         if(s_id!=null && s_id!=0){
             if(m_id!=null && m_id!=0){
-                users = userMapper.getUsersBy(s_id,g_id,s_id);
+                users = userMapper.getUsersBy(m_id,s_id,g_id);
             }else{
                 users = userMapper.getUsersBySID(s_id);
             }
@@ -100,7 +100,7 @@ public class UserService {
         }else{
             //根据年级查询
             if(m_id!=null && m_id!=0){
-                users = userMapper.getUsersBy(s_id,g_id,s_id);
+                users = userMapper.getUsersBy(m_id,null,g_id);
             }else{
                 if(g_id!=null && g_id!=0){
                     users = userMapper.getUsersByGID(g_id);
@@ -139,7 +139,9 @@ public class UserService {
         }
         criteria.andEqualTo("password",user.getPassword());
         User user1 = userMapper.selectOneByExample(example);
-        user1.setPassword("");
+        if(user1!=null){
+            user1.setPassword("");
+        }
         return user1;
     }
 }

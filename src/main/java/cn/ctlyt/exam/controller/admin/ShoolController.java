@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -44,12 +45,9 @@ public class ShoolController {
         return ResultGenerator.genFailResult("删除失败");
     }
     @PostMapping("/getshools")
-    public Result getShools(Integer pageNo,Integer pageSize,String s_name){
+    public Result getShools(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo,@RequestParam(value="pageSize",defaultValue="20" ,required=false) Integer pageSize,@RequestParam(value="s_name",defaultValue="" ,required=false) String s_name){
         PageInfo<Shool> shools = shoolService.getShools(pageNo, pageSize, s_name);
-        if (shools.getList().size()>0){
-            return ResultGenerator.genSuccessResult(shools);
-        }
-        return ResultGenerator.genFailResult("查询失败");
+        return ResultGenerator.genSuccessResult(shools);
     }
     @PostMapping("/getshool")
     public Result getShoolBySID(Integer s_id){

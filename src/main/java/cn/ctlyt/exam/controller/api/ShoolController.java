@@ -27,10 +27,6 @@ public class ShoolController {
     @GetMapping("getshools")
     public Result getShools(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo,@RequestParam(value="pageSize",defaultValue="20" ,required=false)Integer pageSize,@RequestParam(value="s_name",defaultValue="" ,required=false)String s_name){
         PageInfo<Shool> shools = shoolService.getShools(pageNo, pageSize, s_name);
-        if(shools.getList().size()>0){
-            return ResultGenerator.genSuccessResult(shools);
-        }else{
-            throw new BizException("没有学校数据",(Object) s_name);
-        }
+        return ResultGenerator.genSuccessResult(shools);
     }
 }

@@ -25,7 +25,6 @@ public class Shool {
     private String s_name;
     private String s_longitude;
     private String s_latitude;
-    private List<Grade> grades;
 
     public Integer getS_id() {
         return s_id;
@@ -59,11 +58,4 @@ public class Shool {
         this.s_latitude = s_latitude;
     }
 
-    public List<Grade> getGrades() {
-        return grades;
-    }
-
-    public void setGrades(List<Grade> grades) {
-        this.grades = grades;
-    }
 }
