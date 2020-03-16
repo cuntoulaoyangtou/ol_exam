@@ -86,7 +86,7 @@ public class CurriculumService {
             criteria.andLike("cum_name","%"+cum_name+"%");
         }
         if(m_id!=null && m_id!=0){
-            criteria.andEqualTo("cum_id",m_id);
+            criteria.andEqualTo("m_id",m_id);
         }
         curriculums = curriculumMapper.selectByExample(example);
         return new PageInfo<Curriculum>(curriculums);
