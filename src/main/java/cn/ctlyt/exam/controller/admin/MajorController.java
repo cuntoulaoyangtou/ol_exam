@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -44,7 +45,7 @@ public class MajorController {
         return ResultGenerator.genFailResult("删除失败");
     }
     @PostMapping("getmajors")
-    public Result getMajors(Integer pageNo,Integer pageSize,String m_name){
+    public Result getMajors(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo, @RequestParam(value="pageSize",defaultValue="20" ,required=false)Integer pageSize, String m_name){
         PageInfo<Major> majors = majorService.getMajors(pageNo, pageSize, m_name);
         return ResultGenerator.genSuccessResult(majors);
     }

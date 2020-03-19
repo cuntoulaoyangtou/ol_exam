@@ -67,9 +67,14 @@ admin
     /del
     /getusers
     /olusers
+  ##试题
+  /question
+    /getquestions
+    /addquestion
 api
   /chapter
     /getchaptersbycumid
+    /getchapters
   /clazz
     /getclazz
     /getclazzs
@@ -85,3 +90,5 @@ api
     /register
     /getuserinfo
     /logout
+  /other
+    /getchaptertree

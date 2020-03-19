@@ -101,4 +101,16 @@ public class ChapterService {
     public Chapter getChapter(Integer ec_id){
         return chapterMapper.selectByPrimaryKey(ec_id);
     }
+
+    /*
+     * 功能描述：
+     * @param 查询所以章节
+     * @return
+     * @Author: 村头老杨头
+     * @Date: 2020/3/17 0017 8:04
+     *
+     */
+    public List<Chapter> getChaptersAll(){
+        return chapterMapper.selectAll();
+    }
 }

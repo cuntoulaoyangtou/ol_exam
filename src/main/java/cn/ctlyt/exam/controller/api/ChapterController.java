@@ -6,6 +6,7 @@ import cn.ctlyt.exam.service.ChapterService;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,5 +28,9 @@ public class ChapterController {
     public Result getChapters(Integer cum_id){
         List<Chapter> chaptersByCUMID = chapterService.getChaptersByCUMID(cum_id);
         return ResultGenerator.genSuccessResult(chaptersByCUMID);
+    }
+    @GetMapping("getchapters")
+    public Result getChaptersAll(){
+        return ResultGenerator.genSuccessResult(chapterService.getChaptersAll());
     }
 }
