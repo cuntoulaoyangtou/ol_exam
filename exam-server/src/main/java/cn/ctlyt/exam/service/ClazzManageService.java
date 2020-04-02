@@ -1,15 +1,18 @@
 package cn.ctlyt.exam.service;
 
 import cn.ctlyt.exam.exception.BizException;
-import cn.ctlyt.exam.mapper.ClazzManageMapper;
-import cn.ctlyt.exam.pojo.ClazzManage;
+import cn.ctlyt.exam.mapper.*;
+import cn.ctlyt.exam.pojo.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassNameClazzManageService
@@ -19,9 +22,35 @@ import java.util.List;
  * @Version V1.0
  **/
 @Service
+@Transactional
 public class ClazzManageService {
     @Autowired
     ClazzManageMapper clazzManageMapper;
+    @Autowired
+    ShoolMapper shoolMapper;
+    @Autowired
+    RoleMapper roleMapper;
+    @Autowired
+    GradeMapper gradeMapper;
+    @Autowired
+    ClazzMapper clazzMapper;
+
+    public Map preClazzManage(){
+        //查询学校
+        List<Shool> shools = shoolMapper.selectAll();
+        //查询角色
+        List<Role> roles = roleMapper.selectAll();
+        //查询年级
+        List<Grade> grades = gradeMapper.selectAll();
+        //查询班级
+        List<Clazz> clazzes = clazzMapper.selectAll();
+        Map map = new HashMap();
+        map.put("shools",shools);
+        map.put("roles",roles);
+        map.put("grades",grades);
+        map.put("clazzes",clazzes);
+        return map;
+    }
 
     /*
      * 功能描述：添加班级管理员
@@ -32,10 +61,10 @@ public class ClazzManageService {
      *
      */
     public int addClazzManage(ClazzManage clazzManage){
-        if(clazzManage.getU_id()!=null && clazzManage.getU_id()!=0){
+        if(clazzManage.getU_id()==null || clazzManage.getU_id()==0){
             throw new BizException("用户ID不允许为空",clazzManage);
         }
-        if(clazzManage.getC_id()!=null && clazzManage.getC_id()!=0){
+        if(clazzManage.getC_id()==null || clazzManage.getC_id()==0){
             throw new BizException("班级ID不允许为空",clazzManage);
         }
         return clazzManageMapper.insert(clazzManage);
@@ -68,10 +97,13 @@ public class ClazzManageService {
      *
      */
     public int updateClazzManage(ClazzManage clazzManage){
-        if(clazzManage.getU_id()!=null && clazzManage.getU_id()!=0){
+        if(clazzManage.getCm_id()==null || clazzManage.getCm_id()==0){
+            throw new BizException("管理CMID不允许为空",clazzManage);
+        }
+        if(clazzManage.getU_id()==null || clazzManage.getU_id()==0){
             throw new BizException("用户ID不允许为空",clazzManage);
         }
-        if(clazzManage.getC_id()!=null && clazzManage.getC_id()!=0){
+        if(clazzManage.getC_id()==null || clazzManage.getC_id()==0){
             throw new BizException("班级ID不允许为空",clazzManage);
         }
         return clazzManageMapper.updateByPrimaryKeySelective(clazzManage);
@@ -101,10 +133,13 @@ public class ClazzManageService {
      * @Date: 2020/2/21 0021 21:14
      *
      */
-    public PageInfo<ClazzManage> getClazzManages(Integer pageNo,Integer pageSize,ClazzManage clazzManage){
-        PageHelper.startPage(pageNo,pageSize);
+    public PageInfo<ClazzManage> getClazzManages(Integer pageNo,Integer pageSize,ClazzManage clazzManage,Boolean noPage){
+        if(!noPage){
+            PageHelper.startPage(pageNo,pageSize);
+        }
         List<ClazzManage> clazzManages = clazzManageMapper.getClazzManages(clazzManage.getU_id(),clazzManage.getC_id());
         return new PageInfo<ClazzManage>(clazzManages);
+
     }
     /*
      * 功能描述：获取管理员

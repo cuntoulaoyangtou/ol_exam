@@ -7,20 +7,21 @@ const userManageRouter = {
   name: '用户管理',
   meta: {
     title: '用户管理',
-    icon: 'user'
+    icon: 'user',
+    roles: ['managers','lecturer','classTeacher']
   },
   children: [
     {
       path: 'role',
       component: () => import('@/views/usermanage/role/role'),
       name: '角色管理',
-      meta: { title: '角色管理' }
+      meta: { title: '角色管理', roles: ['managers'] }
     },
     {
         path: 'user',
         component: () => import('@/views/usermanage/user/user'),
         name: '用户管理',
-        meta: { title: '用户管理' },
+        meta: { title: '用户管理', roles: ['managers','lecturer','classTeacher']},
     },
     {
         path: 'clazzmanage',

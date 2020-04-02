@@ -12,8 +12,14 @@ import java.util.UUID;
 public class Constant {
 
     public static final String JWT_ID = UUID.randomUUID().toString(); //生成的token
+    public static final String TOKEN_HEADER = "token";
 
 
     public static final String JWT_SECRET = "ctlytexam";//加密密文
     public static final int JWT_TTL = 60*60*1000;  //过期时间 3600000
+
+    public static String getToken(String tokenid,Integer cid,Integer rid){
+        return TOKEN_HEADER+"_"+cid+"_"+rid+"_"+tokenid;
+    }
+
 }

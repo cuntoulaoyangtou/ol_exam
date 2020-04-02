@@ -54,10 +54,13 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <el-row :gutter="10" class="ctlyt-line-h">
-              <el-col :span="6">
+              <el-col :span="4">
                 <span>所有用户</span>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="4">
+                <el-input v-model="page.real_name" placeholder="请输姓名"  @change="curChange"></el-input>
+              </el-col>
+              <el-col :span="4">
                 <el-select v-model="page.m_id" filterable placeholder="请选择专业" @change="curChange">
                   <el-option label="所有专业" :value="0" key="major"></el-option>
                   <el-option
@@ -133,12 +136,7 @@
 </template>
 
 <script>
-import { getClazzs } from "@/api/clazz";
-import { getMajors } from "@/api/major";
-import { getGrades } from "@/api/grade";
-import { getShools } from "@/api/shool";
-import { getRoles } from "@/api/role";
-import { addUser, updateUser, delUser, getUesrs, getUsers } from "@/api/user";
+import { preUser,addUser, updateUser, delUser, getUesrs, getUsers } from "@/api/user";
 import { Col } from "element-ui";
 export default {
   name: "userCom",
@@ -148,8 +146,10 @@ export default {
         pageNo: 1,
         pageSize: 10,
         c_name: null,
+        real_name: null,
         g_id: "",
         m_id: "",
+        c_id: "",
         total: 0
       },
       user: {
@@ -177,78 +177,29 @@ export default {
       }
     };
   },
+  computed: {
+  },
   created() {
-    getShools({
-      pageNo: 1,
-      pageSize: 100,
-      s_name: null
-    })
-      .then(res => {
-        if (this.shools.length > 0) {
-          this.shools.splice(0, this.shools.length);
-        }
-        res.data.list.forEach(item => {
+    preUser().then(res=>{
+      if(res.data.shools){
+        res.data.shools.forEach(item => {
           this.shools.push(item);
         });
-      })
-      .catch(() => {});
-    getGrades({
-      pageNo: 1,
-      pageSize: 100,
-      g_name: null
-    })
-      .then(res => {
-        if (this.grades.length > 0) {
-          this.grades.splice(0, this.grades.length);
-        }
-        res.data.list.forEach(item => {
+         res.data.grades.forEach(item => {
           this.grades.push(item);
         });
-      })
-      .catch(() => {});
-    getMajors({
-      pageNo: 1,
-      pageSize: 100,
-      m_name: null
-    })
-      .then(res => {
-        if (this.majors.length > 0) {
-          this.majors.splice(0, this.majors.length);
-        }
-        res.data.list.forEach(item => {
-          this.majors.push(item);
-        });
-      })
-      .catch(() => {});
-    getClazzs({
-      pageNo: 1,
-      pageSize: 500,
-      c_name: null
-    })
-      .then(res => {
-        if (this.clazzs.length > 0) {
-          this.clazzs.splice(0, this.clazzs.length);
-        }
-        res.data.list.forEach(item => {
-          this.clazzs.push(item);
-        });
-      })
-      .catch(() => {});
-    getRoles({
-      pageNo: 1,
-      pageSize: 50,
-      r_name: null
-    })
-      .then(res => {
-        if (this.roles.length > 0) {
-          this.roles.splice(0, this.roles.length);
-        }
 
-        res.data.list.forEach(item => {
-          this.roles.push(item);
-        });
-      })
-      .catch(() => {});
+      }
+      res.data.clazzes.forEach(item => {
+        this.clazzs.push(item);
+      });
+      res.data.majors.forEach(item => {
+        this.majors.push(item);
+      });
+      res.data.roles.forEach(item => {
+        this.roles.push(item);
+      });
+    })
     this.mGetUsers();
   },
   onload() {},
@@ -365,52 +316,66 @@ export default {
     },
     visibleChange() {
       if (this.options.length <= 0) {
-        this.options.push({ value: 0, label: "所有学校" });
-        this.shools.forEach(item => {
-          let ch = { value: item.s_id, label: item.s_name, children: [] };
-          this.options.push(ch);
-          this.grades.forEach(it => {
-            if (item.s_id == it.s_id) {
-              let c = [];
-              ch.children.push({
-                value: it.g_id,
-                label: it.g_name,
-                children: c
-              });
-              this.clazzs.forEach(i => {
-                if (it.g_id == i.g_id) {
-                  c.push({ value: i.c_id, label: i.c_name });
-                }
-              });
-            }
+       
+        if(this.shools !=null && this.shools.length>0){
+          this.options.push({ value: 0, label: "所有学校" });
+           this.shools.forEach(item => {
+            let ch = { value: item.s_id, label: item.s_name, children: [] };
+            this.options.push(ch);
+            this.grades.forEach(it => {
+              if (item.s_id == it.s_id) {
+                let c = [];
+                ch.children.push({
+                  value: it.g_id,
+                  label: it.g_name,
+                  children: c
+                });
+                this.clazzs.forEach(i => {
+                  if (it.g_id == i.g_id) {
+                    c.push({ value: i.c_id, label: i.c_name });
+                  }
+                });
+              }
+            });
           });
-        });
+        }else{
+           this.options.push({ value: 0, label: "所有班级" });
+          this.clazzs.forEach(i => {
+              this.options.push({ value: i.c_id, label: i.c_name });
+          });
+        }
+       
       }
     },
     gradeChange(e) {
       this.user.c_id = e;
     },
     gradesChange(e) {
-      this.page.g_id = e[e.length - 1];
-      switch (e.length) {
-        case 1:
-          this.page.g_id = null;
-          this.page.c_id = null;
-          this.page.s_id = e[0];
-          break;
-        case 2:
-          this.page.s_id = null;
-          this.page.c_id = null;
-          this.page.g_id = e[1];
-          break;
-        case 3:
-          this.page.s_id = null;
-          this.page.g_id = null;
-          this.page.c_id = e[2];
-          break;
-        default:
-          return;
+      if(this.shools!=null && this.shools.length>0){
+        switch (e.length) {
+          case 1:
+            this.page.g_id = null;
+            this.page.c_id = null;
+            this.page.s_id = e[0];
+            break;
+          case 2:
+            this.page.s_id = null;
+            this.page.c_id = null;
+            this.page.g_id = e[1];
+            break;
+          case 3:
+            this.page.s_id = null;
+            this.page.g_id = null;
+            this.page.c_id = e[2];
+            break;
+          default:
+            return;
+        }
+
+      }else{
+        this.page.c_id = e[e.length - 1];
       }
+     
       this.mGetUsers();
     }
   }

@@ -50,4 +50,10 @@ public class QuestionService {
         });
         return i;
     }
+    public int delQuestion(Integer qid){
+        return questionMapper.deleteByPrimaryKey(qid);
+    }
+    public int updateQuestion(Question question){
+        return questionMapper.updateByPrimaryKeySelective(question);
+    }
 }

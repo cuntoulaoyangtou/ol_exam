@@ -2,17 +2,23 @@ package cn.ctlyt.exam.controller.admin;
 
 import cn.ctlyt.exam.pojo.ClazzManage;
 import cn.ctlyt.exam.pojo.Result;
+import cn.ctlyt.exam.pojo.User;
 import cn.ctlyt.exam.service.ClazzManageService;
+import cn.ctlyt.exam.utils.Constant;
+import cn.ctlyt.exam.utils.JwtUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassNameClazzManageController
@@ -26,6 +32,20 @@ import java.util.List;
 public class ClazzManageController {
     @Autowired
     ClazzManageService clazzManageService;
+    /**
+     * @description: preClazzManage
+     * @version: 1.0
+     * @date: 2020/4/2 0002 18:35
+     * @author: 村头老杨头
+
+     * @return cn.ctlyt.exam.pojo.Result
+     */
+    @PostMapping("preclazzmanage")
+    public Result preClazzManage(){
+        Map map = clazzManageService.preClazzManage();
+        return ResultGenerator.genSuccessResult(map);
+    }
+
     @PostMapping("add")
     public Result addClazzManage(ClazzManage clazzManage){
         if(clazzManageService.addClazzManage(clazzManage)>0){
@@ -60,8 +80,8 @@ public class ClazzManageController {
         return ResultGenerator.genFailResult("删除班级管理员失败");
     }
     @PostMapping("getclazzmanages")
-    public Result getClazzManages(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo, @RequestParam(value="pageSize",defaultValue="20" ,required=false) Integer pageSize, ClazzManage clazzManage){
-        PageInfo<ClazzManage> clazzManages = clazzManageService.getClazzManages(pageNo, pageSize, clazzManage);
+    public Result getClazzManages(@RequestParam(value="pageNo",defaultValue="1" ,required=false)Integer pageNo, @RequestParam(value="pageSize",defaultValue="20" ,required=false) Integer pageSize, ClazzManage clazzManage,@RequestParam(value="noPage",defaultValue="false" ,required=false)Boolean noPage){
+        PageInfo<ClazzManage> clazzManages = clazzManageService.getClazzManages(pageNo, pageSize, clazzManage,noPage);
         return ResultGenerator.genSuccessResult(clazzManages);
     }
     @PostMapping("getclazzmanage")

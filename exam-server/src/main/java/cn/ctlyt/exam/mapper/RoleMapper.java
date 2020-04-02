@@ -1,8 +1,11 @@
 package cn.ctlyt.exam.mapper;
 
 import cn.ctlyt.exam.pojo.Role;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * @ClassNameRoleMapper
@@ -13,4 +16,6 @@ import tk.mybatis.mapper.common.Mapper;
  **/
 @Repository
 public interface RoleMapper extends Mapper<Role> {
+    @Select("select * from `u_role` where r_id < #{r_id}")
+    public List<Role> getRolesLessRID(Integer r_id);
 }

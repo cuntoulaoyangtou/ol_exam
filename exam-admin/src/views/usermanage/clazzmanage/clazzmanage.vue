@@ -113,14 +113,11 @@
 
 <script>
 import {
+  preClazzmanage,
   addClazzmanages,
   delClazzmanage,
   getClazzmanages
 } from "@/api/clazzmanage";
-import { getShools } from "@/api/shool";
-import { getClazzs } from "@/api/clazz";
-import { getGrades } from "@/api/grade";
-import { getRoles } from "@/api/role";
 import { getUsers } from "@/api/user";
 export default {
   name: "GetClazzmanage",
@@ -159,26 +156,20 @@ export default {
     };
   },
   created() {
-    getRoles({ pageNo: 1, pageSize: 50 }).then(res => {
-      res.data.list.forEach(item => {
+    preClazzmanage().then(res=>{
+      res.data.roles.forEach(item=>{
         this.roles.push(item);
-      });
-    });
-    getShools({ pageNo: 1, pageSize: 50 }).then(res => {
-      res.data.list.forEach(item => {
+      })
+      res.data.shools.forEach(item => {
         this.shools.push(item);
       });
-    });
-    getGrades({ pageNo: 1, pageSize: 50 }).then(res => {
-      res.data.list.forEach(item => {
+      res.data.grades.forEach(item => {
         this.grades.push(item);
       });
-    });
-    getClazzs({ pageNo: 1, pageSize: 500 }).then(res => {
-      res.data.list.forEach(item => {
+      res.data.clazzes.forEach(item=>{
         this.clazzs.push(item);
-      });
-    });
+      })
+    })
   },
   onload() {},
   mounted() {},

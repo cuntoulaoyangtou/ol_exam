@@ -39,4 +39,9 @@ public class QuestionController {
         int i = questionService.addQuestion(question);
         return ResultGenerator.genSuccessResult(question);
     }
+    @PostMapping("del")
+    public Result delQuestion(Integer qid){
+        int i = questionService.delQuestion(qid);
+        return ResultGenerator.genSuccessResult(i);
+    }
 }
