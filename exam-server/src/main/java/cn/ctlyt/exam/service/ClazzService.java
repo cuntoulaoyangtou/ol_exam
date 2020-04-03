@@ -3,6 +3,7 @@ package cn.ctlyt.exam.service;
 import cn.ctlyt.exam.mapper.ClazzMapper;
 import cn.ctlyt.exam.pojo.Clazz;
 import cn.ctlyt.exam.pojo.Grade;
+import cn.ctlyt.exam.utils.RedisUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class ClazzService {
      *
      */
     public int addClazz(Clazz clazz){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return clazzMapper.insert(clazz);
     }
 
@@ -44,6 +46,7 @@ public class ClazzService {
      *
      */
     public int updateClazz(Clazz clazz){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return clazzMapper.updateByPrimaryKeySelective(clazz);
     }
 
@@ -56,6 +59,7 @@ public class ClazzService {
      *
      */
     public int delClazz(Integer c_id){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return clazzMapper.deleteByPrimaryKey(c_id);
     }
 

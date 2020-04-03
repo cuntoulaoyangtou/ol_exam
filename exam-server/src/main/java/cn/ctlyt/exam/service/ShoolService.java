@@ -2,6 +2,7 @@ package cn.ctlyt.exam.service;
 
 import cn.ctlyt.exam.mapper.ShoolMapper;
 import cn.ctlyt.exam.pojo.Shool;
+import cn.ctlyt.exam.utils.RedisUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class ShoolService {
      *
      */
     public int addShool(Shool shool){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return shoolMapper.insert(shool);
     }
 
@@ -43,6 +45,7 @@ public class ShoolService {
      *
      */
     public int updateShool(Shool shool){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return shoolMapper.updateByPrimaryKeySelective(shool);
     }
     /*
@@ -54,6 +57,7 @@ public class ShoolService {
      *
      */
     public int delShool(Integer sid){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return shoolMapper.deleteByPrimaryKey(sid);
     }
     /*

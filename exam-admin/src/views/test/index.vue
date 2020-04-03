@@ -1,6 +1,17 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+       <el-date-picker
+        class="filter-item"
+        v-model="date"
+        type="daterange"
+        align="right"
+        unlink-panels
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        :picker-options="pickerOptions">
+      </el-date-picker>
       <el-cascader
         v-model="selectedOptions"
         class="filter-item"
@@ -9,12 +20,9 @@
         :show-all-levels="false"
         :options="options"
         :clearable="true"
-        placeholder="选择课程"
+        placeholder="选择班级"
       />
       <el-input v-model="keyAndPage.q_content" class="filter-item" style="width: 15rem;" clearable placeholder="查询内容" />
-      <el-select v-model="keyAndPage.qt_id" class="filter-item" clearable placeholder="试题类型" style="width: 7.5rem;">
-        <el-option v-for="item in types" :key="item.value" :label="item.name" :value="item.value" />
-      </el-select>
 
       <el-input-number v-model="keyAndPage.pageSize" style="width: 7.5rem;" class="filter-item" controls-position="right" :min="1" :max="100" placeholder="每页条数" />
       <el-button :loading="handleLoading" class="filter-item" type="primary" icon="el-icon-search" @click="getQuestionAll">查询</el-button>
@@ -39,7 +47,7 @@
       </el-table-column>
       <el-table-column label="所属章节" prop="p_name" align="center" min-width="140">
         <template slot-scope="{ row }">
-          <span>{{ getChapter(row.ec_id) }}</span>
+          <span>{{ row.ec_id }}</span>
         </template>
       </el-table-column>
       <el-table-column label="难易度" prop="q_difficulty" align="center" min-width="60">
@@ -143,9 +151,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getChapterTree } from '@/api/other.js'
+import { preTest } from '@/api/test.js'
 import { getQuestions, addQuestion, delQuestion,updateQuestion} from '@/api/question.js'
-import { getChaptersAll } from '@/api/chapter.js'
 import Tinymce from '@/components/Tinymce'
 import { parseTime } from '@/utils'
 import { fromTextArea } from 'codemirror'
@@ -158,11 +165,47 @@ export default {
   },
   data() {
     return {
+       options: [], // 班级
+       date:{},
+       pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+
+
+
+
+
+
+
       tableKey: 0,
       content: '试题内容',
       toolbar: ['hr bold italic underline strikethrough forecolor backcolor image codesample table media subscript superscript undo redo code charmap fullscreen'],
       dialogFormVisible: false, // 试题显示隐藏
-      options: [], // 专业课程
+     
       selectedOptions: null,
       handleLoading: false,
       visible: false,
@@ -177,14 +220,17 @@ export default {
       },
       // 查询数据
       keyAndPage: {q_content: null,qt_id: null,ec_id: null,pageNo: 1,pageSize: 17},
-      chapters:[],
       difficultys: [{d_id: 1,d_name: '简单'},{d_id: 2,d_name: '中等'},{d_id: 3,d_name: '困难'}],
       types: [{value: 1,name: '单选题'},{value: 2,name: '多选题'},{value: 3,name: '判断题'},{value: 4,name: '填空题'},{value: 5,name: '简答题'}
       ]
     }
   },
   created() {
-    this.getChapterTreeAll()
+    preTest().then(res=>{
+      res.data.forEach(item=>{
+        this.options.push(item);
+      })
+    })
     this.getQuestionAll()
   },
   methods: {
@@ -206,24 +252,6 @@ export default {
         }
       })
       return name;
-    },
-    getChapter(id){
-      let name;
-      this.chapters.forEach(item=>{
-        if(item.ec_id === id){
-          name = item.ec_name;
-        }
-      })
-      return name;
-    },
-    getChapterTreeAll() {
-      getChapterTree().then(res => {
-        const list = res.data
-        this.options = list
-      })
-      getChaptersAll().then(res=>{
-        this.chapters = res.data;
-      })
     },
     addOption(data) {
       data.options.push({o_no:Math.floor(Math.random()*10000),o_content: '', o_desc: '选项内容'})

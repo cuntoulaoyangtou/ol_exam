@@ -2,6 +2,7 @@ package cn.ctlyt.exam.service;
 
 import cn.ctlyt.exam.mapper.GradeMapper;
 import cn.ctlyt.exam.pojo.Grade;
+import cn.ctlyt.exam.utils.RedisUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class GradeService {
      *
      */
     public int addGrade(Grade grade){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return gradeMapper.insert(grade);
     }
     /*
@@ -41,6 +43,7 @@ public class GradeService {
      *
      */
     public int updateGrade(Grade grade){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return gradeMapper.updateByPrimaryKeySelective(grade);
     }
     /*
@@ -52,6 +55,7 @@ public class GradeService {
      *
      */
     public int delGrade(Integer g_id){
+        RedisUtil.del("shools","shoolTree","grades","gradeTree","classes");
         return gradeMapper.deleteByPrimaryKey(g_id);
     }
     /*
