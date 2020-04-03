@@ -108,6 +108,31 @@ export const asyncRoutes = [
   userManageRouter,
   examRouter,
   {
+    path: '/test',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: '试卷管理',
+    meta: {
+      title: '试卷管理',
+      icon: 'documentation'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/test/index'),
+        name: '所有试卷',
+        meta: { title: '所有试卷' }
+      }
+      // {
+      //     path: 'user',
+      //     component: () => import('@/views/usermanage/user/user'),
+      //     name: '用户管理',
+      //     meta: { title: '用户管理' },
+      // },
+    ]
+  
+  },
+  {
     path: '/permission',
     component: Layout,
     redirect: '/permission/page',
