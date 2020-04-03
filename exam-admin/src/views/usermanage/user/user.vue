@@ -97,10 +97,10 @@
             >
               <el-table-column label="编号" prop="u_id" width="60"></el-table-column>
               <el-table-column label="用户名" prop="username"></el-table-column>
-              <el-table-column label="手机号" prop="phone"></el-table-column>
+              <el-table-column label="手机号" prop="phone" min-width="110"></el-table-column>
               <el-table-column label="真实姓名" prop="real_name"></el-table-column>
               <el-table-column label="角色" prop="r_name"></el-table-column>
-              <el-table-column label="所属班级" prop="c_name"></el-table-column>
+              <el-table-column label="所属班级" prop="c_name" min-width="140"></el-table-column>
               <el-table-column align="right" fixed="right" width="140">
                 <template slot="header" slot-scope="scope">
                   <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />

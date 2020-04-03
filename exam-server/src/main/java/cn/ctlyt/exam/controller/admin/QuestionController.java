@@ -44,4 +44,11 @@ public class QuestionController {
         int i = questionService.delQuestion(qid);
         return ResultGenerator.genSuccessResult(i);
     }
+    @PostMapping("update")
+    public Result updateQuestion(Question question,String ops){
+        List<Option> options = JSON.parseArray(ops, Option.class);
+        question.setOptions(options);
+        int i = questionService.updateQuestion(question);
+        return ResultGenerator.genSuccessResult(question);
+    }
 }
