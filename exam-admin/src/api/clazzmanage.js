@@ -1,4 +1,10 @@
 import request from '@/utils/request'
+export function preClazzmanage() {
+  return request({
+    url: '/admin/clazzmanage/preclazzmanage',
+    method: 'post',
+  })
+}
 
 export function getClazzmanages(data) {
   return request({

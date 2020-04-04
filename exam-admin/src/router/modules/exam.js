@@ -7,7 +7,7 @@ const examRouter = {
   name: '试题管理',
   meta: {
     title: '试题管理',
-    icon: 'user'
+    icon: 'component'
   },
   children: [
     {

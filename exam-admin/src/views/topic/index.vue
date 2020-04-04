@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column label="试题内容" prop="q_content" min-width="400px" align="left">
         <template slot-scope="{ row }">
-          <span>{{ row.q_content}}</span>
+          <span>{{ row.q_content.replace(/<\/?.+?\/?>/g,'')}}</span>
         </template>
       </el-table-column>
       <el-table-column label="试题类型" prop="qt_name" align="center" width="80">
@@ -112,11 +112,11 @@
             />
           </el-form-item>
           <el-form-item label="答案:">
-            <el-select v-if="question.qt_id == 1" v-model="question.answer.a_title" placeholder="答案">
-              <el-option v-for="item in question.options" :key="item.o_content" :label="item.o_content" :value="item.o_content" />
+            <el-select v-show="question.qt_id == 1" v-model="question.answer.a_title" placeholder="答案">
+              <el-option v-for="(item,index) in question.options" :key="index" :label="item.o_content" :value="item.o_content" />
             </el-select>
-            <el-select v-if="question.qt_id == 2" v-model="question.answer.a_titles" multiple placeholder="答案">
-              <el-option v-for="item in question.options" :key="item.o_content" :label="item.o_content" :value="item.o_content" />
+            <el-select v-show="question.qt_id == 2" v-model="question.answer.a_titles" multiple placeholder="答案">
+              <el-option v-for=" item in question.options" :key="item.o_no" :label="item.o_content" :value="item.o_content" />
             </el-select>
           </el-form-item>
         </div>
@@ -135,7 +135,7 @@
         <el-form-item label="知识点:"><el-input v-model="question.q_ability" placeholder="内容的知识点" /></el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button type="primary" @click="onSubmit" :loading="submitLoading">提交</el-button>
       </div>
     </el-dialog>
   </div>
@@ -144,7 +144,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { getChapterTree } from '@/api/other.js'
-import { getQuestions, addQuestion } from '@/api/question.js'
+import { getQuestions, addQuestion, delQuestion,updateQuestion} from '@/api/question.js'
 import { getChaptersAll } from '@/api/chapter.js'
 import Tinymce from '@/components/Tinymce'
 import { parseTime } from '@/utils'
@@ -166,56 +166,20 @@ export default {
       selectedOptions: null,
       handleLoading: false,
       visible: false,
+      submitLoading:false,
       title: null,
       list: null,
       total: 0, // 数量
       question: {
-        answer: {}
+        answer: {
+          a_titles:[]
+        }
       },
       // 查询数据
-      keyAndPage: {
-        q_content: null,
-        qt_id: null,
-        ec_id: null,
-        pageNo: 1,
-        pageSize: 17
-      },
+      keyAndPage: {q_content: null,qt_id: null,ec_id: null,pageNo: 1,pageSize: 17},
       chapters:[],
-      difficultys: [
-        {
-          d_id: 1,
-          d_name: '简单'
-        },
-        {
-          d_id: 2,
-          d_name: '中等'
-        },
-        {
-          d_id: 3,
-          d_name: '困难'
-        }
-      ],
-      types: [
-        {
-          value: 1,
-          name: '单选题'
-        },
-        {
-          value: 2,
-          name: '多选题'
-        },
-        {
-          value: 3,
-          name: '判断题'
-        },
-        {
-          value: 4,
-          name: '填空题'
-        },
-        {
-          value: 5,
-          name: '简答题'
-        }
+      difficultys: [{d_id: 1,d_name: '简单'},{d_id: 2,d_name: '中等'},{d_id: 3,d_name: '困难'}],
+      types: [{value: 1,name: '单选题'},{value: 2,name: '多选题'},{value: 3,name: '判断题'},{value: 4,name: '填空题'},{value: 5,name: '简答题'}
       ]
     }
   },
@@ -262,7 +226,7 @@ export default {
       })
     },
     addOption(data) {
-      data.options.push({ o_content: '', o_desc: '选项内容'})
+      data.options.push({o_no:Math.floor(Math.random()*10000),o_content: '', o_desc: '选项内容'})
     },
 
     // 显示试题弹框
@@ -270,7 +234,9 @@ export default {
       console.log(this.$refs.md)
 
       this.dialogFormVisible = true
-      this.$refs.md.showMd()
+      if(this.$refs.md){  
+        this.$refs.md.showMd()
+      }
     },
     addQuestion() {
       this.title = '添加试题'
@@ -280,7 +246,8 @@ export default {
         qt_id: 1,
         ec_id: 1,
         answer:{},
-        options: []
+        options: [],
+        q_difficulty:1
       }
       for (let i = 0; i < 4; i++) {
         this.addOption(data)
@@ -316,15 +283,17 @@ export default {
       this.handleFilter()
     },
     onSubmit() {
-      let an
+      this.submitLoading = true;
+      let an = true;
       const options = []
 
       switch(this.question.qt_id){
         case 1:
-          this.question.optionList.forEach(item => {
+          this.question.options.forEach(item => {
             if (item.o_content) {
               if(this.question.answer.a_title == item.o_content){
                 options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: true })
+                an = false;
               }else{
                 options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: false })
               }
@@ -332,12 +301,13 @@ export default {
           })
           break;
         case 2:
-           this.question.optionList.forEach(item => {
+           this.question.options.forEach(item => {
             if (item.o_content) {
               let tmp = { o_id: item.o_id, o_content: item.o_content, q_id: this.question.q_id,o_flag: false }
               this.question.answer.a_titles.forEach(title => {
                 if(title === item.o_content){
                   tmp.o_flag = true;
+                  an = false;
                 }
               })
               options.push(tmp);
@@ -345,35 +315,30 @@ export default {
           })
           break;
         case 3:
-          this.question.optionList.forEach(item => {
-            if (item.o_content) {
-              options.push({ o_id: item.o_id, o_content: this.question.answer.judge, q_id:  this.question.q_id,o_flag: true })
+            if (this.question.answer.judge!=null) {
+              an = false;
+              options.push({o_id:this.question.options[0].o_id|null, o_content: this.question.answer.judge, q_id:  this.question.q_id,o_flag: true })
             }
-          })
           break;
         case 4:
-          break;
-
-
-
-      }
-      if (this.question.qt_id <= 2) {
-        this.question.optionList.forEach(item => {
-          if (item.o_content) {
-            if(this.question.answer.a_title == item.o_content){
-              options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: true })
-            }else{
-              options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: false })
+            if(this.question.answer.text.length>0){
+              an = false;
+              options.push({ o_id:this.question.options[0].o_id|null, o_content: this.question.answer.text.split("|"), q_id:  this.question.q_id,o_flag: true })
             }
-            
-          }
-        })
+          break;
+        case 5:
+            if(this.question.answer.text.length>0){
+              an = false;
+              options.push({o_id:this.question.options[0].o_id|null, o_content: this.question.answer.text, q_id:  this.question.q_id,o_flag: true })
+            }
+          break;
       }
       if (!this.selectedOptions) {
         this.$message({
           message: '请选择试题章节',
           type: 'warning'
         })
+        this.submitLoading = false;
         return
       }
       const question = {
@@ -392,19 +357,22 @@ export default {
           message: '题目不允许为空',
           type: 'warning'
         })
+        this.submitLoading = false;
         return
       }
-      if (!an.a_title) {
+      if (an) {
         this.$message({
           message: '答案不允许为空',
           type: 'warning'
         })
+        this.submitLoading = false;
         return
       }
       question.ops = JSON.stringify(options)
       if (!question.q_id) {
         addQuestion(question).then(res => {
           if (res.code) {
+            this.submitLoading = false;
             this.$message({
               message: '试题添加成功',
               type: 'success'
@@ -414,6 +382,17 @@ export default {
           }
         })
       } else {
+        updateQuestion(question).then(res=>{
+          if (res.code) {
+            this.submitLoading = false;
+            this.$message({
+              message: '试题修改成功',
+              type: 'success'
+            })
+            this.handleFilter()
+            this.dialogFormVisible = false
+          }
+        })
         // updateQuestion({ answer: JSON.stringify(an), options: JSON.stringify(options), question: JSON.stringify(question) }).then(res => {
         //   if (res.code) {
         //     this.$message({
@@ -427,6 +406,7 @@ export default {
       }
     },
     call(row) {
+      console.log(row)
       row.visible = false
       this.$message({
         message: '取消删除'
@@ -434,51 +414,92 @@ export default {
     },
     del(row) {
       row.visible = false
-      // delQuestion({ qid: row.q_id }).then(res => {
-      //   if (res.code) {
-      //     for (let i = 0; i < this.list.length; i++) {
-      //       if (this.list[i].q_id === row.q_id) {
-      //         this.list.splice(i, 1)
-      //         break
-      //       }
-      //     }
-      //     this.$message({
-      //       message: '删除试题成功',
-      //       type: 'success'
-      //     })
-      //   }
-      // })
+      delQuestion({ qid: row.q_id }).then(res => {
+        if (res.code) {
+          for (let i = 0; i < this.list.length; i++) {
+            if (this.list[i].q_id === row.q_id) {
+              this.list.splice(i, 1)
+              break
+            }
+          }
+          this.$message({
+            message: '删除试题成功',
+            type: 'success'
+          })
+        }
+      })
+    },
+    getSelectedOptions(ec_id){
+      let arr = [];
+        this.options.forEach(item=>{
+          if(item.children!=null || item.children.length>0){
+            item.children.forEach(it=>{
+              if(it.children!=null || it.children.length>0){
+                it.children.forEach(i=>{
+                  if( parseInt(i.value) ===  parseInt(ec_id)){
+                    arr = [item.value,it.value,i.value];
+                  }
+                })
+              }
+            })
+          }
+        })
+        return arr;
     },
     handleQuetion() {},
     handleUpdate(row) {
       // row.title = '<p>'+row.title+'</p>'
+      this.selectedOptions = this.getSelectedOptions(row.ec_id);
+
+      const data = {
+        q_id: row.q_id,
+        q_content: row.q_content,
+        qt_id: row.qt_id,
+        ec_id: row.ec_id,
+        answer:{
+          a_title:null,
+          a_titles:[]
+        },
+        options: [],
+        q_difficulty: parseInt(row.q_difficulty),
+        q_ability: row.q_ability,
+        q_parse:row.q_parse
+      }
       row.options.forEach(item=>{
+        console.log(item);
+        data.options.push(item);
         switch(row.qt_id){
           case 1:
-            if(item.q_flag){
-              this.question.answer.a_title = item.o_content;
+            if(item.o_flag){
+              data.answer.a_title = item.o_content;
             }
             break;
           case 2:
-            if(item.q_flag){
-              this.question.answer.a_titles.push(item.o_content)
+            if(item.o_flag){
+              data.answer.a_titles.push(item.o_content)
             }
             break;
           case 3:
-            this.question.answer.judge = item.o_content;
+            data.answer.judge = item.o_content;
             break;
           case 4:
+            data.answer.text = JSON.parse(item.o_content).join("|");
+            break;
+          case 5:
+            data.answer.text = item.o_content;
             break;
         }
       })
     
-
       // row.professionTree.p_id;
 
-      this.question = row
+     
 
-      console.log(this.question)
+
       this.title = '修改试题'
+      this.question = data;
+      console.log(this.question)
+      console.log("sele",this.selectedOptions);
       this.showQuestion()
     }
   }

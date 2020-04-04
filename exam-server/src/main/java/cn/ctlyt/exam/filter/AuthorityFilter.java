@@ -1,8 +1,8 @@
 package cn.ctlyt.exam.filter;
 
-import cn.ctlyt.exam.config.GlobalConfig;
 import cn.ctlyt.exam.pojo.ResultCodeEnum;
 import cn.ctlyt.exam.pojo.User;
+import cn.ctlyt.exam.utils.Constant;
 import cn.ctlyt.exam.utils.JwtUtil;
 import cn.ctlyt.exam.utils.RedisUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
@@ -16,7 +16,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @ClassNameAuthorityFilter
@@ -44,7 +43,7 @@ public class AuthorityFilter implements Filter {
             try {
                 Claims c = JwtUtil.parseJWT(token);
                 User user = JSON.parseObject(c.getSubject(), User.class);
-                if(RedisUtil.get(GlobalConfig.getToken(c.getId(),user.getC_id(),user.getR_id()))== null){
+                if(RedisUtil.get(Constant.getToken(c.getId(),user.getC_id(),user.getR_id()))== null){
                     throw new ExpiredJwtException(null,null,"Token 失效");
                 }else{
                     filterChain.doFilter(servletRequest, servletResponse);

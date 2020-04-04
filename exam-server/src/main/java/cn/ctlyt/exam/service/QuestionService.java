@@ -50,4 +50,14 @@ public class QuestionService {
         });
         return i;
     }
+    public int delQuestion(Integer qid){
+        return questionMapper.deleteByPrimaryKey(qid);
+    }
+    public int updateQuestion(Question question){
+        for(Option option : question.getOptions()) {
+            optionMapper.updateByPrimaryKeySelective(option);
+        }
+        question.setQ_update_time(new Date());
+        return questionMapper.updateByPrimaryKeySelective(question);
+    }
 }

@@ -24,6 +24,12 @@ export function logout(token) {
   })
 }
 
+export function preUser() {
+  return request({
+      url: '/admin/user/preuser',
+      method: 'post',
+  })
+}
 
 export function getUsers(data) {
   return request({

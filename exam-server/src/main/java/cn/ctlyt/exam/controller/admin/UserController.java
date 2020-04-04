@@ -1,15 +1,16 @@
 package cn.ctlyt.exam.controller.admin;
 
-import cn.ctlyt.exam.config.GlobalConfig;
 import cn.ctlyt.exam.exception.BizException;
 import cn.ctlyt.exam.pojo.Clazz;
 import cn.ctlyt.exam.pojo.Result;
 import cn.ctlyt.exam.pojo.User;
 import cn.ctlyt.exam.service.ClazzService;
 import cn.ctlyt.exam.service.UserService;
+import cn.ctlyt.exam.utils.Constant;
 import cn.ctlyt.exam.utils.RedisUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import com.github.pagehelper.PageInfo;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -38,6 +41,15 @@ public class UserController {
     UserService userService;
     @Autowired
     ClazzService clazzService;
+    @PostMapping("preuser")
+    public Result preUser(HttpServletRequest request){
+        String header = request.getHeader(Constant.TOKEN_HEADER);
+
+        User userByJwt = User.getUserByJwt(header);
+        Map map = userService.preUser(userByJwt);
+        return ResultGenerator.genSuccessResult(map);
+    }
+
     @PostMapping("add")
     public Result addUser(User user) throws SQLException {
         try{
@@ -73,8 +85,15 @@ public class UserController {
         return ResultGenerator.genFailResult("删除失败").setData(u_id);
     }
     @PostMapping("getusers")
-    public Result getUsers(@RequestParam(value="pageNo",defaultValue="1" ,required=false) Integer pageNo,@RequestParam(value="pageSize",defaultValue="20" ,required=false)  Integer pageSize, User user,@RequestParam(value="g_id",defaultValue="0" ,required=false)  Integer g_id,@RequestParam(value="s_id",defaultValue="0" ,required=false)  Integer s_id, @RequestParam(value="m_id",defaultValue="0" ,required=false) Integer m_id,@RequestParam(value="cm",defaultValue="false" ,required=false) Boolean cm){
-        PageInfo<User> users = userService.getUsers(pageNo, pageSize, user, g_id, s_id,m_id, cm);
+    public Result getUsers(HttpServletRequest request,@RequestParam(value="pageNo",defaultValue="1" ,required=false) Integer pageNo,@RequestParam(value="pageSize",defaultValue="20" ,required=false)  Integer pageSize, User user,@RequestParam(value="g_id",defaultValue="0" ,required=false)  Integer g_id,@RequestParam(value="s_id",defaultValue="0" ,required=false)  Integer s_id, @RequestParam(value="m_id",defaultValue="0" ,required=false) Integer m_id,@RequestParam(value="cm",defaultValue="false" ,required=false) Boolean cm){
+        String header = request.getHeader(Constant.TOKEN_HEADER);
+        User userByJwt = User.getUserByJwt(header);
+        PageInfo<User> users;
+        if(userByJwt.getR_id()<=6){
+            users = userService.getUsersBySelectUser(pageNo,pageSize,user, m_id,userByJwt);
+        }else{
+            users = userService.getUsers(pageNo, pageSize, user, g_id, s_id,m_id, cm);
+        }
         return ResultGenerator.genSuccessResult(users);
     }
     @PostMapping("olusers")
@@ -87,7 +106,7 @@ public class UserController {
             PageInfo<Clazz> clazzs = clazzService.getClazzs(1, 500, new Clazz(), s_id);
 
             for(Clazz clazz1 : clazzs.getList()){
-                Set<String> keys = RedisUtil.keys(GlobalConfig.TOKEN_HEADER+"_"+clazz1.getC_id()+"*");
+                Set<String> keys = RedisUtil.keys(Constant.TOKEN_HEADER+"_"+clazz1.getC_id()+"*");
                 List list1 = RedisUtil.gList(keys);
                 list.addAll(list1);
             }
@@ -95,13 +114,13 @@ public class UserController {
             if(r_id!=null && r_id!=0){
                 //学生在线人数
                 for(int i=1; i<=r_id; i++){
-                    Set<String> keys = RedisUtil.keys(GlobalConfig.TOKEN_HEADER+"_*_"+i+"_*");
+                    Set<String> keys = RedisUtil.keys(Constant.TOKEN_HEADER+"_*_"+i+"_*");
                     List list1 = RedisUtil.gList(keys);
                     list.addAll(list1);
                 }
             }else{
                 //所有在线用户
-                Set<String> keys = RedisUtil.keys(GlobalConfig.TOKEN_HEADER+"*");
+                Set<String> keys = RedisUtil.keys(Constant.TOKEN_HEADER+"*");
                 list = RedisUtil.gList(keys);
             }
         }

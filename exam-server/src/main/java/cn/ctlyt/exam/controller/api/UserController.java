@@ -1,8 +1,6 @@
 package cn.ctlyt.exam.controller.api;
 
-import cn.ctlyt.exam.config.GlobalConfig;
 import cn.ctlyt.exam.pojo.Result;
-import cn.ctlyt.exam.pojo.ResultCodeEnum;
 import cn.ctlyt.exam.pojo.User;
 import cn.ctlyt.exam.service.RoleService;
 import cn.ctlyt.exam.service.UserService;
@@ -11,7 +9,6 @@ import cn.ctlyt.exam.utils.JwtUtil;
 import cn.ctlyt.exam.utils.RedisUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +40,7 @@ public class UserController {
                 String jwt = JwtUtil.createJWT(Constant.JWT_ID, "ctlyt", subject, Constant.JWT_TTL);
                 Claims claims = JwtUtil.parseJWT(jwt);
                 System.out.println("getID:"+claims.getId());
-                RedisUtil.set(GlobalConfig.getToken(claims.getId(),user1.getC_id(),user1.getR_id()),claims.getSubject(),60*60*1000);
+                RedisUtil.set(Constant.getToken(claims.getId(),user1.getC_id(),user1.getR_id()),claims.getSubject(),60*60*3);
                 return ResultGenerator.genSuccessResult(jwt);
             }
         }
@@ -73,7 +70,7 @@ public class UserController {
         Claims claims = JwtUtil.parseJWT(token);
         User user = JSON.parseObject(claims.getSubject(), User.class);
         try{
-            RedisUtil.del(GlobalConfig.getToken(claims.getId(),user.getC_id(),user.getR_id()));
+            RedisUtil.del(Constant.getToken(claims.getId(),user.getC_id(),user.getR_id()));
         }catch (Exception e){
 
         }finally {

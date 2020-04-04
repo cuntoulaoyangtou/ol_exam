@@ -10,6 +10,7 @@ import java.util.List;
  * @Version V1.0
  **/
 public class Tree {
+    private int id;
     private Object label;
     private Object value;
     private List<Tree> children;
@@ -20,6 +21,20 @@ public class Tree {
     public Tree(Object label, Object value) {
         this.label = label;
         this.value = value;
+    }
+
+    public Tree(int id, Object label, Object value) {
+        this.id = id;
+        this.label = label;
+        this.value = value;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Object getLabel() {

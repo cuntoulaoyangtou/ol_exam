@@ -1,7 +1,10 @@
 package cn.ctlyt.exam.pojo;
 
 import cn.ctlyt.exam.exception.BizException;
+import cn.ctlyt.exam.utils.JwtUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
+import com.alibaba.fastjson.JSON;
+import io.jsonwebtoken.Claims;
 import tk.mybatis.mapper.annotation.NameStyle;
 import tk.mybatis.mapper.code.Style;
 
@@ -168,5 +171,11 @@ public class User {
 
     public void setClazzManages(List<ClazzManage> clazzManages) {
         this.clazzManages = clazzManages;
+    }
+
+    public static User getUserByJwt(String key){
+        Claims claims = JwtUtil.parseJWT(key);
+        String subject = claims.getSubject();
+        return JSON.parseObject(subject,User.class);
     }
 }
