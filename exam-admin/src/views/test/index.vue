@@ -91,56 +91,168 @@
     />
     <el-dialog :title="title" :model="question" :visible.sync="dialogFormVisible" width="75%" top="5vh">
       <el-form ref="form" label-width="120px">
-        <el-form-item label="试题内容:" />
-        <el-form-item label="" label-width="50px"><tinymce ref="md" v-model="question.q_content" :height="200" :value="question.q_content" menubar="" :toolbar="toolbar" /></el-form-item>
-        <el-form-item label="所属章节:">
+        <el-form-item label="试卷名称:">
+          <el-input v-model="test.t_title" placeholder="试卷名称" />
+        </el-form-item>
+        <el-form-item label="试卷摘要:">
+          <el-input v-model="test.t_summary" placeholder="试卷摘要" />
+        </el-form-item>
+        <el-row :gutter="24">
+          <el-col :span="8">
+            <el-form-item label="试卷摘要:">
+              <el-select v-model="question.qt_id" placeholder="试题类型"><el-option v-for="item in types" :key="item.value" :label="item.name" :value="item.value" /></el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="总分:">
+              <el-input v-model="test.t_summary" placeholder="总分"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="7" :offset="3">
+            <el-form-item label="其他老师是否可见:" label-width="140px" style="display:table;" class="ctlyt-sw">
+              <el-switch
+                style="display:block;"
+                v-model="test.visibility"
+                active-color="#409EFF"
+                inactive-color="#ff4949"
+                active-text="可见"
+                inactive-text="不可见">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="分数:">
+          <el-row :gutter="24" style="margin:0">
+            <el-col :span="4">
+              <el-form-item label="选择题:" label-width="60px">
+                <el-input v-model="test.single_val" placeholder="分值"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              <el-form-item label="多选题:" label-width="60px">
+                <el-input v-model="test.multiple_val" placeholder="分值"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              <el-form-item label="判断题:" label-width="60px">
+                <el-input v-model="test.judge_val" placeholder="分值"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              <el-form-item label="填空题:" label-width="60px">
+                <el-input v-model="test.filling_val" placeholder="分值"/>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              <el-form-item label="简答题:" label-width="60px">
+                <el-input v-model="test.short_val" placeholder="分值"/>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item label="班级选择">
           <el-cascader
-            v-model="selectedOptions"
+            v-model="clazzOptions"
             class="filter-item"
             style="width: 300px"
             expand-trigger="hover"
             :show-all-levels="false"
+            :props="propsMajor"
             :options="options"
             :clearable="true"
-            placeholder="选择课程"
+            placeholder="选择班级"
           />
-          <el-select v-model="question.qt_id" placeholder="试题类型"><el-option v-for="item in types" :key="item.value" :label="item.name" :value="item.value" /></el-select>
-          <el-select v-model="question.q_difficulty" placeholder="难易度"><el-option v-for="item in difficultys" :key="item.d_id" :label="item.d_name" :value="item.d_id" /></el-select>
         </el-form-item>
-        <div v-if="question.qt_id == 1 || question.qt_id == 2">
-          <el-form-item label="选项:" class="ctlyt-option">
-            <el-input
-              v-for="(o, index) in question.options"
-              :key="index"
-              v-model="o.o_content"
-              :value="o.o_content"
-              style="margin:5px 0 ; width: 50%;"
-              class="ctlyt-right"
-              :placeholder="o.o_desc"
-            />
-          </el-form-item>
-          <el-form-item label="答案:">
-            <el-select v-show="question.qt_id == 1" v-model="question.answer.a_title" placeholder="答案">
-              <el-option v-for="(item,index) in question.options" :key="index" :label="item.o_content" :value="item.o_content" />
-            </el-select>
-            <el-select v-show="question.qt_id == 2" v-model="question.answer.a_titles" multiple placeholder="答案">
-              <el-option v-for=" item in question.options" :key="item.o_no" :label="item.o_content" :value="item.o_content" />
-            </el-select>
-          </el-form-item>
-        </div>
-        <el-form-item v-if="question.qt_id == 3" label="答案:">
-          <el-radio-group v-model="question.answer.judge">
-            <el-radio-button label="1">对</el-radio-button>
-            <el-radio-button label="0">错</el-radio-button>
-          </el-radio-group>
+        <el-form-item label="创建方式">
+          <el-tabs tab-position="top">
+            <el-tab-pane label="随机选择">
+              <el-row :gutter="24" class="ctlyt-bottom">
+                <el-col :span="4">
+                  <el-form-item label="选择题:" label-width="60px">
+                    <el-input v-model="test.single_num" placeholder="数量"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4" :offset="1">
+                  <el-form-item label="多选题:" label-width="60px">
+                    <el-input v-model="test.multiple_num" placeholder="数量"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4" :offset="1">
+                  <el-form-item label="判断题:" label-width="60px">
+                    <el-input v-model="test.judge_num" placeholder="数量"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4" :offset="1">
+                  <el-form-item label="填空题:" label-width="60px">
+                    <el-input v-model="test.filling_num" placeholder="数量"/>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="4" :offset="1">
+                  <el-form-item label="简答题:" label-width="60px">
+                    <el-input v-model="test.short_num" placeholder="数量"/>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row :gutter="24" class="ctlyt-bottom">
+                <el-col :span="8">
+                  <el-form-item label="章节:" label-width="60px">
+                    <el-cascader
+                      v-model="selectedMajorTree"
+                      class="filter-item"
+                      style="width: 300px"
+                      expand-trigger="hover"
+                      :show-all-levels="false"
+                      :options="majorTree"
+                      :clearable="true"
+                      :props="propsMajor"
+                      placeholder="选择章节"
+                    />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="10" :offset="6">
+                  <el-form-item label="难度系数:">
+                    <div class="block">
+                      <el-slider
+                        v-model="test.difficulty"
+                        show-input :max="10">
+                      </el-slider>
+                    </div>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              
+            </el-tab-pane>
+            <el-tab-pane label="手动选择">
+              <el-button type="primary" @click="innerVisible = true">添加试题</el-button>
+              <el-dialog
+                width="70%"
+                title="内层 Dialog"
+                :visible.sync="innerVisible"
+                append-to-body>
+                <el-row :gutter="24">
+                  <el-col :span="7">
+                    <el-cascader
+                      v-model="inSelectedMajorTree"
+                      class="filter-item"
+                      style="width: 300px"
+                      expand-trigger="hover"
+                      :show-all-levels="false"
+                      :options="majorTree"
+                      :clearable="true"
+                      :props="propsMajor"
+                      placeholder="选择章节"
+                    />
+                  </el-col>
+                  <el-col :span="4">
+                  </el-col>
+                  <el-col :span="5">
+                  </el-col>
+                </el-row>
+              </el-dialog>
+            </el-tab-pane>
+          </el-tabs>
         </el-form-item>
-        <el-form-item v-if="question.qt_id > 3" label="答案:">
-          <el-tooltip class="item" effect="dark" content="填空题多个答案以' | '区分" placement="top">
-            <el-input v-model="question.answer.text" placeholder="答案" minlength="1" />
-          </el-tooltip>
-        </el-form-item>
-        <el-form-item label="解析:"><el-input v-model="question.q_parse" placeholder="考题解析" /></el-form-item>
-        <el-form-item label="知识点:"><el-input v-model="question.q_ability" placeholder="内容的知识点" /></el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="onSubmit" :loading="submitLoading">提交</el-button>
@@ -153,13 +265,10 @@
 import { mapGetters } from 'vuex'
 import { preTest } from '@/api/test.js'
 import { getQuestions, addQuestion, delQuestion,updateQuestion} from '@/api/question.js'
-import Tinymce from '@/components/Tinymce'
 import { parseTime } from '@/utils'
-import { fromTextArea } from 'codemirror'
 
 export default {
   name: 'EditForm',
-  components: { Tinymce },
   computed: {
     ...mapGetters(['name'])
   },
@@ -194,22 +303,38 @@ export default {
             }
           }]
         },
+      dialogFormVisible: false, // 试题显示隐藏
+      selectedOptions: null,
+      clazzOptions:null,
+      selectedMajorTree:null,
+      inSelectedMajorTree:null,
 
+ 
 
+      majorTree:[],
+      propsMajor:{
+        multiple:true
+      },
+      innerVisible:false,
+      test:{
+        single_val:2,
+        multiple_val:2,
+        judge_val:2,
+        filling_val:2,
+        short_val:2,
+        difficulty:5,
 
-
-
-
+      },
 
       tableKey: 0,
-      content: '试题内容',
-      toolbar: ['hr bold italic underline strikethrough forecolor backcolor image codesample table media subscript superscript undo redo code charmap fullscreen'],
-      dialogFormVisible: false, // 试题显示隐藏
+      content: '试卷内容',
+      submitLoading:false,
+
      
-      selectedOptions: null,
+      
       handleLoading: false,
       visible: false,
-      submitLoading:false,
+      
       title: null,
       list: null,
       total: 0, // 数量
@@ -227,8 +352,11 @@ export default {
   },
   created() {
     preTest().then(res=>{
-      res.data.forEach(item=>{
+      res.data.shoolTree.forEach(item=>{
         this.options.push(item);
+      })
+      res.data.majorTree.forEach(item=>{
+        this.majorTree.push(item);
       })
     })
     this.getQuestionAll()
@@ -259,12 +387,9 @@ export default {
 
     // 显示试题弹框
     showQuestion() {
-      console.log(this.$refs.md)
 
       this.dialogFormVisible = true
-      if(this.$refs.md){  
-        this.$refs.md.showMd()
-      }
+
     },
     addQuestion() {
       this.title = '添加试题'
@@ -312,126 +437,118 @@ export default {
     },
     onSubmit() {
       this.submitLoading = true;
-      let an = true;
-      const options = []
+      console.log(this.clazzOptions);
+      console.log(this.selectedMajorTree)
+      // let an = true;
+      // const options = []
 
-      switch(this.question.qt_id){
-        case 1:
-          this.question.options.forEach(item => {
-            if (item.o_content) {
-              if(this.question.answer.a_title == item.o_content){
-                options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: true })
-                an = false;
-              }else{
-                options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: false })
-              }
-            }
-          })
-          break;
-        case 2:
-           this.question.options.forEach(item => {
-            if (item.o_content) {
-              let tmp = { o_id: item.o_id, o_content: item.o_content, q_id: this.question.q_id,o_flag: false }
-              this.question.answer.a_titles.forEach(title => {
-                if(title === item.o_content){
-                  tmp.o_flag = true;
-                  an = false;
-                }
-              })
-              options.push(tmp);
-            }
-          })
-          break;
-        case 3:
-            if (this.question.answer.judge!=null) {
-              an = false;
-              options.push({o_id:this.question.options[0].o_id|null, o_content: this.question.answer.judge, q_id:  this.question.q_id,o_flag: true })
-            }
-          break;
-        case 4:
-            if(this.question.answer.text.length>0){
-              an = false;
-              options.push({ o_id:this.question.options[0].o_id|null, o_content: this.question.answer.text.split("|"), q_id:  this.question.q_id,o_flag: true })
-            }
-          break;
-        case 5:
-            if(this.question.answer.text.length>0){
-              an = false;
-              options.push({o_id:this.question.options[0].o_id|null, o_content: this.question.answer.text, q_id:  this.question.q_id,o_flag: true })
-            }
-          break;
-      }
-      if (!this.selectedOptions) {
-        this.$message({
-          message: '请选择试题章节',
-          type: 'warning'
-        })
-        this.submitLoading = false;
-        return
-      }
-      const question = {
-        q_id: this.question.q_id,
-        q_content: this.question.q_content,
-        q_difficulty: this.question.q_difficulty,
-        qt_id: this.question.qt_id,
-        q_create_name: this.name,
-        // adjunct: this.form.desc,
-        q_parse:this.question.q_parse,
-        q_ability: this.question.q_ability,
-        ec_id: this.selectedOptions[this.selectedOptions.length - 1]
-      }
-      if (!question.q_content) {
-        this.$message({
-          message: '题目不允许为空',
-          type: 'warning'
-        })
-        this.submitLoading = false;
-        return
-      }
-      if (an) {
-        this.$message({
-          message: '答案不允许为空',
-          type: 'warning'
-        })
-        this.submitLoading = false;
-        return
-      }
-      question.ops = JSON.stringify(options)
-      if (!question.q_id) {
-        addQuestion(question).then(res => {
-          if (res.code) {
-            this.submitLoading = false;
-            this.$message({
-              message: '试题添加成功',
-              type: 'success'
-            })
-            this.handleFilter()
-            this.dialogFormVisible = false
-          }
-        })
-      } else {
-        updateQuestion(question).then(res=>{
-          if (res.code) {
-            this.submitLoading = false;
-            this.$message({
-              message: '试题修改成功',
-              type: 'success'
-            })
-            this.handleFilter()
-            this.dialogFormVisible = false
-          }
-        })
-        // updateQuestion({ answer: JSON.stringify(an), options: JSON.stringify(options), question: JSON.stringify(question) }).then(res => {
-        //   if (res.code) {
-        //     this.$message({
-        //       message: '试题修改成功',
-        //       type: 'success'
-        //     })
-        //     this.handleFilter()
-        //     this.dialogFormVisible = false
-        //   }
-        // })
-      }
+      // switch(this.question.qt_id){
+      //   case 1:
+      //     this.question.options.forEach(item => {
+      //       if (item.o_content) {
+      //         if(this.question.answer.a_title == item.o_content){
+      //           options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: true })
+      //           an = false;
+      //         }else{
+      //           options.push({ o_id: item.o_id, o_content: item.o_content, q_id: item.q_id,o_flag: false })
+      //         }
+      //       }
+      //     })
+      //     break;
+      //   case 2:
+      //      this.question.options.forEach(item => {
+      //       if (item.o_content) {
+      //         let tmp = { o_id: item.o_id, o_content: item.o_content, q_id: this.question.q_id,o_flag: false }
+      //         this.question.answer.a_titles.forEach(title => {
+      //           if(title === item.o_content){
+      //             tmp.o_flag = true;
+      //             an = false;
+      //           }
+      //         })
+      //         options.push(tmp);
+      //       }
+      //     })
+      //     break;
+      //   case 3:
+      //       if (this.question.answer.judge!=null) {
+      //         an = false;
+      //         options.push({o_id:this.question.options[0].o_id|null, o_content: this.question.answer.judge, q_id:  this.question.q_id,o_flag: true })
+      //       }
+      //     break;
+      //   case 4:
+      //       if(this.question.answer.text.length>0){
+      //         an = false;
+      //         options.push({ o_id:this.question.options[0].o_id|null, o_content: this.question.answer.text.split("|"), q_id:  this.question.q_id,o_flag: true })
+      //       }
+      //     break;
+      //   case 5:
+      //       if(this.question.answer.text.length>0){
+      //         an = false;
+      //         options.push({o_id:this.question.options[0].o_id|null, o_content: this.question.answer.text, q_id:  this.question.q_id,o_flag: true })
+      //       }
+      //     break;
+      // }
+      // if (!this.selectedOptions) {
+      //   this.$message({
+      //     message: '请选择试题章节',
+      //     type: 'warning'
+      //   })
+      //   this.submitLoading = false;
+      //   return
+      // }
+      // const question = {
+      //   q_id: this.question.q_id,
+      //   q_content: this.question.q_content,
+      //   q_difficulty: this.question.q_difficulty,
+      //   qt_id: this.question.qt_id,
+      //   q_create_name: this.name,
+      //   // adjunct: this.form.desc,
+      //   q_parse:this.question.q_parse,
+      //   q_ability: this.question.q_ability,
+      //   ec_id: this.selectedOptions[this.selectedOptions.length - 1]
+      // }
+      // if (!question.q_content) {
+      //   this.$message({
+      //     message: '题目不允许为空',
+      //     type: 'warning'
+      //   })
+      //   this.submitLoading = false;
+      //   return
+      // }
+      // if (an) {
+      //   this.$message({
+      //     message: '答案不允许为空',
+      //     type: 'warning'
+      //   })
+      //   this.submitLoading = false;
+      //   return
+      // }
+      // question.ops = JSON.stringify(options)
+      // if (!question.q_id) {
+      //   addQuestion(question).then(res => {
+      //     if (res.code) {
+      //       this.submitLoading = false;
+      //       this.$message({
+      //         message: '试题添加成功',
+      //         type: 'success'
+      //       })
+      //       this.handleFilter()
+      //       this.dialogFormVisible = false
+      //     }
+      //   })
+      // } else {
+      //   updateQuestion(question).then(res=>{
+      //     if (res.code) {
+      //       this.submitLoading = false;
+      //       this.$message({
+      //         message: '试题修改成功',
+      //         type: 'success'
+      //       })
+      //       this.handleFilter()
+      //       this.dialogFormVisible = false
+      //     }
+      //   })
+      // }
     },
     call(row) {
       console.log(row)
@@ -540,5 +657,12 @@ export default {
 }
 .ctlyt-right {
   padding-right: 1.25rem;
+}
+.ctlyt-sw>div{
+  display:table-cell;
+  vertical-align: middle;
+}
+.ctlyt-bottom{
+  margin-bottom: 22px;
 }
 </style>

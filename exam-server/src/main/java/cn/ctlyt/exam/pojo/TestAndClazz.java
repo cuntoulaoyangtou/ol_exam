@@ -19,6 +19,14 @@ public class TestAndClazz {
     private Integer t_id;
     private Integer c_id;
 
+    public TestAndClazz() {
+    }
+
+    public TestAndClazz(Integer t_id, Integer c_id) {
+        this.t_id = t_id;
+        this.c_id = c_id;
+    }
+
     public Integer getTc_id() {
         return tc_id;
     }

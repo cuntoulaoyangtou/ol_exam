@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: exam
@@ -29,7 +30,7 @@ public class TestController {
     public Result preTest(HttpServletRequest request){
         String header = request.getHeader(Constant.TOKEN_HEADER);
         User userByJwt = User.getUserByJwt(header);
-        List<Tree> trees = testService.preTest(userByJwt);
-        return ResultGenerator.genSuccessResult(trees);
+        Map map = testService.preTest(userByJwt);
+        return ResultGenerator.genSuccessResult(map);
     }
 }

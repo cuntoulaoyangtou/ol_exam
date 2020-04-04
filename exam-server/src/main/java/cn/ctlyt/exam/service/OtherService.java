@@ -40,37 +40,53 @@ public class OtherService {
 
     //后期再优化   2020-4-3
     public List<Tree> getChapterTree(){
-        List<Major> majors = majorMapper.selectAll();
-        List trees = new ArrayList();
-        for(Major major : majors){
-            Tree tree = new Tree(major.getM_name(),major.getM_id());
-            Example example = new Example(Curriculum.class);
-            Example.Criteria criteria = example.createCriteria();
-            criteria.andEqualTo("m_id",major.getM_id());
-            List<Curriculum> curricula = curriculumMapper.selectByExample(example);
-            if(curricula!=null){
-                List currs = new ArrayList();
-                tree.setChildren(currs);
-                for(Curriculum curriculum :curricula){
-                    Tree tree1 = new Tree(curriculum.getCum_name(), curriculum.getCum_id());
-                    Example example1 = new Example(Chapter.class);
-                    Example.Criteria criteria1 = example1.createCriteria();
-                    criteria1.andEqualTo("cum_id", curriculum.getCum_id());
-                    List<Chapter> chapters = chapterMapper.selectByExample(example1);
-                    if(chapters!=null){
-                        List chaps = new ArrayList();
-                        tree1.setChildren(chaps);
-                        for (Chapter chapter : chapters){
-                            Tree tree2 = new Tree(chapter.getEc_name(),chapter.getEc_id());
-                            chaps.add(tree2);
-                        }
-                    }
-                    currs.add(tree1);
-                }
-            }
-            trees.add(tree);
+        List<Major> majors = null;
+        List<Curriculum> curricula = null;
+        List<Chapter> chapters = null;
+        if(RedisUtil.get("majors")== null){
+            majors = majorMapper.selectAll();
+            curricula = curriculumMapper.selectAll();
+            chapters = chapterMapper.selectAll();
+            RedisUtil.set("majors",majors);
+            RedisUtil.set("curricula",curricula);
+            RedisUtil.set("chapters",chapters);
         }
-        return trees;
+
+        if(RedisUtil.get("majorTree") == null){
+            if(majors == null){
+                majors = (List<Major>) RedisUtil.get("majors");
+                curricula = (List<Curriculum>) RedisUtil.get("curricula");
+                chapters = (List<Chapter>) RedisUtil.get("chapters");
+            }
+
+            List majorsTree = new ArrayList();
+            List<Tree> curriculaTree = new ArrayList<>();
+            List<Chapter> finalChapters = chapters;
+            curricula.forEach(item->{
+                Tree tree = new Tree(item.getM_id(),item.getCum_name(),item.getCum_id());
+                tree.setChildren(new ArrayList<>());
+                finalChapters.forEach(it->{
+                    if(item.getCum_id() == it.getCum_id()){
+                        tree.getChildren().add(new Tree(it.getEc_name(),it.getEc_id()));
+                    }
+                });
+                curriculaTree.add(tree);
+            });
+            RedisUtil.set("curriculaTree",curriculaTree);
+            majors.forEach(item->{
+                Tree tree = new Tree(item.getM_name(), item.getM_id());
+                tree.setChildren(new ArrayList<>());
+                curriculaTree.forEach(it->{
+                    if(item.getM_id() == it.getId()){
+                        tree.getChildren().add(it);
+                    }
+                });
+                majorsTree.add(tree);
+            });
+            RedisUtil.set("majorTree",majorsTree);
+            return majorsTree;
+        }
+        return (List<Tree>) RedisUtil.get("majorTree");
     }
 
 

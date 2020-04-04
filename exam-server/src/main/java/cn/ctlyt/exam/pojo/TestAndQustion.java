@@ -19,6 +19,14 @@ public class TestAndQustion {
     private Integer t_id;
     private Integer q_id;
 
+    public TestAndQustion() {
+    }
+
+    public TestAndQustion(Integer t_id, Integer q_id) {
+        this.t_id = t_id;
+        this.q_id = q_id;
+    }
+
     public Integer getTq_id() {
         return tq_id;
     }

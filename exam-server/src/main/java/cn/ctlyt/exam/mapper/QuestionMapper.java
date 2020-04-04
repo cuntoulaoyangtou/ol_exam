@@ -1,6 +1,7 @@
 package cn.ctlyt.exam.mapper;
 
 import cn.ctlyt.exam.pojo.Question;
+import cn.ctlyt.exam.vo.QuestionConut;
 import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -37,4 +38,7 @@ public interface QuestionMapper extends Mapper<Question> {
             @Result(column = "q_id",property = "options", many = @Many( select = "cn.ctlyt.exam.mapper.OptionMapper.getOptionsByQID")),
     })
     public List<Question> getQuestionsLikeContent(String q_content,Integer qt_id,Integer ec_id);
+
+    @Select("SELECT COUNT(case when qt_id =1 then 1 end) single,COUNT(case when qt_id = 2 then 1 end) multiple,COUNT(case when qt_id = 3 then 1 end) judge,COUNT(case when qt_id = 4 then 1 end) filling,COUNT(case when qt_id = 5 then 1 end) shortn FROM `e_question` WHERE ec_id in(#{ecs})")
+    public QuestionConut getQuestCount(String ecs);
 }

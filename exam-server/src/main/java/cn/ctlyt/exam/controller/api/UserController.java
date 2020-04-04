@@ -40,7 +40,7 @@ public class UserController {
                 String jwt = JwtUtil.createJWT(Constant.JWT_ID, "ctlyt", subject, Constant.JWT_TTL);
                 Claims claims = JwtUtil.parseJWT(jwt);
                 System.out.println("getID:"+claims.getId());
-                RedisUtil.set(Constant.getToken(claims.getId(),user1.getC_id(),user1.getR_id()),claims.getSubject(),60*60*1000);
+                RedisUtil.set(Constant.getToken(claims.getId(),user1.getC_id(),user1.getR_id()),claims.getSubject(),60*60*3);
                 return ResultGenerator.genSuccessResult(jwt);
             }
         }
