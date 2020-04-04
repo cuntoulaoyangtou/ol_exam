@@ -3,17 +3,14 @@ package cn.ctlyt.exam.service;
 import cn.ctlyt.exam.exception.BizException;
 import cn.ctlyt.exam.mapper.*;
 import cn.ctlyt.exam.pojo.*;
-import cn.ctlyt.exam.utils.DifficultyUtil;
+import cn.ctlyt.exam.utils.QuestionUtil;
 import cn.ctlyt.exam.vo.QuestionConut;
 import cn.ctlyt.exam.vo.Tree;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
 
@@ -117,9 +114,14 @@ public class TestService {
 
         //查询错误率高的试题
 
+        List<Question> questByECID = questionMapper.getQuestByECID(ecs);
+        //试题类型
 
-        Map defCount = DifficultyUtil.getDefCount(difficulty, numlist);
-        
+
+
+        Map defCount = QuestionUtil.getDefCount(difficulty, numlist);
+        Map map = QuestionUtil.getMap(numlist, questByECID);
+
 
 
         return null;
