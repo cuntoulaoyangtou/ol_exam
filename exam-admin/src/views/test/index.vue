@@ -89,7 +89,7 @@
       :total="total"
       @current-change="currentChange"
     />
-    <el-dialog :title="title" :model="question" :visible.sync="dialogFormVisible" width="75%" top="5vh">
+    <el-dialog :title="title" :model="question" :visible.sync="dialogFormVisible" width="85%" top="5vh">
       <el-form ref="form" label-width="120px">
         <el-form-item label="试卷名称:">
           <el-input v-model="test.t_title" placeholder="试卷名称" />
@@ -150,19 +150,46 @@
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item label="班级选择">
-          <el-cascader
-            v-model="clazzOptions"
-            class="filter-item"
-            style="width: 300px"
-            expand-trigger="hover"
-            :show-all-levels="false"
-            :props="propsMajor"
-            :options="options"
-            :clearable="true"
-            placeholder="选择班级"
-          />
-        </el-form-item>
+        <el-row :gutter="24" style="margin:0">
+          <el-col :span="6">
+            <el-form-item label="班级选择:">
+              <el-cascader
+                v-model="clazzOptions"
+                class="filter-item"
+                expand-trigger="hover"
+                :show-all-levels="false"
+                :props="propsMajor"
+                :options="options"
+                :clearable="true"
+                placeholder="选择班级"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="7">
+            <el-form-item label="考试日期:">
+              <el-date-picker
+                class="filter-item"
+                v-model="examDate"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="考试时间:">
+              <el-time-picker
+                class="filter-item"
+                is-range
+                v-model="time"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                placeholder="选择时间范围">
+              </el-time-picker>
+            </el-form-item>
+            
+          </el-col>
+        </el-row>
         <el-form-item label="创建方式">
           <el-tabs tab-position="top">
             <el-tab-pane label="随机选择">
@@ -308,6 +335,10 @@ export default {
       clazzOptions:null,
       selectedMajorTree:null,
       inSelectedMajorTree:null,
+      //考试日期
+      examDate:'',
+      //考试时间
+      time:{},
 
  
 
