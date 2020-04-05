@@ -3,17 +3,20 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true
 			}
 		},{
 			"path":"pages/questions/questions",
 			"style":{
-				"navigationBarTitleText":"试题"
+				"navigationBarTitleText":"试题",
+				"enablePullDownRefresh": true
 			}
 		}
 	    ,{
             "path" : "pages/my/my",
-            "style" : {"navigationBarTitleText":"个人中心"}
+            "style" : {"navigationBarTitleText":"个人中心"},
+			"enablePullDownRefresh": true
         }
     ],
 	"tabBar":{

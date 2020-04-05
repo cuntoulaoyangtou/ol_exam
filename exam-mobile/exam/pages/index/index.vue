@@ -1,16 +1,29 @@
 <template>
-	<view class="content">
+	<view class="body">
 		<view class="header">
 			<view class="image">
 				<image src="http://p3.qhimgs0.com/sdm/280_200_60/t01f2edf080eb6f3b83.jpg" mode=""></image>
 			</view>
 			<view class="titleBar">
-				<view class="ranking size"><image src="../../static/titleBar/排名%20(1).png" mode=""></image><view class="fontSize">日测排名</view></view>
-				<view class="weekly size"><image src="../../static/titleBar/排名.png" mode=""></image><view class="fontSize">周测排名</view></view>
-				<view class="course size"><image src="../../static/titleBar/课程.png" mode=""></image><view class="fontSize">视频课程</view></view>
-				<view class="Questions size"><image src="../../static/titleBar/题库管理.png" mode=""></image><view class="fontSize">试卷题库</view></view>
+				<view @click="dianji" class="ranking size"><image src="../../static/titleBar/排名%20(1).png" mode=""></image><view class="fontSize">日测排名</view></view>
+				<view @click="dianji" class="weekly size"><image src="../../static/titleBar/排名.png" mode=""></image><view class="fontSize">周测排名</view></view>
+				<view @click="dianji" class="course size"><image src="../../static/titleBar/课程.png" mode=""></image><view class="fontSize">视频课程</view></view>
+				<view @click="dianji" class="Questions size"><image src="../../static/titleBar/题库管理.png" mode=""></image><view class="fontSize">试卷题库</view></view>
+			</view>
+			<view class="concent">
+				<view class="inform">
+					<view class="trumpet"><image src="../../static/index/喇叭.png" mode=""></image></view>
+					<view class="title-area">
+						<text class="title">{{title}}</text>
+					</view>
+					<view class="text-area">
+						<text class="text">点击查看更多 ></text>
+					</view>
+					
+				</view>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -18,20 +31,25 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				title: '暂时未有通知'
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-
+          dianji(){
+			  uni.showToast({
+			  	title:'此功能未开放',
+			    duration:1000
+			  })
+		  }
 		}
 	}
 </script>
 
 <style>
-	.content {
+	.body {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -60,31 +78,68 @@
    }
    .size image{
 	   width: 90%;
-	   height: 130upx;
+	   height: 70%;
    }
    .fontSize{
 	   font-size: 30upx;
    }
    .ranking{
-	   padding-left: 10upx;
+	   /* padding-left: 10upx; */
+	   padding-left: 5%;
    }
    .weekly {
-	   padding-left: 60upx;
+	   /* padding-left: 60upx; */
+	   padding-left: 6%;
    }
    .course{
-	 padding-left: 33px;  
+	 /* padding-left: 33px;  */
+	 padding-left: 6%;
    }
    .Questions{
-	   padding-left: 45upx;
+	   /* padding-left: 45upx; */
+	   padding-left: 6%;
    }
 
-	.text-area {
+	/* .text-area {
 		display: flex;
 		justify-content: center;
-	}
+	} */
 
 	.title {
 		font-size: 36rpx;
 		color: #8f8f94;
+	}
+	.inform{
+		width: 100%;
+		height:5% ;
+		
+		display: flex;
+	}
+	.trumpet image{
+		width: 50upx;
+		height: 50upx;
+	}
+	.concent{
+		margin-top: 15upx;
+		margin-left: 0upx;
+		border-bottom: 3upx solid gray;
+	}
+	.title-area{
+		width: 80%;
+		height:5%;
+		/* background-color: #4CD964; */
+		display: flex;
+		
+	}
+	.text-area{
+		width: 50%;
+		display: flex;
+		
+	}
+	.title{
+		color: #DD524D;
+	}
+	.text{
+		color: #808080;
 	}
 </style>
