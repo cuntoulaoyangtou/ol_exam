@@ -41,4 +41,7 @@ public interface QuestionMapper extends Mapper<Question> {
 
     @Select("SELECT COUNT(case when qt_id =1 then 1 end) single,COUNT(case when qt_id = 2 then 1 end) multiple,COUNT(case when qt_id = 3 then 1 end) judge,COUNT(case when qt_id = 4 then 1 end) filling,COUNT(case when qt_id = 5 then 1 end) shortn FROM `e_question` WHERE ec_id in(#{ecs})")
     public QuestionConut getQuestCount(String ecs);
+
+    @Select("SELECT * FROM `e_question` WHERE ec_id in (#{ecs})")
+    public List<Question> getQuestByECID(String ecs);
 }

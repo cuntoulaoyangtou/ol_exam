@@ -31,7 +31,7 @@ public class Question {
     private String q_ability;
     private Integer qt_id;
     private Integer ec_id;
-    private String q_difficulty;
+    private Integer q_difficulty;
 
     private List<Option> options;
 
@@ -107,11 +107,11 @@ public class Question {
         this.ec_id = ec_id;
     }
 
-    public String getQ_difficulty() {
+    public Integer getQ_difficulty() {
         return q_difficulty;
     }
 
-    public void setQ_difficulty(String q_difficulty) {
+    public void setQ_difficulty(Integer q_difficulty) {
         this.q_difficulty = q_difficulty;
     }
 

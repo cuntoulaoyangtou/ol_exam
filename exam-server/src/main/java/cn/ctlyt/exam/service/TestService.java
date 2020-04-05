@@ -3,17 +3,14 @@ package cn.ctlyt.exam.service;
 import cn.ctlyt.exam.exception.BizException;
 import cn.ctlyt.exam.mapper.*;
 import cn.ctlyt.exam.pojo.*;
-import cn.ctlyt.exam.utils.DifficultyUtil;
+import cn.ctlyt.exam.utils.QuestionUtil;
 import cn.ctlyt.exam.vo.QuestionConut;
 import cn.ctlyt.exam.vo.Tree;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
 
@@ -67,6 +64,8 @@ public class TestService {
     }
 
     public Test addTest(Test test,String cls,String tids){
+        //添加试卷
+        test.setCreate_time(new Date());
         int i = testMapper.insertSelective(test);
         //添加班级
         List<Integer> integers = JSON.parseArray(cls, Integer.class);
@@ -118,8 +117,31 @@ public class TestService {
         //查询错误率高的试题
 
 
-        Map defCount = DifficultyUtil.getDefCount(difficulty, numlist);
-        
+
+        //添加试卷
+        test.setCreate_time(new Date());
+        testMapper.insert(test);
+
+
+        List<Question> questByECID = questionMapper.getQuestByECID(ecs);
+        //添加试题
+        Map defCount = QuestionUtil.getDefCount(difficulty, numlist);
+        Map map = QuestionUtil.getMap(numlist, questByECID);
+        List<Question> question = QuestionUtil.getQuestion(defCount, map);
+        List<TestAndQustion> taqs  = new ArrayList<>();
+        question.forEach(item->{
+            taqs.add(new TestAndQustion(test.getT_id(),item.getQ_id()));
+        });
+        testAndQuestionMapper.insertList(taqs);
+
+
+        //添加班级
+        List<Integer> integers = JSON.parseArray(cls, Integer.class);
+        List<TestAndClazz> clazzes = new ArrayList<>();
+        integers.forEach(item->{
+            clazzes.add(new TestAndClazz(test.getT_id(),item));
+        });
+        testAndClazzMapper.insertList(clazzes);
 
 
         return null;
