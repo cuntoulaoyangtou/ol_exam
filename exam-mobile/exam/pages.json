@@ -11,6 +11,7 @@
 			"style":{
 				"navigationBarTitleText":"试题",
 				"enablePullDownRefresh": true
+				
 			}
 		}
 	    ,{
@@ -23,19 +24,21 @@
 		"color":"#333333",
 		"selectedColor":"#1296db",
 		"borderStyle":"black",
-		"fontSize":"40upx",
+		"backgroundColor":"white",
+		
 		"list":[
 			{"pagePath":"pages/index/index",
-			"iconPath":"static/tabBar/首页.png",
-			"selectedIconPath":"static/tabBar/首页(1).png",
-			"text":"首页"},
+			"iconPath":"static/tabBar/shouye.png",
+			"selectedIconPath":"static/tabBar/shouye1.png",
+			"text":"首页"
+			},
 			{"pagePath":"pages/questions/questions",
-			"iconPath":"static/tabBar/试题.png",
-			"selectedIconPath":"static/tabBar/试题%20(1).png",
+			"iconPath":"static/tabBar/shiti.png",
+			"selectedIconPath":"static/tabBar/shiti1.png",
 			"text":"试题"},
 			{"pagePath":"pages/my/my",
-			"iconPath":"static/tabBar/我的.png",
-			"selectedIconPath":"static/tabBar/我的%20(1).png",
+			"iconPath":"static/tabBar/wode.png",
+			"selectedIconPath":"static/tabBar/wode1.png",
 			"text":"我的"}
 			
 		]

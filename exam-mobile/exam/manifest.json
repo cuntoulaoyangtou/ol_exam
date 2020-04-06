@@ -3,7 +3,7 @@
     "appid" : "__UNI__EAB987C",
     "description" : "",
     "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionCode" : 1,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -50,7 +50,17 @@
             /* ios打包配置 */
             "ios" : {},
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {},
+            "splashscreen" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/头像.png"
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "xhdpi" : "unpackage/res/icons/头像1.png"
+                }
+            }
         }
     },
     /* 快应用特有相关 */
