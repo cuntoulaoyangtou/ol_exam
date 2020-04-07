@@ -25,6 +25,10 @@
 		
 		}
 		
+        ,{
+            "path" : "pages/setting/setting",
+            "style" : {"navigationBarTitleText":"设置"}
+        }
     ],
 	"tabBar":{
 		"color":"#333333",

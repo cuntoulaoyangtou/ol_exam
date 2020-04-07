@@ -9,35 +9,35 @@
 				<text>{{ name }}</text>
 			</view>
 			<view class="messages">
-				<view class="message">
+				<view @click="dianji" class="message">
 					<view class="text">{{ WeekOfRanking }}</view>
 					<view class="ranking">周排行</view>
 				</view>
-				<view class="message1">
+				<view @click="dianji" class="message1">
 					<view class="text">{{ Monthranking }}</view>
 					<view class="ranking">月排行</view>
 				</view>
-				<view class="message2">
+				<view @click="dianji" class="message2">
 					<view class="text">{{ integral }}</view>
 					<view class="ranking">积分</view>
 				</view>
 			</view>
 		</view>
 		<view class="concent">
-			<view class="concent_box">
+			<view @click="dianji" class="concent_box">
 				<view class="concent_image"><image src="../../static/My/gerenzhongxin.png" mode=""></image></view>
-			     <view class="personal">个人中心</view>
-				 <view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
+				<view class="personal">个人中心</view>
+				<view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
 			</view>
-			<view class="concent_box1">
+			<view @click="dianji" class="concent_box1">
 				<view class="concent_image"><image src="../../static/My/yijian.png" mode=""></image></view>
-			     <view class="personal">意见反馈</view>
-				 <view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
+				<view class="personal">意见反馈</view>
+				<view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
 			</view>
-			<view class="concent_box2">
+			<view @click="dianji3" class="concent_box2">
 				<view class="concent_image"><image src="../../static/My/shezhi.png" mode=""></image></view>
-			     <view class="personal">个人中心</view>
-				 <view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
+				<view class="personal">个人中心</view>
+				<view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
 			</view>
 		</view>
 	</view>
@@ -54,19 +54,27 @@ export default {
 		};
 	},
 	onShow() {
-	 var login = this.checkLogin('../login/login','1');
-	 if(login==null){
-		 uni.showToast({
-		 	title:'登录不成功',
-			
-		 })
-		 return false;
-	 }
+		var login = this.checkLogin('../login/login', '1');
+		if (login == null) {
+			uni.showToast({
+				title: '登录不成功'
+			});
+			return false;
+		}
 	},
 	methods: {
-		
+		dianji() {
+			uni.showToast({
+				title: '此功能未开放',
+				duration: 1000
+			});
+		},
+		dianji3(){
+			uni.navigateTo({
+				url:'../setting/setting'
+			})
+		}
 	}
-	
 };
 </script>
 
@@ -144,44 +152,44 @@ export default {
 	width: 33.5%;
 	height: 190upx;
 }
-.concent{
+.concent {
 	width: 100%;
 	height: 360upx;
-	background-color: #F0F0F0;
+	background-color: #f0f0f0;
 }
-.concent_box{
+.concent_box {
 	width: 100%;
 	height: 100upx;
 	background-color: white;
 	display: flex;
 	margin-top: 20upx;
 }
-.concent_box1{
+.concent_box1 {
 	width: 100%;
 	height: 100upx;
 	background-color: white;
 	display: flex;
 	margin-top: 20upx;
 }
-.concent_box2{
+.concent_box2 {
 	width: 100%;
 	height: 100upx;
 	background-color: white;
 	display: flex;
 	margin-top: 20upx;
 }
-.concent_image image{
+.concent_image image {
 	width: 80upx;
 	height: 80upx;
 	padding-left: 20upx;
 }
-.personal{
+.personal {
 	width: 90%;
 	height: 80upx;
 	line-height: 80upx;
 	text-indent: 30upx;
 }
-.more image{
+.more image {
 	width: 50upx;
 	height: 50upx;
 	padding-top: 20upx;

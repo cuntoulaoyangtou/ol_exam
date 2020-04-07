@@ -17,7 +17,7 @@ Vue.prototype.checkLogin = function(backpage, backtype){
 	console.log("name"+SUNAME);
 	console.log("password"+SUPASSWORD);
 	if(SUID == '' || SUNAME == '' || SUPASSWORD == ''){
-		uni.redirectTo({url:'../login/login?backpage='+backpage+'&backtype='+backtype});
+		uni.navigateTo({url:'../login/login?backpage='+backpage+'&backtype='+backtype});
 		return false;
 	}
 	return [SUID, SUNAME, SUPASSWORD];

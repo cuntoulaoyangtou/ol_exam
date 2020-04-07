@@ -6,15 +6,15 @@
 				  正式考试
 				</view>
 				<view class="tests">
-					<view class="tests1">
+					<view @click="dianji" class="tests1">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">日测</view>
 					</view>
-					<view class="tests2">
+					<view @click="dianji" class="tests2">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">周测</view>
 					</view>
-					<view class="tests3">
+					<view @click="dianji" class="tests3">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">内测</view>
 					</view>
@@ -25,15 +25,15 @@
 				  随机练习
 				</view>
 				<view class="tests">
-					<view class="tests1">
+					<view @click="dianji" class="tests1">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">每日练习</view>
 					</view>
-					<view class="tests2">
+					<view @click="dianji" class="tests2">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">每周练习</view>
 					</view>
-					<view class="tests3">
+					<view @click="dianji" class="tests3">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">内部练习</view>
 					</view>
@@ -43,16 +43,16 @@
 				<view class="title">
 				  其他
 				</view>
-				<view class="tests">
+				<view @click="dianji" class="tests">
 					<view class="tests1">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">考试成绩</view>
 					</view>
-					<view class="tests2">
+					<view @click="dianji" class="tests2">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">收藏夹</view>
 					</view>
-					<view class="tests3">
+					<view  @click="dianji" class="tests3">
 						<image src="../../static/question/ceshi.png" mode=""></image>
 					<view class="test1_text">错题本</view>
 					</view>
@@ -80,7 +80,12 @@
 		 }
 		},
 		methods: {
-			
+			dianji(){
+						  uni.showToast({
+						  	title:'此功能未开放',
+						    duration:1000
+						  })
+			}
 		}
 	}
 </script>
@@ -98,13 +103,13 @@
 .test1{
 	width: 100%;
 	height: 200upx;
-	background-color: #008000;
+	
 	margin-top: 20upx;
 }
 .test2{
 	width: 100%;
 	height: 200upx;
-	background-color: #2C405A;
+
 		margin-top: 20upx;
 }
 .title{

@@ -10,7 +10,7 @@
 					</view>
 					<view class="account1">
 						<view class="account_s">密码:</view>
-						<input type="password" placeholder="请输入密码" class="text" v-model="UserTmp.password" />
+						<input type="text" password="true"  placeholder="请输入密码" class="text" v-model="UserTmp.password" />
 					</view>
 					<view class="button">
 						<button class="button1" size="mini" form-type="submit">登录</button>
@@ -37,8 +37,6 @@ export default {
 	       console.log(this.UserTmp)
 		   uni.switchTab({
 		   	url:'../index/index',
-			
-			
 		   })
 		   uni.setStorage({
 		   	key:'username',
