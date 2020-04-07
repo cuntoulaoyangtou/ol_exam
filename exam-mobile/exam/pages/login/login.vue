@@ -40,18 +40,18 @@ export default {
 			
 			
 		   })
-		   // uni.setStorage({
-		   // 	key:'username',
-		   // 	data:this.UserTmp.username
-		   // }),
-		   // uni.setStorage({
-		   // 	key:'password',
-		   // 	data:this.UserTmp.password
-		   // }),
-		   // uni.setStorage({
-		   // 	key:'SUID',
-		   // 	data:1
-		   // })
+		   uni.setStorage({
+		   	key:'username',
+		   	data:this.UserTmp.username
+		   }),
+		   uni.setStorage({
+		   	key:'password',
+		   	data:this.UserTmp.password
+		   }),
+		   uni.setStorage({
+		   	key:'SUID',
+		   	data:1
+		   })
 		}
 	}
 };

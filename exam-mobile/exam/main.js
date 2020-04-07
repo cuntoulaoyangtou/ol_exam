@@ -13,9 +13,9 @@ Vue.prototype.checkLogin = function(backpage, backtype){
 	var SUID  = uni.getStorageSync('SUID');
 	var SUNAME = uni.getStorageSync('username');
 	var SUPASSWORD = uni.getStorageSync('password');
-	// console.log(SUID);
-	// console.log(SUNAME);
-	// console.log(SUPASSWORD);
+	console.log("id"+SUID);
+	console.log("name"+SUNAME);
+	console.log("password"+SUPASSWORD);
 	if(SUID == '' || SUNAME == '' || SUPASSWORD == ''){
 		uni.redirectTo({url:'../login/login?backpage='+backpage+'&backtype='+backtype});
 		return false;
