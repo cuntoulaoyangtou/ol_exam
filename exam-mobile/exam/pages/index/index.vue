@@ -48,8 +48,14 @@
 				consult:'24小时热点新闻资讯'
 			}
 		},
-		onLoad() {
-
+		onShow() {
+         var login = this.checkLogin('../login/login','1');
+		 if(login==null){
+			 uni.showToast({
+			 	title:'登录不成功'
+			 })
+			 return false;
+		 }
 		},
 		methods: {
           dianji(){

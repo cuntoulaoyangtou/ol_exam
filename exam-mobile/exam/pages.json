@@ -18,7 +18,13 @@
             "path" : "pages/my/my",
             "style" : {"navigationBarTitleText":"个人中心"},
 			"enablePullDownRefresh": true
-        }
+        },
+		{
+		"path" : "pages/login/login",
+		"style" : {"navigationBarTitleText":"登录"}
+		
+		}
+		
     ],
 	"tabBar":{
 		"color":"#333333",
@@ -40,6 +46,7 @@
 			"iconPath":"static/tabBar/wode.png",
 			"selectedIconPath":"static/tabBar/wode1.png",
 			"text":"我的"}
+			
 			
 		]
 	},

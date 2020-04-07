@@ -1,121 +1,134 @@
 <template>
 	<view class="body">
 		<view class="header">
-			<view class="background">
-			
-		</view>
-		
-		<view class="message_box">
-			
-			</view>
+			<view class="background"></view>
+
+			<view class="message_box"></view>
 			<view class="profile">
-					<image class="" src="../../static/My/touxiang.png" mode=""></image>
-					<text>{{name}}</text>
+				<image class="" src="../../static/My/touxiang.png" mode=""></image>
+				<text>{{ name }}</text>
+			</view>
+			<view class="messages">
+				<view class="message">
+					<view class="text">{{ WeekOfRanking }}</view>
+					<view class="ranking">周排行</view>
 				</view>
-				<view class="messages">
-					<view class="message">
-						<view class="text">
-							{{WeekOfRanking}}
-						</view>
-						<view class="ranking">周排行</view>
-					</view>
-					<view class="message1">
-						<view class="text">
-							{{Monthranking}}
-						</view>
-						<view class="ranking">月排行</view>
-					</view>
-					<view class="message2">
-						<view class="text">
-							{{integral}}
-						</view>
-						<view class="ranking">积分</view>
-					</view>
+				<view class="message1">
+					<view class="text">{{ Monthranking }}</view>
+					<view class="ranking">月排行</view>
 				</view>
-				
+				<view class="message2">
+					<view class="text">{{ integral }}</view>
+					<view class="ranking">积分</view>
+				</view>
+			</view>
+		</view>
+		<view class="concent">
+			<view class="concent_box">
+				<view class="concent_image"><image src="../../static/My/gerenzhongxin.png" mode=""></image></view>
+			     <view class="personal">个人中心</view>
+				 <view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
+			</view>
+			<view class="concent_box1">
+				<view class="concent_image"><image src="../../static/My/yijian.png" mode=""></image></view>
+			     <view class="personal">意见反馈</view>
+				 <view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
+			</view>
+			<view class="concent_box2">
+				<view class="concent_image"><image src="../../static/My/shezhi.png" mode=""></image></view>
+			     <view class="personal">个人中心</view>
+				 <view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				name:'园宝样的猪',
-				WeekOfRanking:1,
-				integral:0,
-				Monthranking:1
-			}
-		},
-		methods: {
+export default {
+	data() {
+		return {
+			name: '园宝养的猪',
+			WeekOfRanking: 1,
+			integral: 0,
+			Monthranking: 1
+		};
+	},
+	onShow() {
+	 var login = this.checkLogin('../login/login','1');
+	 if(login==null){
+		 uni.showToast({
+		 	title:'登录不成功',
 			
-		}
+		 })
+		 return false;
+	 }
+	},
+	methods: {
+		
 	}
+	
+};
 </script>
 
 <style>
-
-.background{
+.background {
 	width: 100%;
 	height: 300upx;
 	background-color: green;
 }
-.message_box{
+.message_box {
 	width: 90%;
 	height: 350upx;
 	border-radius: 10px;
-		background-color: white;
-		text-align: center;
-		margin: auto;
-		margin-top: -170upx;
-		box-shadow: 7upx 7upx 5upx #F0F0F0;
-		z-index: -2;
+	background-color: white;
+	text-align: center;
+	margin: auto;
+	margin-top: -170upx;
+	box-shadow: 7upx 7upx 5upx #f0f0f0;
+	z-index: -2;
 }
-.profile{
+.profile {
 	width: 30%;
 	height: 200upx;
 	border-radius: 50%;
-/* 	background-color: #007AFF; */
+	/* 	background-color: #007AFF; */
 	margin: auto;
 	/* padding-top: -60upx; */
 	margin-top: -450upx;
 	z-index: 9;
 }
-.profile image{
+.profile image {
 	border-radius: 50%;
 	width: 100%;
 	height: 200upx;
 }
-.profile text{
+.profile text {
 	width: 100%;
-	
+
 	text-align: center;
 	padding-left: 25upx;
 }
-.messages{
+.messages {
 	width: 90%;
 	height: 190upx;
 	margin: auto;
-	
+
 	margin-top: 60upx;
 	display: flex;
 }
-.message{
+.message {
 	width: 33.5%;
 	height: 190upx;
-
-	
 }
-.text{
+.text {
 	width: 100%;
 	height: 60upx;
 	text-align: center;
 	line-height: 150upx;
 	font-size: 60upx;
 	font-weight: bold;
-	
 }
-.ranking{
+.ranking {
 	width: 100%;
 	height: 60upx;
 	text-align: center;
@@ -123,16 +136,55 @@
 	font-size: 40upx;
 	font-weight: 500;
 }
-.message1{
+.message1 {
 	width: 33.5%;
 	height: 190upx;
-
-	
 }
-.message2{
+.message2 {
 	width: 33.5%;
 	height: 190upx;
-
-	
+}
+.concent{
+	width: 100%;
+	height: 360upx;
+	background-color: #F0F0F0;
+}
+.concent_box{
+	width: 100%;
+	height: 100upx;
+	background-color: white;
+	display: flex;
+	margin-top: 20upx;
+}
+.concent_box1{
+	width: 100%;
+	height: 100upx;
+	background-color: white;
+	display: flex;
+	margin-top: 20upx;
+}
+.concent_box2{
+	width: 100%;
+	height: 100upx;
+	background-color: white;
+	display: flex;
+	margin-top: 20upx;
+}
+.concent_image image{
+	width: 80upx;
+	height: 80upx;
+	padding-left: 20upx;
+}
+.personal{
+	width: 90%;
+	height: 80upx;
+	line-height: 80upx;
+	text-indent: 30upx;
+}
+.more image{
+	width: 50upx;
+	height: 50upx;
+	padding-top: 20upx;
+	padding-right: 10upx;
 }
 </style>
