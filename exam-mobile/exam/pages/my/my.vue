@@ -24,19 +24,19 @@
 			</view>
 		</view>
 		<view class="concent">
-			<view @click="dianji" class="concent_box">
+			<view @click="dianji4" class="concent_box">
 				<view class="concent_image"><image src="../../static/My/gerenzhongxin.png" mode=""></image></view>
 				<view class="personal">个人中心</view>
 				<view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
 			</view>
-			<view @click="dianji" class="concent_box1">
+			<view @click="dianji2" class="concent_box1">
 				<view class="concent_image"><image src="../../static/My/yijian.png" mode=""></image></view>
 				<view class="personal">意见反馈</view>
 				<view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
 			</view>
 			<view @click="dianji3" class="concent_box2">
 				<view class="concent_image"><image src="../../static/My/shezhi.png" mode=""></image></view>
-				<view class="personal">个人中心</view>
+				<view class="personal">系统设置</view>
 				<view class="more"><image src="../../static/My/jiankuohao.png" mode=""></image></view>
 			</view>
 		</view>
@@ -63,17 +63,27 @@ export default {
 		}
 	},
 	methods: {
-		dianji() {
-			uni.showToast({
-				title: '此功能未开放',
-				duration: 1000
-			});
+		dianji4() {
+			uni.navigateTo({
+				url:'../mycenter/mycenter'
+			})
 		},
 		dianji3(){
 			uni.navigateTo({
 				url:'../setting/setting'
 			})
+		},
+		dianji2(){
+			uni.navigateTo({
+				url:'../feedback/feedback'
+			})
+		},
+		dianji(){
+			uni.showToast({
+				title:'此功能未开放'
+			})
 		}
+		
 	}
 };
 </script>

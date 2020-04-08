@@ -29,6 +29,14 @@
             "path" : "pages/setting/setting",
             "style" : {"navigationBarTitleText":"设置"}
         }
+        ,{
+            "path" : "pages/feedback/feedback",
+            "style" : {"navigationBarTitleText":"意见反馈"}
+        }
+        ,{
+            "path" : "pages/mycenter/mycenter",
+            "style" : {"navigationBarTitleText":"个人中心"}
+        }
     ],
 	"tabBar":{
 		"color":"#333333",
