@@ -35,6 +35,7 @@ export default {
 	methods: {
 		formSubmit:function(){
 	       console.log(this.UserTmp)
+		   
 		   uni.switchTab({
 		   	url:'../index/index',
 		   })
@@ -49,7 +50,7 @@ export default {
 		   uni.setStorage({
 		   	key:'SUID',
 		   	data:1
-		   })
+		   })  
 		}
 	}
 };

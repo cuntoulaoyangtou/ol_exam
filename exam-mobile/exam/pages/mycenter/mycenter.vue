@@ -62,6 +62,15 @@
 					console.log("我不退出了");
 				}
 			}
+		},
+		onShow() {
+			var login = this.checkLogin('../login/login', '1');
+			if (login == null) {
+				uni.showToast({
+					title: '登录不成功'
+				});
+				return false;
+			}
 		}
 	}
 </script>
@@ -122,7 +131,7 @@ color: #000000;
 .button button{
 	width: 90%;
 	height: 90upx;
-	
+	line-height: 90upx;
 		margin: auto;
 		background-color: #4CD964;
 	border-radius: 10upx;
