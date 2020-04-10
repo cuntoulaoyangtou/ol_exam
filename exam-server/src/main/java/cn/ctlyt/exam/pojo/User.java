@@ -132,7 +132,7 @@ public class User {
     }
     public boolean verifyRegister(){
         if(verifyUsername() || verifyPhone()){
-            if(this.password!=null && this.password.length()>=32){
+            if(this.password!=null && this.password.length()<=32){
                 if(this.r_id!=null && this.r_id!=0){
                     if(this.c_id!=null && this.c_id!=0){
                         if(this.real_name!=null){

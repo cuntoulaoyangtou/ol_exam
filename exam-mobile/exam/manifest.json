@@ -55,12 +55,12 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "unpackage/res/icons/头像.png"
+                    "hdpi" : "static/touxiang.png"
                 }
             },
             "icons" : {
                 "android" : {
-                    "xhdpi" : "unpackage/res/icons/头像1.png"
+                    "xhdpi" : "static/touxiang1.png"
                 }
             }
         }
