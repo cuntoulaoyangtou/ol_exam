@@ -253,7 +253,7 @@
               <el-button type="primary" @click="innerVisible = true">添加试题</el-button>
               <el-dialog
                 width="70%"
-                title="内层 Dialog"
+                title="试题选择"
                 :visible.sync="innerVisible"
                 append-to-body>
                 <el-row :gutter="24">
@@ -270,9 +270,18 @@
                       placeholder="选择章节"
                     />
                   </el-col>
-                  <el-col :span="4">
+                  <el-col :span="7">
+                    <el-input v-model="keyAndPage.q_content" class="filter-item"  clearable placeholder="查询内容" />
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="3">
+                    <el-select v-model="keyAndPage.qt_id" class="filter-item" clearable placeholder="试题类型" >
+                      <el-option v-for="item in types" :key="item.value" :label="item.name" :value="item.value" />
+                    </el-select>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-select v-model="keyAndPage.difficulty" class="filter-item" clearable placeholder="难易度">
+                      <el-option v-for="item in difficultys" :key="item.d_id" :label="item.d_name" :value="item.d_id" />
+                    </el-select>
                   </el-col>
                 </el-row>
               </el-dialog>
@@ -339,6 +348,9 @@ export default {
       examDate:'',
       //考试时间
       time:{},
+      keyAndPage:{},
+       difficultys: [{d_id: 1,d_name: '简单'},{d_id: 2,d_name: '中等'},{d_id: 3,d_name: '困难'}],
+      types: [{value: 1,name: '单选题'},{value: 2,name: '多选题'},{value: 3,name: '判断题'},{value: 4,name: '填空题'},{value: 5,name: '简答题'}],
 
  
 
