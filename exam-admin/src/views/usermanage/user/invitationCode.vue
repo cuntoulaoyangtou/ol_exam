@@ -165,7 +165,6 @@ export default {
             endDate:null,
             r_id:null,
             c_id:null
-
         },
 
 
