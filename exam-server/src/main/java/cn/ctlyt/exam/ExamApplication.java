@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
 public class ExamApplication {
     public static void main(String[] args) {
         SpringApplication.run(ExamApplication.class, args);
+
+
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("api.txt");
         List<Child> children = toConvertString(inputStream);
         List<String> apis = new ArrayList();

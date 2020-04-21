@@ -135,6 +135,14 @@ public class QuestionUtil {
         throw new BizException("参数异常");
     }
 
+    /*
+     * 功能描述：获取试题
+     * @param
+     * @return
+     * @Author: 村头老杨头
+     * @Date: 2020/4/20 0020 20:34
+     *
+     */
     public static List<Question> getQuestion(Map<String,List<Integer>> countMap, Map questionMap){
         List<Question> qs = new ArrayList<>();
         if(countMap.get("difficultys") != null && countMap.get("difficultys").size()>0){

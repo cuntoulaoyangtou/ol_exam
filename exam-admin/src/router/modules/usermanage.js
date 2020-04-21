@@ -24,6 +24,12 @@ const userManageRouter = {
         meta: { title: '用户管理', roles: ['managers','lecturer','classTeacher']},
     },
     {
+      path: 'invitationCode',
+      component: () => import('@/views/usermanage/user/invitationCode'),
+      name: '邀请码',
+      meta: { title: '邀请码', roles: ['managers','lecturer','classTeacher']},
+  },
+    {
         path: 'clazzmanage',
         component: () => import('@/views/usermanage/clazzmanage/clazzmanage'),
         name: '班级管理员',

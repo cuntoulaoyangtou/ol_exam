@@ -9,6 +9,7 @@ import cn.ctlyt.exam.service.UserService;
 import cn.ctlyt.exam.utils.Constant;
 import cn.ctlyt.exam.utils.RedisUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
+import cn.ctlyt.exam.vo.InvitationCode;
 import com.github.pagehelper.PageInfo;
 import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -127,4 +125,22 @@ public class UserController {
 
         return ResultGenerator.genSuccessResult(list);
     }
+
+    public Result invitationCode(HttpServletRequest request, InvitationCode invitationCode){
+        String header = request.getHeader(Constant.TOKEN_HEADER);
+        User userByJwt = User.getUserByJwt(header);
+        //
+        //创建Code
+        int i = (int) (Math.random() * 899999) + 100000;
+        Set<String> keys = RedisUtil.keys(invitationCode.getNo() + "-*-" + i);
+        while (keys!=null || keys.size()>0){
+            i = (int) (Math.random() * 899999) + 100000;
+            keys = RedisUtil.keys(invitationCode.getNo() + "-*-" + i);
+        }
+        invitationCode.setCode(i);
+        RedisUtil.set(invitationCode.getNo()+"-"+invitationCode.getU_id()+"-"+invitationCode.getCode(),invitationCode,invitationCode.getTime());
+
+    }
+
+
 }
