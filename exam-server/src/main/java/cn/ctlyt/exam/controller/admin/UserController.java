@@ -11,6 +11,7 @@ import cn.ctlyt.exam.utils.RedisUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import cn.ctlyt.exam.vo.InvitationCode;
 import com.github.pagehelper.PageInfo;
+import com.mysql.cj.jdbc.util.ResultSetUtil;
 import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -125,21 +126,41 @@ public class UserController {
 
         return ResultGenerator.genSuccessResult(list);
     }
-
+    @PostMapping("createinvitation")
     public Result invitationCode(HttpServletRequest request, InvitationCode invitationCode){
         String header = request.getHeader(Constant.TOKEN_HEADER);
         User userByJwt = User.getUserByJwt(header);
         //
         //创建Code
+        //获取班级
         int i = (int) (Math.random() * 899999) + 100000;
-        Set<String> keys = RedisUtil.keys(invitationCode.getNo() + "-*-" + i);
-        while (keys!=null || keys.size()>0){
+        Set<String> keys = RedisUtil.keys(InvitationCode.no + "-*-" + i);
+        while (keys!=null && keys.size()>0){
             i = (int) (Math.random() * 899999) + 100000;
-            keys = RedisUtil.keys(invitationCode.getNo() + "-*-" + i);
+            keys = RedisUtil.keys(InvitationCode.no + "-*-" + i);
         }
+        invitationCode.setU_id(userByJwt.getU_id());
         invitationCode.setCode(i);
-        RedisUtil.set(invitationCode.getNo()+"-"+invitationCode.getU_id()+"-"+invitationCode.getCode(),invitationCode,invitationCode.getTime());
-
+        RedisUtil.set(InvitationCode.no+"-"+invitationCode.getU_id()+"-"+invitationCode.getCode(),invitationCode,invitationCode.findTime());
+        return ResultGenerator.genSuccessResult(invitationCode);
+    }
+    @PostMapping("findinvitation")
+    public Result findInvitationCode(HttpServletRequest request){
+        String header = request.getHeader(Constant.TOKEN_HEADER);
+        User userByJwt = User.getUserByJwt(header);
+        Set<String> keys = RedisUtil.keys(InvitationCode.no + "-" + userByJwt.getU_id() + "-*");
+        List<InvitationCode> list = new ArrayList<>();
+        keys.forEach(item->{
+            list.add((InvitationCode) RedisUtil.get(item));
+        });
+        return ResultGenerator.genSuccessResult(list);
+    }
+    @PostMapping("delinvitation")
+    public Result delInvitationCode(HttpServletRequest request,Integer code){
+        String header = request.getHeader(Constant.TOKEN_HEADER);
+        User userByJwt = User.getUserByJwt(header);
+        RedisUtil.del(InvitationCode.no + "-" + userByJwt.getU_id() + "-"+code);
+        return ResultGenerator.genSuccessResult();
     }
 
 

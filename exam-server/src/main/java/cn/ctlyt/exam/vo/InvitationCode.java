@@ -1,5 +1,8 @@
 package cn.ctlyt.exam.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -10,24 +13,17 @@ import java.util.Date;
  */
 public class InvitationCode {
     private Date startDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
     private Integer code;
     private Integer r_id;
     private Integer c_id;
     private Integer u_id;
 
-    private String no = "invitation";
-
-    public InvitationCode() {
+    public static final String no = "invitation";
+    public InvitationCode(){
         this.startDate = new Date();
-    }
-
-    public Integer getU_id() {
-        return u_id;
-    }
-
-    public void setU_id(Integer u_id) {
-        this.u_id = u_id;
     }
 
     public Date getStartDate() {
@@ -49,6 +45,11 @@ public class InvitationCode {
     public Integer getCode() {
         return code;
     }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
     public Integer getR_id() {
         return r_id;
     }
@@ -65,15 +66,17 @@ public class InvitationCode {
         this.c_id = c_id;
     }
 
-    public String getNo() {
-        return no;
+    public Integer getU_id() {
+        return u_id;
     }
 
-    public long getTime(){
+    public void setU_id(Integer u_id) {
+        this.u_id = u_id;
+    }
+
+    public long findTime(){
         return (this.endDate.getTime()-this.startDate.getTime())/1000;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
-    }
+
 }

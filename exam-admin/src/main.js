@@ -18,6 +18,7 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
+import VueClipboard from 'vue-clipboard2'
 
 /**
  * If you don't want to use mock-server
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
 
+Vue.use(VueClipboard)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })

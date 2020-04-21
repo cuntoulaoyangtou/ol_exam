@@ -68,3 +68,25 @@ export function addUser(data) {
         data
     })
 }
+
+export function createCode(data){
+  return request({
+    url:'/admin/user/createinvitation',
+    method: 'post',
+    data
+  })
+}
+export function findCode(){
+  return request({
+    url:'/admin/user/findinvitation',
+    method: 'post'
+  })
+}
+
+export function delCode(data){
+  return request({
+    url:'/admin/user/delinvitation',
+    method: 'post',
+    data
+  })
+}
