@@ -73,8 +73,7 @@
 		 var login = this.checkLogin('../login/login','1');
 		 if(login==null){
 			 uni.showToast({
-			 	title:'登录不成功',
-				
+			 	title:'登录不成功',	
 			 })
 			 return false;
 		 }

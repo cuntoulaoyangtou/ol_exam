@@ -55,7 +55,9 @@ export default {
 
 		
 		if(this.num>=3){
-			alert('你今天已经修改了3次了');
+			uni.showToast({
+				title:'你今天已经修改了3次了'
+			})
 			return;
 		}else{
 			var num = 0;
@@ -72,19 +74,8 @@ export default {
 		dianji() {
 			var com = confirm('确定要退出登录吗?');
 			if (com) {
+				uni.clearStorage();
 				location.reload();
-				uni.setStorage({
-					key: 'username',
-					data: ''
-				});
-				uni.setStorage({
-					key: 'password',
-					data: ''
-				});
-				uni.setStorage({
-					key: 'SUID',
-					data: ''
-				});
 			} else {
 				console.log('我不退出了');
 			}
