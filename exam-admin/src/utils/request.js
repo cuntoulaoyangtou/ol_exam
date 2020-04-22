@@ -16,9 +16,17 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
     if (config.method === 'post') {
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+
+     
       config.headers.Accept = '*/*'
-      config.data = Qs.stringify(config.data)
+      if(config.data instanceof FormData){
+        config.headers['Content-Type'] = 'multipart/form-data'
+      }else{
+        config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        config.data = Qs.stringify(config.data)
+      }
+      
+      
     }
     if (store.getters.token) {
       // let each request carry token

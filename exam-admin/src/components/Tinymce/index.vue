@@ -16,6 +16,8 @@ import editorImage from './components/EditorImage'
 import plugins from './plugins'
 import toolbar from './toolbar'
 import load from './dynamicLoadScript'
+import {uploadFile} from '@/api/uploadfile'
+import { Col } from 'element-ui'
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
 const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
@@ -165,21 +167,28 @@ export default {
         },
         images_upload_handler(blobInfo, success, failure, progress) {
           progress(0)
-          const token = _this.$store.getters.token
-          getToken(token).then(response => {
-            const url = response.data.qiniu_url
-            const formData = new FormData()
-            formData.append('token', response.data.qiniu_token)
-            formData.append('key', response.data.qiniu_key)
-            formData.append('file', blobInfo.blob(), url)
-            upload(formData).then(() => {
-              success(url)
-              progress(100)
-            })
-          }).catch(err => {
-            failure('出现未知问题，刷新页面，或者联系程序员')
-            console.log(err)
+          let formdata = new FormData()
+          formdata.set('file', blobInfo.blob())
+          uploadFile(formdata).then(res=>{
+             success(res.data.fileurl)
+          }).catch(err=>{
+              failure("文件上传失败")
           })
+          progress(100)
+         
+          // this.axios.post(apidate.uploadEnclosure,formData,config)
+          //   .then((response) => {
+          //       if(response.data.info=="success"){this.$message({
+          //               type: 'success',
+          //               message: '附件上传成功!'
+          //           });
+          //       }
+          //   })
+          //   const formData = new FormData()
+          //   formData.append('file', blobInfo.blob(),"http://127.0.0.1:8081/api/upload/uploadFile")
+          //   upload(formData).then(() => {
+              
+          //   })
         }
       })
     },
