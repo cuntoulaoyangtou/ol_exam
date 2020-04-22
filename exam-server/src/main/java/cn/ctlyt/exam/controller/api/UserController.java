@@ -8,12 +8,16 @@ import cn.ctlyt.exam.utils.Constant;
 import cn.ctlyt.exam.utils.JwtUtil;
 import cn.ctlyt.exam.utils.RedisUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
+import cn.ctlyt.exam.vo.InvitationCode;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @ClassNameUserController
@@ -47,8 +51,19 @@ public class UserController {
         return ResultGenerator.genFailResult("用户名或密码错误");
     }
     @GetMapping("register")
-    public Result doRegister(User user){
+    public Result doRegister(User user,Integer code){
         if(user.verifyRegister()){
+            Set<String> keys = RedisUtil.keys(InvitationCode.no + "-*-" + code);
+            if(keys==null || keys.size()<=0){
+                return ResultGenerator.genFailResult("没有此邀请码");
+            }
+            AtomicReference<InvitationCode> invitationCode = new AtomicReference<>();
+            keys.forEach(item->{
+                System.out.println(item);
+                invitationCode.set((InvitationCode) RedisUtil.get(item));
+            });
+            user.setR_id(invitationCode.get().getR_id());
+            user.setC_id(invitationCode.get().getC_id());
             userService.addUser(user);
             return ResultGenerator.genSuccessResult(user.getU_id());
         }

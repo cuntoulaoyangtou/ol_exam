@@ -32,7 +32,7 @@ public class RedisUtil {
         if (prefix != null) {
             return redisTemplate.keys(prefix);
         }
-        return new HashSet<String>();
+        return null;
     }
 
     public static List gList(Set keys) {

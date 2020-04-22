@@ -133,18 +133,10 @@ public class User {
     public boolean verifyRegister(){
         if(verifyUsername() || verifyPhone()){
             if(this.password!=null && this.password.length()<=32){
-                if(this.r_id!=null && this.r_id!=0){
-                    if(this.c_id!=null && this.c_id!=0){
-                        if(this.real_name!=null){
-                            return true;
-                        }else {
-                            throw new BizException("填写真实姓名",this);
-                        }
-                    }else{
-                        throw new BizException("未选择班级",this);
-                    }
-                }else{
-                    throw new BizException("未选择角色",this);
+                if(this.real_name!=null){
+                    return true;
+                }else {
+                    throw new BizException("填写真实姓名",this);
                 }
             }else{
                 throw new BizException("密码不符合要求",this);
