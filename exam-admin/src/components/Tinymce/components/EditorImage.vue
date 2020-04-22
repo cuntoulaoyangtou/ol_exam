@@ -1,6 +1,6 @@
 <template>
   <div class="upload-container">
-    <el-button :style="{background:color,borderColor:color}" icon="el-icon-upload" size="mini" type="primary" @click=" dialogVisible=true">
+    <el-button :style="{background:color,borderColor:color}" icon="el-icon-upload" size="mini" type="primary" @click="dialogVisible=true">
       上传
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
@@ -12,7 +12,7 @@
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
-        action="https://httpbin.org/post"
+        action="http://127.0.0.1:8081/api/upload/uploadFile"
         list-type="picture-card"
       >
         <el-button size="small" type="primary">

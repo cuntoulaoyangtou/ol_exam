@@ -17,6 +17,13 @@ spring:
         max-idle: 5
         min-idle: 0
     timeout: 10000
+  #文件上传
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 4MB
+      max-request-size: 200MB
 mybatis:
   type-aliases-package: cn.ctlyt.exam.pojo
 

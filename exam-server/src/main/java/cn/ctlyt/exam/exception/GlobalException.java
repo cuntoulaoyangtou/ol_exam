@@ -3,6 +3,7 @@ package cn.ctlyt.exam.exception;
 import cn.ctlyt.exam.pojo.Result;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import com.alibaba.fastjson.JSON;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
@@ -52,7 +53,7 @@ public class GlobalException {
     @ExceptionHandler(value = DuplicateKeyException.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, DuplicateKeyException e){
-        logger.error("SQL唯一约束异常！原因是:{}",e);
+        logger.error("SQL唯一约束异常！原因是:{}",e.getMessage());
         return ResultGenerator.genFailResult("SQL唯一约束异常");
     }
 
@@ -65,7 +66,7 @@ public class GlobalException {
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, DataIntegrityViolationException e){
-        logger.error("SQL外键约束异常！原因是:{}",e);
+        logger.error("SQL外键约束异常！原因是:{}",e.getMessage());
         return ResultGenerator.genFailResult("SQL外键约束异常");
     }
 
@@ -79,7 +80,7 @@ public class GlobalException {
     @ExceptionHandler(value = TooManyResultsException.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, TooManyResultsException e){
-        logger.error("SQL查询异常！原因是: {}",e);
+        logger.error("SQL查询异常！原因是: {}",e.getMessage());
         return ResultGenerator.genFailResult("SQL查询异常");
     }
 
@@ -92,7 +93,7 @@ public class GlobalException {
     @ExceptionHandler(value = MyBatisSystemException.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, MyBatisSystemException e){
-        logger.error("MyBatis异常！原因是: {}",e);
+        logger.error("MyBatis异常！原因是: {}",e.getMessage());
         return ResultGenerator.genFailResult("MyBatis异常");
     }
 
@@ -105,7 +106,7 @@ public class GlobalException {
     @ExceptionHandler(value = BindException.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, BindException e){
-        logger.error("绑定异常！原因是:{}",e);
+        logger.error("绑定异常！原因是:{}",e.getMessage());
         return ResultGenerator.genFailResult("API接口参数错误");
     }
     /**
@@ -117,8 +118,20 @@ public class GlobalException {
     @ExceptionHandler(value =NullPointerException.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, NullPointerException e){
-        logger.error("发生空指针异常！原因是:{}",e);
+        logger.error("发生空指针异常！原因是:{}",e.getMessage());
         return ResultGenerator.genFailResult("空指针异常");
+    }
+    /**
+     * 请求头失效的异常
+     * @param req
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = ExpiredJwtException.class)
+    @ResponseBody
+    public Result exceptionHandler(HttpServletRequest req,ExpiredJwtException e){
+        logger.error("发生空指针异常！原因是:{}",e.getMessage());
+        return ResultGenerator.genUnauthorizedResult().setMessage("Token失效");
     }
 
 
@@ -131,7 +144,7 @@ public class GlobalException {
     @ExceptionHandler(value =Exception.class)
     @ResponseBody
     public Result exceptionHandler(HttpServletRequest req, Exception e){
-        logger.error("未知异常！原因是:{}",e);
+        logger.error("未知异常！原因是:{}",e.getMessage());
         return ResultGenerator.genFailResult("未知异常");
     }
 }
