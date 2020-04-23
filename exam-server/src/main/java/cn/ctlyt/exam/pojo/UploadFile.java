@@ -24,6 +24,7 @@ public class UploadFile {
     private Date uploaddate;
     private String type;
     private String fileurl;
+    private String primitive;
     private String filename;
     private Long filesize;
     private Integer uid;
@@ -31,10 +32,11 @@ public class UploadFile {
     public UploadFile(){
 
     }
-    public UploadFile(Date uploaddate, String type, String fileurl, String filename, Long filesize, Integer uid) {
+    public UploadFile(Date uploaddate, String type, String fileurl,String primitive,String filename, Long filesize, Integer uid) {
         this.uploaddate = uploaddate;
         this.type = type;
         this.fileurl = fileurl;
+        this.primitive = primitive;
         this.filename = filename;
         this.filesize = filesize;
         this.uid = uid;
@@ -70,6 +72,14 @@ public class UploadFile {
 
     public void setFileurl(String fileurl) {
         this.fileurl = fileurl;
+    }
+
+    public String getPrimitive() {
+        return primitive;
+    }
+
+    public void setPrimitive(String primitive) {
+        this.primitive = primitive;
     }
 
     public String getFilename() {

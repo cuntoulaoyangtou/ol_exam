@@ -10,9 +10,11 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -30,11 +32,12 @@ public class UploadFileService {
 
     public UploadFile add(MultipartFile file,Integer uid){
         if(file!= null){
+            String primitive = StringUtils.cleanPath(file.getOriginalFilename());
             String fileName = FileUtil.storeFile(file);
             String fileDownloadUri = Constant.getServletFileUpload()+fileName;
 
             String fileType = FileTypeUtil.getFileType(Constant.FILE_UPLOAD_DIR + "/" + fileName);
-            UploadFile uploadFile = new UploadFile(new Date(),fileType ,fileDownloadUri,fileName,file.getSize(),uid);
+            UploadFile uploadFile = new UploadFile(new Date(),fileType ,fileDownloadUri,primitive,fileName,file.getSize(),uid);
             uploadFileMapper.insert(uploadFile);
             return uploadFile;
         }
@@ -53,6 +56,25 @@ public class UploadFileService {
             List<UploadFile> uploadFiles = uploadFileMapper.selectByExample(example);
             return new PageInfo(uploadFiles);
         }
+    }
+    public Integer delFile(String filename){
+        File file = new File(Constant.FILE_UPLOAD_DIR+"/"+filename);
+        if (file.exists()) {
+            file.delete();
+            System.out.println("文件已经被成功删除");
+        }
+        Example example = new Example(UploadFile.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("filename",filename);
+        return uploadFileMapper.deleteByExample(example);
+    }
+    //文件清除
+    public Integer clearFile(){
+        //查询文件依赖
+        List<UploadFile> uploadFiles = uploadFileMapper.selectAll();
+        //查询文章
+        //查询试题
+        return 0;
     }
 
 }

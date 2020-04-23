@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     password: 123456
-    username: root
-    url: jdbc:mysql://127.0.0.1:3306/ol_exam?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: exam
+    url: jdbc:mysql://114.67.67.180/exam?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
   redis:
     database: 0
     host: 127.0.0.1
