@@ -11,11 +11,39 @@
  Target Server Version : 50560
  File Encoding         : 65001
 
- Date: 03/04/2020 10:20:39
+ Date: 23/04/2020 13:00:52
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for a_file
+-- ----------------------------
+DROP TABLE IF EXISTS `a_file`;
+CREATE TABLE `a_file`  (
+  `f_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '\'文件ID\'',
+  `uploaddate` datetime NOT NULL COMMENT '\'上传时间\'',
+  `type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '\'文件类型\'',
+  `fileurl` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'文件地址\'',
+  `primitive` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'原始文件名\'',
+  `filename` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'文件名\'',
+  `filesize` double NULL DEFAULT NULL COMMENT '\'文件大小\'',
+  `uid` int(11) NULL DEFAULT NULL COMMENT '\'文件上传人\'',
+  PRIMARY KEY (`f_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of a_file
+-- ----------------------------
+INSERT INTO `a_file` VALUES (1, '2020-04-22 15:53:34', NULL, 'http://127.0.0.1:8081/api/upload/downloadFile/5a760f22-8f2e-44d1-a3d3-72bd404ee40d1587570814300_16.png', '', '5a760f22-8f2e-44d1-a3d3-72bd404ee40d1587570814300_16.png', 40214, 12);
+INSERT INTO `a_file` VALUES (2, '2020-04-22 16:03:32', 'png', 'http://127.0.0.1:8081/api/upload/downloadFile/a34a4950-efcf-4d6a-91f5-0e4d0387292e1587571412024_21.png', '', 'a34a4950-efcf-4d6a-91f5-0e4d0387292e1587571412024_21.png', 40214, 12);
+INSERT INTO `a_file` VALUES (3, '2020-04-22 21:31:22', NULL, 'http://127.0.0.1:8081/api/upload/downloadFile/bd186924-094a-4c10-a28a-1a490c2ee1cd1587591082673_32.jpg', '', 'bd186924-094a-4c10-a28a-1a490c2ee1cd1587591082673_32.jpg', 932973, 1);
+INSERT INTO `a_file` VALUES (4, '2020-04-22 21:34:26', NULL, 'http://127.0.0.1:8081/api/upload/downloadFile/bd186924-094a-4c10-a28a-1a490c2ee1cd1587591266509_58.jpg', '', 'bd186924-094a-4c10-a28a-1a490c2ee1cd1587591266509_58.jpg', 932973, 1);
+INSERT INTO `a_file` VALUES (5, '2020-04-22 21:35:50', NULL, 'http://127.0.0.1:8081/api/upload/downloadFile/bd186924-094a-4c10-a28a-1a490c2ee1cd1587591350395_74.jpg', '', 'bd186924-094a-4c10-a28a-1a490c2ee1cd1587591350395_74.jpg', 932973, 1);
+INSERT INTO `a_file` VALUES (6, '2020-04-22 22:50:59', 'png', 'http://127.0.0.1:8081/api/upload/downloadFile/bd186924-094a-4c10-a28a-1a490c2ee1cd1587595859399_41.png', '', 'bd186924-094a-4c10-a28a-1a490c2ee1cd1587595859399_41.png', 9326, 1);
+INSERT INTO `a_file` VALUES (7, '2020-04-22 22:53:50', NULL, 'http://127.0.0.1:8081/api/upload/downloadFile/bd186924-094a-4c10-a28a-1a490c2ee1cd1587596030378_67.jpg', '', 'bd186924-094a-4c10-a28a-1a490c2ee1cd1587596030378_67.jpg', 40495, 1);
+INSERT INTO `a_file` VALUES (8, '2020-04-22 22:54:55', NULL, 'http://127.0.0.1:8081/api/upload/downloadFile/bd186924-094a-4c10-a28a-1a490c2ee1cd1587596095523_8.jpg', '', 'bd186924-094a-4c10-a28a-1a490c2ee1cd1587596095523_8.jpg', 37282, 1);
 
 -- ----------------------------
 -- Table structure for c_test_and_clazz
@@ -28,8 +56,8 @@ CREATE TABLE `c_test_and_clazz`  (
   PRIMARY KEY (`tc_id`) USING BTREE,
   INDEX `FK_TEST_CLAZZ_TID`(`t_id`) USING BTREE,
   INDEX `FK_TEST_CLAZZ_CID`(`c_id`) USING BTREE,
-  CONSTRAINT `FK_TEST_CLAZZ_TID` FOREIGN KEY (`t_id`) REFERENCES `e_test` (`t_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_TEST_CLAZZ_CID` FOREIGN KEY (`c_id`) REFERENCES `u_clazz` (`c_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_TEST_CLAZZ_CID` FOREIGN KEY (`c_id`) REFERENCES `u_clazz` (`c_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_TEST_CLAZZ_TID` FOREIGN KEY (`t_id`) REFERENCES `e_test` (`t_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -43,8 +71,8 @@ CREATE TABLE `c_test_and_question`  (
   PRIMARY KEY (`tq_id`) USING BTREE,
   INDEX `FK_TEST_QUESTION_TID`(`t_id`) USING BTREE,
   INDEX `FK_TEST_QUESTION_QID`(`q_id`) USING BTREE,
-  CONSTRAINT `FK_TEST_QUESTION_TID` FOREIGN KEY (`t_id`) REFERENCES `e_test` (`t_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `FK_TEST_QUESTION_QID` FOREIGN KEY (`q_id`) REFERENCES `e_question` (`q_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `FK_TEST_QUESTION_QID` FOREIGN KEY (`q_id`) REFERENCES `e_question` (`q_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_TEST_QUESTION_TID` FOREIGN KEY (`t_id`) REFERENCES `e_test` (`t_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -103,7 +131,7 @@ CREATE TABLE `e_option`  (
   PRIMARY KEY (`o_id`) USING BTREE,
   INDEX `FK_OPTION_QID`(`q_id`) USING BTREE,
   CONSTRAINT `FK_OPTION_QID` FOREIGN KEY (`q_id`) REFERENCES `e_question` (`q_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of e_option
@@ -124,7 +152,6 @@ INSERT INTO `e_option` VALUES (57, '7527', '1', 1, 18);
 INSERT INTO `e_option` VALUES (58, '4208', '[\"ddd\",\"ffff\"]', 1, 19);
 INSERT INTO `e_option` VALUES (59, '9105', '顶顶顶顶', 1, 20);
 INSERT INTO `e_option` VALUES (60, '2634', '0', 1, 21);
-INSERT INTO `e_option` VALUES (61, '9596', '0', 1, 22);
 
 -- ----------------------------
 -- Table structure for e_question
@@ -146,7 +173,7 @@ CREATE TABLE `e_question`  (
   INDEX `FK_QUESTION_QTID`(`qt_id`) USING BTREE,
   CONSTRAINT `FK_QUESTION_CID` FOREIGN KEY (`ec_id`) REFERENCES `e_chapter` (`ec_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_QUESTION_QTID` FOREIGN KEY (`qt_id`) REFERENCES `e_question_type` (`qt_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of e_question
@@ -158,7 +185,6 @@ INSERT INTO `e_question` VALUES (18, '<p>判断题</p>', '2020-04-02 21:20:06', 
 INSERT INTO `e_question` VALUES (19, '<p>填空提____hhh___</p>', '2020-04-02 21:29:14', NULL, '杨盼', NULL, NULL, 4, 1, 1);
 INSERT INTO `e_question` VALUES (20, '<p>绝地反击登记方法等级积分</p>', '2020-04-02 21:32:26', NULL, '杨盼', '第三方第三方', NULL, 5, 4, 1);
 INSERT INTO `e_question` VALUES (21, '<p>判断题二</p>', '2020-04-03 00:44:48', '2020-04-03 00:45:20', '杨盼', '对对对方法', '', 3, 1, 1);
-INSERT INTO `e_question` VALUES (22, '<p>判断3</p>', '2020-04-03 00:50:46', '2020-04-03 00:50:55', '杨盼', '大幅度发', '多个', 3, 4, 1);
 
 -- ----------------------------
 -- Table structure for e_question_type
@@ -207,6 +233,44 @@ CREATE TABLE `e_test`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Table structure for p_article
+-- ----------------------------
+DROP TABLE IF EXISTS `p_article`;
+CREATE TABLE `p_article`  (
+  `a_id` int(20) NOT NULL AUTO_INCREMENT COMMENT '\'文章ID\'',
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '\'标题\'',
+  `author` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'作者\'',
+  `displayTime` datetime NOT NULL COMMENT '\'发布时间\'',
+  `importance` int(11) NOT NULL COMMENT '\'重要性\'',
+  `content_short` varchar(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'摘要\'',
+  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '\'内容\'',
+  `image_uri` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '\'图片\'',
+  `like` int(11) NULL DEFAULT 0 COMMENT '\'点赞\'',
+  `look` int(11) NULL DEFAULT 0 COMMENT '\'浏览人数\'',
+  `iscomment` tinyint(1) NULL DEFAULT NULL COMMENT '\'是否允许评论\'',
+  `isshow` tinyint(1) NULL DEFAULT NULL COMMENT '\'是否显示\'',
+  `isshool` int(11) NULL DEFAULT NULL COMMENT '\'null 全局显示 否则校区显示\'',
+  PRIMARY KEY (`a_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for p_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `p_comment`;
+CREATE TABLE `p_comment`  (
+  `c_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '评论ID',
+  `u_id` int(11) NULL DEFAULT NULL COMMENT '\'用户ID\'',
+  `a_id` int(11) NULL DEFAULT NULL COMMENT '\'文章ID\'',
+  `content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '\'评论内容\'',
+  `ccid` bigint(20) NULL DEFAULT NULL COMMENT '\'上级评论ID\'',
+  PRIMARY KEY (`c_id`) USING BTREE,
+  INDEX `FK_COMMENT_UID`(`u_id`) USING BTREE,
+  INDEX `FK_COMMENT_AID`(`a_id`) USING BTREE,
+  CONSTRAINT `FK_COMMENT_UID` FOREIGN KEY (`u_id`) REFERENCES `u_user` (`u_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_COMMENT_AID` FOREIGN KEY (`a_id`) REFERENCES `p_article` (`a_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
 -- Table structure for u_clazz
 -- ----------------------------
 DROP TABLE IF EXISTS `u_clazz`;
@@ -244,8 +308,8 @@ CREATE TABLE `u_clazz_manage`  (
   `u_id` int(11) NOT NULL,
   `c_id` int(11) NOT NULL,
   PRIMARY KEY (`cm_id`) USING BTREE,
-  INDEX `FK_CLAZZ_MANAGE_CID`(`c_id`) USING BTREE,
   UNIQUE INDEX `UN_CLAZZ_MANAGE_UID_AND_CID`(`u_id`, `c_id`) USING BTREE,
+  INDEX `FK_CLAZZ_MANAGE_CID`(`c_id`) USING BTREE,
   CONSTRAINT `FK_CLAZZ_MANAGE_CID` FOREIGN KEY (`c_id`) REFERENCES `u_clazz` (`c_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_CLAZZ_MANAGE_UID` FOREIGN KEY (`u_id`) REFERENCES `u_user` (`u_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
@@ -363,7 +427,7 @@ CREATE TABLE `u_user`  (
   INDEX `FK_USER_RID`(`r_id`) USING BTREE,
   CONSTRAINT `FK_USER_CID` FOREIGN KEY (`c_id`) REFERENCES `u_clazz` (`c_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `FK_USER_RID` FOREIGN KEY (`r_id`) REFERENCES `u_role` (`r_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of u_user
@@ -371,6 +435,43 @@ CREATE TABLE `u_user`  (
 INSERT INTO `u_user` VALUES (1, '村头老杨头', '18567192712', '25d55ad283aa400af464c76d713c07ad', '杨盼', 'http://ctlyt.yunypan.cn/avatar', 0, 11, 6);
 INSERT INTO `u_user` VALUES (5, '村头老', '18567878724', '25d55ad283aa400af464c76d713c07ad', 'test', NULL, 0, 5, 1);
 INSERT INTO `u_user` VALUES (12, 'admin', '18567876871', '25d55ad283aa400af464c76d713c07ad', '杨盼', '', NULL, 7, 7);
+INSERT INTO `u_user` VALUES (15, NULL, '18567192989', '25d55ad283aa400af464c76d713c07ad', '杨盼', '', NULL, 7, 1);
+
+-- ----------------------------
+-- Table structure for ue_answer
+-- ----------------------------
+DROP TABLE IF EXISTS `ue_answer`;
+CREATE TABLE `ue_answer`  (
+  `a_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '\'用户答案ID\'',
+  `rc_id` bigint(20) NULL DEFAULT NULL COMMENT '\'成绩单ID\'',
+  `q_id` int(11) NULL DEFAULT NULL COMMENT '\'试题ID\'',
+  `answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '\'答案\'',
+  `m_judge` tinyint(1) NULL DEFAULT NULL COMMENT '\'机器判卷\'',
+  `h_judge` tinyint(1) NULL DEFAULT NULL COMMENT '\'手工判卷\'',
+  PRIMARY KEY (`a_id`) USING BTREE,
+  INDEX `FK_ANSWER_RCID`(`rc_id`) USING BTREE,
+  INDEX `FK_ANSWER_QID`(`q_id`) USING BTREE,
+  CONSTRAINT `FK_ANSWER_QID` FOREIGN KEY (`q_id`) REFERENCES `e_question` (`q_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_ANSWER_RCID` FOREIGN KEY (`rc_id`) REFERENCES `ue_report_card` (`rc_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for ue_report_card
+-- ----------------------------
+DROP TABLE IF EXISTS `ue_report_card`;
+CREATE TABLE `ue_report_card`  (
+  `rc_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '\'成绩表ID\'',
+  `u_id` int(11) NULL DEFAULT NULL COMMENT '\'用户ID\'',
+  `t_id` int(11) NULL DEFAULT NULL COMMENT '\'试卷ID\'',
+  `score` int(11) NULL DEFAULT NULL COMMENT '\'成绩\'',
+  `corr` int(11) NULL DEFAULT NULL COMMENT '\'正确数\'',
+  `err` int(11) NULL DEFAULT NULL COMMENT '\'错误数\'',
+  PRIMARY KEY (`rc_id`) USING BTREE,
+  UNIQUE INDEX `UN_REPORT_CARD_UID_TID`(`u_id`, `t_id`) USING BTREE,
+  INDEX `FK_REPORT_CARD_TID`(`t_id`) USING BTREE,
+  CONSTRAINT `FK_REPORT_CARD_TID` FOREIGN KEY (`t_id`) REFERENCES `e_test` (`t_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FK_REPORT_CARD_UID` FOREIGN KEY (`u_id`) REFERENCES `u_user` (`u_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- View structure for u_clazz_view
