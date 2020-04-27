@@ -1,0 +1,123 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background:url(../img/dengLu.jpg);
+}
+header{
+	height: 60px;
+	width: 100vw;
+	color: #FFFFFF;
+	background: black;
+}
+section{
+	height: 800px;
+	width: 1200px;
+	margin:auto;
+	margin-top:10px ;
+	border: 1px solid #5F89C4;
+	position:relative;
+}
+.section_div1{
+	height: 100px;
+	width: 90%;
+	margin:1px auto;
+	border: 1px solid red;
+	position:relative;
+}
+.section_div1_div1{
+	height: 100%;
+	width: 10px;
+	background: blue;
+	position: absolute;
+}
+.section_div1_img1{
+	height: 80px;
+	width: 80px;
+	top: 10px;
+	left: 30px;
+	border-radius: 50%;
+	position: absolute;
+}
+.section_div1_p1{
+	top: 60px;
+	left: 120px;
+	color: #36AAFD;
+	position: absolute;
+}
+.section_div1_p2{
+	letter-spacing:40px;
+	font-size: 60px;
+	color: #FFC58E;
+	text-align: center;
+	padding:15px 0;
+}
+.section_div2{
+	height: 650px;
+	width: 300px;
+	top: 120px;
+	left:60px;
+	border: 1px solid #5F89C4;
+	position: absolute;
+}
+.section_div2_ul1{
+	margin-top: 10px;
+}
+.section_div2_ul1>li{
+	height: 59px;
+	padding-left: 10px;
+	list-style: none;
+}
+.section_div2>a{
+	padding: 10px 20px;
+	text-decoration:none;
+	color: white;
+	margin-left: 25px;
+	background: #36AAFD;
+	border-radius:10px;
+
+}
+.section_div2_ul1>li>img,
+.section_div2>a>img{
+	height:20px;
+	width: 20px;
+}
+.section_div3{
+	height: 650px;
+	width: 750px;
+	top: 120px;
+	left:380px;
+	border: 1px solid #5F89C4;
+	position: absolute;
+}
+.section_div3_ul1{
+	margin-top: 10px;
+}
+.section_div3_ul1>li{
+	display:block;
+	height: 200px;
+	width: 300px;
+	padding-left: 10px;
+	margin-left: 30px;
+	margin-top: 10px;
+	font-size: 30px;
+	text-align: center;
+	list-style: none;
+	display: inline-block;
+	border: 1px solid #5F89C4;
+
+}
+.section_div3_ul1>li>a{
+	text-decoration:none;
+}
+.section_div3_ul1>li>a>img{
+	height:150px;
+	width: 300px;
+}
+footer{
+	height: 120px;
+	width: 1200px;
+	margin:10px auto;
+	border: 1px solid #5F89C4;
+}

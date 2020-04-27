@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<link rel="stylesheet" type="text/css" href="css/注册.css" />
+		<script src="js/注册.js">
+		
+		</script>
+	</head>
+	<body>
+		<div class="div1">
+			<form class="div1_form1" methoud="get" action="登录.html" onsubmit="return myform()">
+				<p class="div1_form1_p1">注册在线考试</p>
+				<a class="div1_form1_a1" href="登录.html">登录账号</a>
+				<input type="text" id="input1" value="" placeholder="账号/手机号" onfocusout="phone()"/>
+				<p class="div1_form1_p2">账号&nbsp;&nbsp;|</p>
+				<p class="div1_form1_p3" id="div1_form1_p3">&nbsp;</p>
+				<input class="div1_form1_input2" id="input2" type="text"  placeholder="短信验证码" onfocusout="verify()">
+				<p class="div1_form1_p4" id="div1_form1_p4">&nbsp;</p>
+				<a class="div1_form1_a2">验证码</a>
+				<input type="password" id="input3" value="" placeholder="8-14个数字或字符" onfocusout="password()"/>
+				<p class="div1_form1_p5">密码&nbsp;&nbsp;|</p>
+				<p class="div1_form1_p6" id="div1_form1_p6">&nbsp;</p>
+				
+				<input type="password" class="" id="input4" value="" placeholder="和上面的密码相同" onfocusout="password2()"/>
+				<p class="div1_form1_p7">密码&nbsp;&nbsp;|</p>
+				<p class="div1_form1_p8" id="div1_form1_p8">&nbsp;</p>
+				<input id="input5" name="sub" type="submit" value="注册" />
+				<a class="div1_form1_a3" href="注册.html">使用QQ账号注册</a>
+			</form>
+		</div>
+	</body>
+</html>

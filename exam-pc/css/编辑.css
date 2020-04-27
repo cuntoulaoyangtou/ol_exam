@@ -1,0 +1,50 @@
+body{
+	background:url(../img/dengLu.jpg);
+}
+header{
+	height: 60px;
+	width: 100vw;
+	color: #FFFFFF;
+	background: black;
+}
+.form1{
+	height: 800px;
+	width: 500px;
+	text-align: center;
+	margin:auto;
+	margin-top:20px ;
+	border: 1px solid #5F89C4;
+	position:relative;
+	box-shadow: 15px 10px 5px #888888;
+}
+.form1_p1{
+	color: #FFC58E;
+	font-size: 40px;
+}
+.form1>input{
+	height: 30px;
+	width: 200px;
+	margin:15px;
+}
+select{
+	height: 36px;
+	width: 200px;
+	margin:15px;
+}
+#form1_input2,
+#form1_input3{
+	height: 30px;
+	width: 30px;
+	margin: 15px 23px;
+}
+
+a{
+	top: 720px;
+	right: 50px;
+	padding: 10px 20px;
+	text-decoration:none;
+	color: #FFFFFF;
+	background: #36AAFD;
+	border-radius:10px;
+	position: absolute;
+}

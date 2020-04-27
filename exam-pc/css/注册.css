@@ -1,0 +1,105 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-size: 15px;
+}
+body{
+	height: 100%;
+}
+.div1{
+	height: 100vh;
+	width: 100%;
+	background:url(../img/dengLu.jpg);
+	position: relative;
+}
+.div1_form1{
+	width: 550px;
+	height: 600px;
+	position: absolute;
+	top: 20%;
+	left: 35%;
+	border: 1px solid #5F89C4;
+	border-radius: 10%;
+	box-shadow: 5px 5px 5px #888888;
+}
+.div1_form1_p1{
+	margin-top: 40px;
+	font-size: 50px;
+	text-align: center;
+	color: #FFC58E;
+}
+a{
+	font-size: 20px;
+	color: #61B8FE;
+	display:block; 
+	text-decoration: none;
+	position: absolute;
+}
+.div1_form1_a1{
+	top: 18%;
+	left: 75%;
+}
+input{
+	width:200px;
+	height: 40px;
+	padding-left: 60px;
+	border-radius:25px;
+	margin-left: 150px;
+	box-shadow: 10px 10px 5px #888888;
+}
+#input1{
+	margin-top: 50px;
+}
+#input5{
+	padding-left: 0px;
+	margin-left: 180px;
+	background:#36AAFD ;
+	color:white ;
+}
+.div1_form1_p3,
+.div1_form1_p4,
+.div1_form1_p6,
+.div1_form1_p8{
+	color: red;
+	margin-top: 10px;
+	margin-bottom:5px;
+	text-align: center;
+
+}
+.div1_form1_p2{
+	position: absolute;
+	top: 165px;
+	left: 160px;
+}
+.div1_form1_p5{
+	position: absolute;
+	top: 320px;
+	left: 166px;
+}
+.div1_form1_p7{
+	position: absolute;
+	top: 400px;
+	left: 166px;
+}
+.div1_form1_a3{
+	top: 88%;
+	left: 35%;
+	padding:5px 10px;
+	border: 1px solid blue;
+	border-radius: 25px;
+	box-shadow: 10px 10px 5px #888888;
+
+}
+.div1_form1_input2{
+	padding-left: 20px;
+	width: 100px;
+}
+.div1_form1_a2{
+	padding:10px 20px;
+	color: #FFFFFF;
+	background: #36AAFD;
+	top: 227px;
+	right: 140px;
+	border-radius: 25px;
+	box-shadow: 10px 10px 5px #888888;
+}

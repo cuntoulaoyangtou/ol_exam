@@ -1,0 +1,100 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background:url(../img/dengLu.jpg);
+}
+header{
+	height: 60px;
+	width: 100vw;
+	color: #FFFFFF;
+	background: black;
+/* 	position:fixed;
+	z-index:10; */
+}
+section{
+
+}
+.section_div1{
+	height: 90px;
+	width: 1200px;
+	margin:10px auto;
+	letter-spacing:40px;
+	font-size: 60px;
+	color: #FFC58E;
+	text-align: center;
+	border: 1px solid #0000FF;
+/* 	position:fixed;
+	top: 10%;
+	left: 20%;
+	 z-index:10; */
+}
+#section_ul1{
+	background: #36AAFD;
+	margin:10px auto;
+	border: 1px solid #0000FF;
+	/* top: 200px;
+	position:fixed;
+	z-index:10; */
+
+}
+ul{
+	height: 60px;
+	width: 1170px;
+	list-style: none;
+	margin:10px auto;
+	border-bottom: 1px solid #0000FF;
+	position: relative;
+	/* position:relative;
+	z-index:5; */
+}
+ul>li{
+	font-size: 40px;
+	position: absolute;
+}
+#section_ul1_li1{
+	left: 150px;
+}
+#section_ul1_li2{
+	left: 450px;
+}
+#section_ul1_li3{
+	left: 650px;
+}
+#section_ul1_li4{
+	left: 950px;
+}
+ul li:first-child{ 
+	left: 50px;
+}
+ul li:nth-child(2){
+	left: 400px;
+}
+ul li:nth-child(3){
+	left: 600px;
+}
+ul li:last-child{
+	left: 800px;
+}
+.section_div2{
+	height: 50px;
+	width: 600px;
+	margin: 10px auto;
+	border: 1px solid #0000FF;
+	font-size: 40px;
+}
+.section_div2>p{
+	padding: 0 10px;
+	margin: 0 5px;
+	 display: inline;
+	 color: black;
+	 border: 1px solid #0000FF;
+}
+a{
+	padding: 3px;
+	text-decoration: none;
+	color: black;
+	background: #36AAFD;
+	border: 1px solid #0000FF;
+}

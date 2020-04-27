@@ -1,0 +1,87 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	height: 100%;
+}
+.div1{
+	height: 100vh;
+	width: 100%;
+	background:url(../img/dengLu.jpg);
+	position: relative;
+}
+.div1_form1{
+	width: 400px;
+	height: 450px;
+	position: absolute;
+	top: 25%;
+	left: 40%;
+	border: 1px solid #5F89C4;
+	border-radius: 10%;
+	box-shadow: 5px 5px 5px #888888;
+}
+.div1_form1_p1{
+	margin-top: 40px;
+	font-size: 40px;
+	text-align: center;
+	color: #FFC58E;
+}
+a{
+	font-size: 20px;
+	color: #61B8FE;
+	display:block; 
+	text-decoration: none;
+	position: absolute;
+}
+.div1_form1_a1{
+	top: 22%;
+	left: 70%;
+}
+input{
+	width: 180px;
+	height: 30px;
+	padding-left: 60px;
+	border-radius:25px;
+	margin-left: 90px;
+	box-shadow: 10px 10px 5px #888888;
+}
+#input1{
+	margin-top: 50px;
+}
+#input2,#input3{
+	margin-top:15px;
+}
+#input3{
+	padding-left: 0px;
+	margin-left: 120px;
+	background:#36AAFD ;
+	color:white ;
+}
+.div1_form1_p5,
+.div1_form1_p3{
+	margin-top: 15px;
+	text-align: center;
+
+}
+.div1_form1_p2{
+	position: absolute;
+	top: 145px;
+	left: 99px;
+}
+.div1_form1_p4{
+	position: absolute;
+	top: 230px;
+	left: 108px;
+}
+.div1_form1_a2{
+	top: 80%;
+	left: 70%;
+}
+.div1_form1_a3{
+	top: 88%;
+	left: 35%;
+	padding:5px 10px;
+	border: 1px solid blue;
+	border-radius: 25px;
+}
