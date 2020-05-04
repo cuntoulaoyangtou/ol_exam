@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="${system_title+'-个人中心'}"></title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/imgs/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/notiflix-1.3.0.min.css">
+
+</head>
+<body>
+
+<header th:replace="/student/layout/header::header"></header>
+<!-- ##### Regular Page Area Start ##### -->
+<div class="regular-page-area section-padding-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-content">
+                    <h4>个人资料</h4>
+                    <p>
+                        <div class="myinfo" th:if="${user!=null}">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td rowspan="5">
+                                        <img class="user-avatar" th:src="${user.avatar}">
+                                    </td>
+                                    <td>姓名 | <span th:text="${user.real_name}"></span></td>
+                                    <td>手机 | <span th:text="${user.phone}"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>积分 | <span th:text="${user.integral}"></span></td>
+                                    <td>角色 | <span th:text="${user.email}"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>性别 | 女</td>
+                                    <td>邮箱 | <span th:text="${user.email}"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>昵称 | <span th:text="${user.username}"></span></td>
+                                    <td>班级 | <span th:text="${clazz.c_name}"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3">
+                                        <br>
+                                        <p><strong>操作：</strong></p>
+                                        <p class="buttom-oper">
+                                            <a href="http://www.17sucai.com/boards/117475.html">修改信息</a>
+                                            <a href="http://www.17sucai.com/boards/117475.html">修改密码 </a>
+                                            <a href="http://www.17sucai.com/boards/117475.html">其他 </a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- ##### Regular Page Area End ##### -->
+
+
+<!-- ##### Blog Area End ##### -->
+<footer th:replace="/student/layout/footer::footer"></footer>
+
+
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/static/js/jquery-1.11.0.min.js"></script>
+<!-- Popper js -->
+<script src="/static/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/static/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/static/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/static/js/active.js"></script>
+<!--<script src="/static/js/notiflix-1.3.0.min.js"></script>-->
+<script src="/static/js/cookie.js"></script>
+<script>
+    $(function () {
+        Notiflix.Notify.Init();
+    })
+</script>
+</body>
+
+</html>

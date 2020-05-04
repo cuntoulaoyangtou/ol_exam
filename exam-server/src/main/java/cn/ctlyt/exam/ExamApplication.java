@@ -1,11 +1,15 @@
 package cn.ctlyt.exam;
 
 import cn.ctlyt.exam.pojo.Child;
+import cn.ctlyt.exam.utils.Constant;
+import org.springframework.core.env.Environment;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import tk.mybatis.spring.annotation.MapperScan;
 
+import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +44,18 @@ public class ExamApplication {
         }
 
     }
+
+
+    @Resource
+    private void configureThymeleafStaticVars(ThymeleafViewResolver viewResolver) {
+        if(viewResolver != null) {
+            Map<String, Object> vars = new HashMap();
+            vars.put("ctx", Constant.OL_URL);
+            vars.put("system_title", Constant.SYSTEM_NAME);
+            viewResolver.setStaticVariables(vars);
+        }
+    }
+
     public static List<Child> toConvertString(InputStream is) {
         // 把字节流转化为字符流
         InputStreamReader isr = new InputStreamReader(is);

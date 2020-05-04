@@ -105,4 +105,16 @@ public class ClazzService {
     public Clazz getClazz(Integer c_id){
         return clazzMapper.selectByPrimaryKey(c_id);
     }
+
+    /*
+     * 功能描述：根据班级ID查询
+     * @param [c_id]
+     * @return cn.ctlyt.exam.pojo.Clazz
+     * @Author: 村头老杨头
+     * @Date: 2020/5/4 0004 8:22
+     *
+     */
+    public Clazz getClazzByCID(Integer c_id) {
+        return clazzMapper.getClazzsByCID(c_id);
+    }
 }

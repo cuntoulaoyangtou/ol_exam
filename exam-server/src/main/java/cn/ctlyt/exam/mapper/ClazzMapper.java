@@ -20,4 +20,6 @@ public interface ClazzMapper extends Mapper<Clazz> {
     public List<Clazz> getClazzsBySID(Integer s_id,Integer m_id);
     @Select("SELECT cl.* FROM `u_clazz_view` cl LEFT JOIN `u_clazz_manage` clm ON cl.c_id = clm.c_id WHERE clm.u_id = #{ui_d} ORDER BY c_priority")
     public List<Clazz> getClazzsByUID(Integer u_id);
+    @Select("SELECT cl.* FROM `u_clazz_view` cl WHERE cl.c_id = #{c_id}")
+    public Clazz getClazzsByCID(Integer c_id);
 }

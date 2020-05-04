@@ -50,6 +50,18 @@ public class QuestionService {
         });
         return i;
     }
+    //根据试题类型查询试题数量
+    public int getQuestionCountByQtids(List<Integer> qtids){
+        if(qtids==null || qtids.size()<=0){
+            return questionMapper.selectCountByExample(null);
+        }else{
+            Example example = new Example(Question.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andIn("qt_id",qtids);
+            return questionMapper.selectCountByExample(example);
+        }
+
+    }
     public int delQuestion(Integer qid){
         return questionMapper.deleteByPrimaryKey(qid);
     }

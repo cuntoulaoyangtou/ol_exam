@@ -24,6 +24,25 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 4MB
       max-request-size: 200MB
+  #邮件配置
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 2962598997@qq.com
+    password: lgfnhwepndoldchb
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+        debug: true
+  #静态资源
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+
 mybatis:
   type-aliases-package: cn.ctlyt.exam.pojo
 

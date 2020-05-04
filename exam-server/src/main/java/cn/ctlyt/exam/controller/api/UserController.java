@@ -1,7 +1,11 @@
 package cn.ctlyt.exam.controller.api;
 
+import cn.ctlyt.exam.exception.BizException;
+import cn.ctlyt.exam.pojo.Clazz;
 import cn.ctlyt.exam.pojo.Result;
 import cn.ctlyt.exam.pojo.User;
+import cn.ctlyt.exam.service.ClazzService;
+import cn.ctlyt.exam.service.EmailService;
 import cn.ctlyt.exam.service.RoleService;
 import cn.ctlyt.exam.service.UserService;
 import cn.ctlyt.exam.utils.Constant;
@@ -12,12 +16,20 @@ import cn.ctlyt.exam.vo.InvitationCode;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @ClassNameUserController
@@ -33,8 +45,18 @@ public class UserController {
     UserService userService;
     @Autowired
     RoleService roleService;
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    ClazzService clazzService;
+
+
+    @Autowired
+    @Qualifier("thymeleafViewResolver")
+    private ThymeleafViewResolver thymeleafViewResolver;
+
     @GetMapping("login")
-    public Result doLogin(User user) throws Exception {
+    public Result doLogin(User user,HttpServletRequest request) throws Exception {
         user.setU_id(0);
         if(user.verifyLogin()){
             User user1 = userService.getUser(user);
@@ -43,14 +65,18 @@ public class UserController {
                 String subject = JSON.toJSONString(user1); //将java对象转换为JSON数据
                 String jwt = JwtUtil.createJWT(Constant.JWT_ID, "ctlyt", subject, Constant.JWT_TTL);
                 Claims claims = JwtUtil.parseJWT(jwt);
-                System.out.println("getID:"+claims.getId());
+                if(thymeleafViewResolver != null){
+                    Clazz clazzByCID = clazzService.getClazzByCID(user1.getC_id());
+                    request.getSession().setAttribute("user",user1);
+                    request.getSession().setAttribute("clazz",clazzByCID);
+                }
                 RedisUtil.set(Constant.getToken(claims.getId(),user1.getC_id(),user1.getR_id()),claims.getSubject(),60*60*3);
                 return ResultGenerator.genSuccessResult(jwt);
             }
         }
         return ResultGenerator.genFailResult("用户名或密码错误");
     }
-    @GetMapping("register")
+    @PostMapping("register")
     public Result doRegister(User user,Integer code){
         if(user.verifyRegister()){
             Set<String> keys = RedisUtil.keys(InvitationCode.no + "-*-" + code);
@@ -81,15 +107,54 @@ public class UserController {
         return ResultGenerator.genSuccessResult(user1);
     }
     @GetMapping("logout")
-    public Result logout(String token){
+    public Result logout(String token,HttpServletRequest request){
         Claims claims = JwtUtil.parseJWT(token);
         User user = JSON.parseObject(claims.getSubject(), User.class);
         try{
+            request.getSession().removeAttribute("user");
             RedisUtil.del(Constant.getToken(claims.getId(),user.getC_id(),user.getR_id()));
         }catch (Exception e){
 
         }finally {
             return ResultGenerator.genSuccessResult("退出登录");
         }
+    }
+
+    /*
+     * 功能描述：忘记密码
+     * @param 
+     * @return 
+     * @Author: 村头老杨头
+     * @Date: 2020/4/30 0030 17:22
+     *
+     */
+    @GetMapping("forget")
+    public Result forget(String phone){
+        Pattern compile = Pattern.compile(Constant.PHONE_REG);
+        Matcher matcher = compile.matcher(phone);
+        if(matcher.matches()){
+            User userByPhone = userService.getUserByPhone(phone);
+            if(userByPhone!=null){
+                if(userByPhone.getEmail()!=null){
+                    String string = UUID.randomUUID().toString();
+                    //存入缓存
+                    RedisUtil.set(string,userByPhone);
+                    String htmlStr = "<h1>忘记密码</h1>点击链接重置密码："+Constant.OL_URL+"/resetpwd/"+string+"<h3>请勿吧此链接告知第三人</h3><h5>链接有效时长2小时</h5>";
+                    try {
+                        emailService.sendHtmlMail(userByPhone.getEmail(),htmlStr,"["+Constant.SYSTEM_NAME+"]忘记密码");
+                        return ResultGenerator.genSuccessResult("邮件发送成功");
+                    } catch (MessagingException e) {
+                        throw new BizException("邮件发送失败");
+                    }
+                }else{
+                    throw new BizException("没有设置个人邮箱");
+                }
+            }else{
+                throw new BizException("没有此用户");
+            }
+        }else{
+            throw new BizException("手机号格式不符合要求");
+        }
+
     }
 }

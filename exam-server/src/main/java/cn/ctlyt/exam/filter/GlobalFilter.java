@@ -4,6 +4,7 @@ import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -25,6 +26,8 @@ public class GlobalFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         System.out.println("global");
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        System.out.println(request.getSession().getMaxInactiveInterval());
         filterChain.doFilter(servletRequest,servletResponse);
     }
 

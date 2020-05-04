@@ -1,6 +1,7 @@
 package cn.ctlyt.exam.pojo;
 
 import cn.ctlyt.exam.exception.BizException;
+import cn.ctlyt.exam.utils.Constant;
 import cn.ctlyt.exam.utils.JwtUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import com.alibaba.fastjson.JSON;
@@ -31,6 +32,7 @@ public class User {
     private String username;
     private String phone;
     private String password;
+    private String email;
     private String real_name;
     private String avatar;
     private Integer integral;
@@ -61,6 +63,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -125,7 +135,7 @@ public class User {
         return false;
     }
     public boolean verifyPhone(){
-        if( Pattern.matches("^1[3456789]\\d{9}$",this.phone==null?"":phone)){
+        if( Pattern.matches(Constant.PHONE_REG,this.phone==null?"":phone)){
             return true;
         }
         return false;
@@ -169,5 +179,23 @@ public class User {
         Claims claims = JwtUtil.parseJWT(key);
         String subject = claims.getSubject();
         return JSON.parseObject(subject,User.class);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "u_id=" + u_id +
+                ", username='" + username + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", real_name='" + real_name + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", integral=" + integral +
+                ", c_id=" + c_id +
+                ", r_id=" + r_id +
+                ", role=" + role +
+                ", clazzManages=" + clazzManages +
+                '}';
     }
 }

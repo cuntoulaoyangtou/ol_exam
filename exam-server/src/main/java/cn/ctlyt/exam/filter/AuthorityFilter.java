@@ -61,8 +61,6 @@ public class AuthorityFilter implements Filter {
         }else{
             filterChain.doFilter(request,servletResponse);
         }
-
-
     }
 
 

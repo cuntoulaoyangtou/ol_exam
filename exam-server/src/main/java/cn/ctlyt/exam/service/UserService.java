@@ -78,7 +78,7 @@ public class UserService {
      *
      */
     public int addUser(User user) {
-        return userMapper.insert(user);
+        return userMapper.insertSelective(user);
     }
 
     /*
@@ -238,5 +238,21 @@ public class UserService {
             user1.setPassword("");
         }
         return user1;
+    }
+    /*
+     * 功能描述：根据手机号获取用户
+     * @param [phone]
+     * @return cn.ctlyt.exam.pojo.User
+     * @Author: 村头老杨头
+     * @Date: 2020/4/30 0030 17:28
+     *
+     */
+    public User getUserByPhone(String phone){
+
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("phone",phone);
+        User user = userMapper.selectOneByExample(example);
+        return user;
     }
 }
