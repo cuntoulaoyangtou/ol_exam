@@ -59,14 +59,14 @@
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" href="#" role="button" id="userName" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.username}"></a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
-                                        <a class="dropdown-item" href="/user/userinfo">个人中心</a>
-                                        <a class="dropdown-item" href="#">个人资料</a>
+                                        <a class="dropdown-item" href="/user/usercenter">个人中心</a>
+                                        <a class="dropdown-item" href="/user/userinfo">个人资料</a>
                                         <a class="dropdown-item" onclick="logout()">退出登录</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="userthumb">
-                                <img src="" th:src="${user.avatar}" alt="${user.username}">
+                                <img src="" class="avatar" th:src="@{${user.avatar}}" alt="${user.username}">
                             </div>
                         </div>
 

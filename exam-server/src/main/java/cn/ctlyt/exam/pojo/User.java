@@ -3,6 +3,7 @@ package cn.ctlyt.exam.pojo;
 import cn.ctlyt.exam.exception.BizException;
 import cn.ctlyt.exam.utils.Constant;
 import cn.ctlyt.exam.utils.JwtUtil;
+import cn.ctlyt.exam.utils.PatternUtil;
 import cn.ctlyt.exam.utils.ResultGenerator;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
@@ -128,20 +129,9 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-    public boolean verifyUsername(){
-        if(Pattern.matches("^[\\w\\u4e00-\\u9fa5]{5,8}$",this.username==null?"":username)){
-            return true;
-        }
-        return false;
-    }
-    public boolean verifyPhone(){
-        if( Pattern.matches(Constant.PHONE_REG,this.phone==null?"":phone)){
-            return true;
-        }
-        return false;
-    }
+
     public boolean verifyRegister(){
-        if(verifyUsername() || verifyPhone()){
+        if(PatternUtil.regUsername(this.username) || PatternUtil.regPhone(this.phone)){
             if(this.password!=null && this.password.length()<=32){
                 if(this.real_name!=null){
                     return true;
@@ -156,7 +146,7 @@ public class User {
         }
     }
     public boolean verifyLogin(){
-        if(verifyUsername() || verifyPhone()){
+        if(PatternUtil.regUsername(this.username) || PatternUtil.regPhone(this.phone)){
             if(this.password!=null && this.password.length()>=32){
                 return true;
             }else{

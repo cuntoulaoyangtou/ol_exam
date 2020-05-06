@@ -15,7 +15,10 @@ public class Constant {
 
     public static final String JWT_ID = UUID.randomUUID().toString(); //生成的token
     public static final String TOKEN_HEADER = "token";
-
+    /**
+     * 签发人
+     */
+    public static final String ISSUER = "ctlyt";
 
     public static final String JWT_SECRET = "ctlytexam";//加密密文
     public static final int JWT_TTL = 60*60*1000;  //过期时间 3600000
@@ -38,16 +41,6 @@ public class Constant {
      * 系统名称
      */
     public static String SYSTEM_NAME = "在线考试系统";
-
-    /**
-     * 手机号正则
-     */
-    public static final String PHONE_REG = "^[1]([3-9])[0-9]{9}$";
-    /**
-     * 邮箱正则
-     */
-    public static final String EMAIL_REG = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$";
-
 
 
     public static String getServletFileUpload(){

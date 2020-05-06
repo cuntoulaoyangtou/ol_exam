@@ -14,6 +14,156 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" type="text/css" href="/static/css/notiflix-1.3.0.min.css">
+    <style>
+        .user-avatar-box{
+            position: relative;
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
+            overflow: hidden;
+        }
+        .user-avatar-box>span{
+            display: block;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.6);
+            height: 40px;
+            line-height: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        /*头像上传弹框*/
+
+        .u-container {
+            width: 620px;
+            margin: 40px auto 0 auto;
+            position: relative;
+            font-family: 微软雅黑;
+            font-size: 12px;
+        }
+        .u-container p {
+            line-height: 12px;
+            line-height: 0px;
+            height: 0px;
+            margin: 10px;
+            color: #bbb
+        }
+        .action {
+            width: 400px;
+            height: 30px;
+            margin: 10px 0;
+        }
+        .cropped {
+            position: absolute;
+            right: -20px;
+            top: 0;
+            width: 200px;
+            border: 1px #ddd solid;
+            height: 460px;
+            padding: 4px;
+            box-shadow: 0px 0px 12px #ddd;
+            text-align: center;
+        }
+        .imageBox {
+            position: relative;
+            height: 400px;
+            width: 400px;
+            border: 1px solid #aaa;
+            background: #fff;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            cursor: move;
+            box-shadow: 4px 4px 12px #B0B0B0;
+        }
+        .imageBox .thumbBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin-top: -100px;
+            margin-left: -100px;
+            box-sizing: border-box;
+            border: 1px solid rgb(102, 102, 102);
+            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+            background: none repeat scroll 0% 0% transparent;
+        }
+        .imageBox .spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            text-align: center;
+            line-height: 400px;
+            background: rgba(0,0,0,0.7);
+        }
+        .Btnsty_peyton{ float: right;
+            width: 66px;
+            display: inline-block;
+            margin-bottom: 10px;
+            height: 57px;
+            line-height: 57px;
+            font-size: 20px;
+            color: #FFFFFF;
+            margin:0px 2px;
+            background-color: #f38e81;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0px 0px 5px #B0B0B0;
+            border: 0px #fff solid;}
+        /*选择文件上传*/
+        .new-contentarea {
+            width: 165px;
+            overflow:hidden;
+            margin: 0 auto;
+            position:relative;float:left;
+        }
+        .new-contentarea label {
+            width:100%;
+            height:100%;
+            display:block;
+        }
+        .new-contentarea input[type=file] {
+            width:188px;
+            height:60px;
+            background:#333;
+            margin: 0 auto;
+            position:absolute;
+            right:50%;
+            margin-right:-94px;
+            top:0;
+            right/*\**/:0px\9;
+            margin-right/*\**/:0px\9;
+            width/*\**/:10px\9;
+            opacity:0;
+            filter:alpha(opacity=0);
+            z-index:2;
+        }
+        a.upload-img{
+            width:165px;
+            display: inline-block;
+            margin-bottom: 10px;
+            height:57px;
+            line-height: 57px;
+            font-size: 20px;
+            color: #FFFFFF;
+            background-color: #f38e81;
+            border-radius: 3px;
+            text-decoration:none;
+            cursor:pointer;
+            border: 0px #fff solid;
+            box-shadow: 0px 0px 5px #B0B0B0;
+        }
+        a.upload-img:hover{
+            background-color: #ec7e70;
+        }
+
+        .tc{text-align:center;}
+    </style>
 
 </head>
 <body>
@@ -24,51 +174,42 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="page-content">
+                <div class="page-content" th:if="${user!=null}">
                     <h4>个人资料</h4>
-                    <p>
-                        <div class="myinfo" th:if="${user!=null}">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td rowspan="5">
-                                        <img class="user-avatar" th:src="${user.avatar}">
-                                    </td>
-                                    <td>姓名 | <span th:text="${user.real_name}"></span></td>
-                                    <td>手机 | <span th:text="${user.phone}"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>积分 | <span th:text="${user.integral}"></span></td>
-                                    <td>角色 | <span th:text="${user.email}"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>性别 | 女</td>
-                                    <td>邮箱 | <span th:text="${user.email}"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>昵称 | <span th:text="${user.username}"></span></td>
-                                    <td>班级 | <span th:text="${clazz.c_name}"></span></td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="3">
-                                        <br>
-                                        <p><strong>操作：</strong></p>
-                                        <p class="buttom-oper">
-                                            <a href="http://www.17sucai.com/boards/117475.html">修改信息</a>
-                                            <a href="http://www.17sucai.com/boards/117475.html">修改密码 </a>
-                                            <a href="http://www.17sucai.com/boards/117475.html">其他 </a>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="row">
+                        <div class="col-12 col-xl-4">
+                            <div class="user-avatar-box" onclick="upAvatar()">
+                                <img class="user-avatar avatar" th:src="@{${user.avatar}}">
+                                <span>点击上传</span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-4">
+                            <div>姓名 | <span th:text="${user.real_name}"></span></div>
+                            <div>积分 | <span th:text="${user.integral}"></span></div>
+                            <div>性别 | 女</div>
+                            <div>昵称 | <span id="user-username" th:text="${user.username}"></span></div>
+                        </div>
+                        <div class="col-12 col-xl-4">
+                            <div>手机 | <span th:text="${user.phone}"></span></div>
+                            <div>角色 | <span th:text="${user.email}"></span></div>
+                            <div>邮箱 | <span id="user-email" th:text="${user.email}"></span></div>
+                            <div>班级 | <span th:text="${clazz.c_name}"></span></div>
+                        </div>
+                        <div class="col-12 col-xl-8 offset-xl-4">
+                            <br>
+                            <p><strong>操作：</strong></p>
+                            <p class="buttom-oper">
+                                <a onclick="uinfo()">修改信息</a>
+                                <a onclick="setPwd()">修改密码 </a>
+                                <a href="http://www.17sucai.com/boards/117475.html">其他 </a>
+                            </p>
+                        </div>
                     </div>
-                </p>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- ##### Regular Page Area End ##### -->
 
@@ -88,12 +229,130 @@
 <script src="/static/js/plugins/plugins.js"></script>
 <!-- Active js -->
 <script src="/static/js/active.js"></script>
-<!--<script src="/static/js/notiflix-1.3.0.min.js"></script>-->
+<script src="/static/js/notiflix-1.3.0.min.js"></script>
 <script src="/static/js/cookie.js"></script>
+<script src="/static/js/jquery.md5.min.js"></script>
+<script src="/static/js/cropbox.js"></script>
 <script>
+    var imgurl;
     $(function () {
+        Notiflix.Confirm.Init();
         Notiflix.Notify.Init();
     })
+
+    //打开图片头像上传
+    function upAvatar(){
+        var avatar = '[[${user.avatar}]]';
+        var html = "<div class='u-container'>" +
+            "  <div class='imageBox'>" +
+            "    <div class='thumbBox'></div>" +
+            "    <div class='spinner' style='display: none'>Loading...</div>" +
+            "  </div>" +
+            "  <div class='action'> " +
+            "    <div class='new-contentarea tc'> <a href='javascript:void(0)' class='upload-img'>" +
+            "      <label for='upload-file'>上传图像</label>" +
+            "      </a>" +
+            "      <input type='file' class='' name='upload-file' id='upload-file' />" +
+            "    </div>" +
+            "    <input type='button' id='btnCrop'  class='Btnsty_peyton' value='裁切'>" +
+            "    <input type='button' id='btnZoomIn' class='Btnsty_peyton' value='+'  >" +
+            "    <input type='button' id='btnZoomOut' class='Btnsty_peyton' value='-' >" +
+            "  </div>" +
+            "  <div class='cropped'></div>\n" +
+            "</div>"
+        Notiflix.Confirm.Merge({width:'800px'});
+        Notiflix.Confirm.Show("上传头像",html,'上传','取消',function () {
+            preview();
+            if(imgurl!=null){
+                $.post("/api/upload/base64upload",{img:imgurl},function (data) {
+                    if(data.code=="SUCCESS"){
+                        Notiflix.Notify.Success(data.message);
+                        //设置邮箱和个人昵称
+                        $(".avatar").attr({src:data.data.fileurl});
+                    }else{
+                        Notiflix.Notify.Warning(data.message);
+                    }
+                },"json");
+            }
+        })
+        var options =
+            {
+                thumbBox: '.thumbBox',
+                spinner: '.spinner',
+                imgSrc: '[[${user.avatar}]]'
+            }
+        cropper = $('.imageBox').cropbox(options);
+        $("#upload-file").change(function () {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+            }
+            reader.readAsDataURL(this.files[0]);
+            this.files = [];
+        })
+        $('#btnCrop').on('click',preview());
+        $('#btnZoomIn').on('click', function(){
+            cropper.zoomIn();
+        })
+        $('#btnZoomOut').on('click', function(){
+            cropper.zoomOut();
+        })
+    }
+    //预览
+    function preview(){
+        imgurl = cropper.getDataURL();
+        $('.cropped').html('');
+        $('.cropped').append('<img src="'+imgurl+'" align="absmiddle" style="width:64px;margin-top:4px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+        $('.cropped').append('<img src="'+imgurl+'" align="absmiddle" style="width:128px;margin-top:4px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+        $('.cropped').append('<img src="'+imgurl+'" align="absmiddle" style="width:180px;margin-top:4px;border-radius:180px;box-shadow:0px 0px 12px #7E7E7E;"><p>180px*180px</p>');
+    }
+    function uinfo(){
+        //获得昵称
+        var username = '[[${user.username}]]';
+        var email = '[[${user.email}]]';
+        Notiflix.Confirm.Merge({width:'300px'});
+        Notiflix.Confirm.Show("修改个人信息","昵称: <input type='text' id='username' class='username al-input' value='"+username+"'><br>邮箱: <input type='email' id='email' class='email al-input' value='"+email+"'>",'提交','取消',function () {
+            username = $("#username").val();
+            email = $("#email").val();
+            if(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email)){
+                if(/[\W\u4e00-\u9fa5]{5,8}/.test(username)){
+                    $.get("/api/user/update",{username:username,email:email},function (data) {
+                        if(data.code=="SUCCESS"){
+                            Notiflix.Notify.Success(data.message);
+                            //设置邮箱和个人昵称
+                            $("#user-username").html(username);
+                            $("#user-email").html(email);
+                        }else{
+                            Notiflix.Notify.Warning(data.message);
+                        }
+                    })
+                }else{
+                    Notiflix.Notify.Warning("用户名格式不正确5-8位");
+                }
+            }else{
+                Notiflix.Notify.Warning("邮箱格式不正确");
+            }
+        })
+    }
+    //修改密码
+    function setPwd(){
+        Notiflix.Confirm.Merge({width:'300px'});
+        Notiflix.Confirm.Show( '修改密码', "密码: <input type='password' id='password' class='password al-input' value=''>", '提交', '取消', function(){
+           var pwd = $("#password").val();
+           if(/^.{8,20}$/.test(pwd)){
+               $.get("/api/user/updatepwd",{password:$.md5(pwd)},function (data) {
+                   if(data.code=="SUCCESS"){
+                       Notiflix.Notify.Success(data.message);
+                   }else{
+                       Notiflix.Notify.Failure(data.message);
+                   }
+               })
+           }else{
+               Notiflix.Notify.Warning("密码格式不正确");
+           }
+        });
+    }
 </script>
 </body>
 

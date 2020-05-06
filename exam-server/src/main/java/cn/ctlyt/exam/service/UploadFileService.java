@@ -43,6 +43,9 @@ public class UploadFileService {
         }
         return null;
     }
+    public Integer addFile(UploadFile uploadFile){
+        return uploadFileMapper.insert(uploadFile);
+    }
     public PageInfo getFileList(Integer pageNo, Integer pageSize, Boolean isMaster,Integer uid){
         PageHelper.startPage(pageNo,pageSize);
         Example example = new Example(UploadFile.class);
@@ -57,6 +60,7 @@ public class UploadFileService {
             return new PageInfo(uploadFiles);
         }
     }
+
     public Integer delFile(String filename){
         File file = new File(Constant.FILE_UPLOAD_DIR+"/"+filename);
         if (file.exists()) {

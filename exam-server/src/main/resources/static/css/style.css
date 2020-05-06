@@ -123,6 +123,9 @@ img {
   height: 800px !important; }
 
 /* Section Padding */
+.section-padding-50 {
+  padding-top: 50px;
+  padding-bottom: 50px; }
 .section-padding-100 {
   padding-top: 100px;
   padding-bottom: 100px; }
@@ -1532,10 +1535,10 @@ textarea:focus {
     position: relative;
     z-index: 2;
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 165px;
-    flex: 0 0 165px;
-    width: 165px;
-    max-width: 165px;
+    /*-ms-flex: 0 0 150px;*/
+    /*flex: 0 0 150px;*/
+    width: 100px;
+    max-width: 110px;
     height: 100px;
     text-align: center;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
@@ -1971,4 +1974,13 @@ textarea:focus {
 .buttom-oper{
   display: flex;
   justify-content: space-around;
+}
+
+/*弹框表单*/
+.al-input{
+  line-height: 30px;
+  height: 30px;
+  margin-left: 5px;
+  padding-left: 5px;
+  margin-top: 10px;
 }

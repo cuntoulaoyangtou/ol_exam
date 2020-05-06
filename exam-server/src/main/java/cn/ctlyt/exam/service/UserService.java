@@ -3,6 +3,7 @@ package cn.ctlyt.exam.service;
 import cn.ctlyt.exam.exception.BizException;
 import cn.ctlyt.exam.mapper.*;
 import cn.ctlyt.exam.pojo.*;
+import cn.ctlyt.exam.utils.PatternUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Select;
@@ -217,17 +218,17 @@ public class UserService {
     public User getUser(User user) {
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        if (user.getUsername() != null && !user.getUsername().equals("") && user.verifyUsername()) {
+        if (PatternUtil.regUsername(user.getUsername())) {
             //根据用户名
             criteria.andEqualTo("username", user.getUsername());
         } else {
-            if (user.getPhone() != null && !user.getPhone().equals("") && user.verifyPhone()) {
+            if (PatternUtil.regPhone(user.getPhone())) {
                 //根据手机号
                 criteria.andEqualTo("phone", user.getPhone());
             } else {
                 if (user.getU_id() != null && user.getU_id() != 0) {
                     User user1 = userMapper.selectByPrimaryKey(user.getU_id());
-                    user1.setPassword("");
+                    user1.setPassword(null);
                     return user1;
                 }
             }
@@ -235,7 +236,7 @@ public class UserService {
         criteria.andEqualTo("password", user.getPassword());
         User user1 = userMapper.selectOneByExample(example);
         if (user1 != null) {
-            user1.setPassword("");
+            user1.setPassword(null);
         }
         return user1;
     }

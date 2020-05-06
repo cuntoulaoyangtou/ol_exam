@@ -20,17 +20,16 @@ import java.util.Date;
 public class UploadFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long f_id;
-    private Date uploaddate;
-    private String type;
-    private String fileurl;
-    private String primitive;
-    private String filename;
-    private Long filesize;
-    private Integer uid;
+    private Long f_id; //文件ID
+    private Date uploaddate; //上传时间
+    private String type; //文件类型
+    private String fileurl; //文件地址
+    private String primitive; //原始文件名
+    private String filename; //文件名
+    private Long filesize; //文件大小
+    private Integer uid; //用户ID
 
     public UploadFile(){
-
     }
     public UploadFile(Date uploaddate, String type, String fileurl,String primitive,String filename, Long filesize, Integer uid) {
         this.uploaddate = uploaddate;

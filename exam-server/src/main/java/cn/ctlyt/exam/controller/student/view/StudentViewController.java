@@ -58,10 +58,14 @@ public class StudentViewController {
 //        request.setAttribute("user",request.getSession().getAttribute("user"));
         return "student/index";
     }
-    //个人中心
+    //个人信息
     @GetMapping("/user/userinfo")
-    public String userUserInfo(HttpServletRequest request){
-
+    public String userUserInfo(){
         return "student/user/userinfo";
+    }
+    //个人中心
+    @GetMapping("/user/usercenter")
+    public String userUsercenter(){
+        return "student/user/usercenter";
     }
 }

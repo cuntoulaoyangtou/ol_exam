@@ -8,13 +8,11 @@ import cn.ctlyt.exam.service.ClazzService;
 import cn.ctlyt.exam.service.EmailService;
 import cn.ctlyt.exam.service.RoleService;
 import cn.ctlyt.exam.service.UserService;
-import cn.ctlyt.exam.utils.Constant;
-import cn.ctlyt.exam.utils.JwtUtil;
-import cn.ctlyt.exam.utils.RedisUtil;
-import cn.ctlyt.exam.utils.ResultGenerator;
+import cn.ctlyt.exam.utils.*;
 import cn.ctlyt.exam.vo.InvitationCode;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.Claims;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +23,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -63,7 +62,7 @@ public class UserController {
             if(user1!=null && user1.getU_id()!=null && user1.getU_id()!=0){
                 //创建key
                 String subject = JSON.toJSONString(user1); //将java对象转换为JSON数据
-                String jwt = JwtUtil.createJWT(Constant.JWT_ID, "ctlyt", subject, Constant.JWT_TTL);
+                String jwt = JwtUtil.createJWT(Constant.JWT_ID, Constant.ISSUER, subject, Constant.JWT_TTL);
                 Claims claims = JwtUtil.parseJWT(jwt);
                 if(thymeleafViewResolver != null){
                     Clazz clazzByCID = clazzService.getClazzByCID(user1.getC_id());
@@ -119,6 +118,49 @@ public class UserController {
             return ResultGenerator.genSuccessResult("退出登录");
         }
     }
+    /*
+     * 功能描述：修改密码
+     * @param [request, password]
+     * @return cn.ctlyt.exam.pojo.Result
+     * @Author: 村头老杨头
+     * @Date: 2020/5/4 0004 19:27
+     *
+     */
+    @GetMapping("updatepwd")
+    public Result updatePwd(HttpServletRequest request,String password){
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        if(user!=null){
+            if(!PatternUtil.regPassword(password))
+                return ResultGenerator.genFailResult("密码格式不正确");
+            user.setPassword(password);
+            userService.updateUser(user);
+            return ResultGenerator.genSuccessResult().setMessage("修改密码成功");
+        }else{
+            return ResultGenerator.genUnauthorizedResult().setMessage("没有权限修改");
+        }
+    }
+    @GetMapping("update")
+    public Result update(HttpServletRequest request,User user){
+        HttpSession session = request.getSession();
+        User usertmp = (User)session.getAttribute("user");
+        if(usertmp!=null){
+            if(PatternUtil.regPhone(user.getPhone())){
+                usertmp.setPhone(user.getPhone());
+            }
+            if(PatternUtil.regEmail(user.getEmail())){
+                usertmp.setEmail(user.getEmail());
+            }
+            if(PatternUtil.regUsername(user.getUsername())){
+                usertmp.setUsername(user.getUsername());
+            }
+            userService.updateUser(usertmp);
+            request.getSession().setAttribute("user",usertmp);
+            return ResultGenerator.genSuccessResult().setMessage("修改用户成功");
+        }else{
+            return ResultGenerator.genUnauthorizedResult().setMessage("没有权限修改");
+        }
+    }
 
     /*
      * 功能描述：忘记密码
@@ -130,9 +172,7 @@ public class UserController {
      */
     @GetMapping("forget")
     public Result forget(String phone){
-        Pattern compile = Pattern.compile(Constant.PHONE_REG);
-        Matcher matcher = compile.matcher(phone);
-        if(matcher.matches()){
+        if(PatternUtil.regPhone(phone)){
             User userByPhone = userService.getUserByPhone(phone);
             if(userByPhone!=null){
                 if(userByPhone.getEmail()!=null){
@@ -155,6 +195,5 @@ public class UserController {
         }else{
             throw new BizException("手机号格式不符合要求");
         }
-
     }
 }
