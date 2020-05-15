@@ -1,7 +1,5 @@
 package cn.ctlyt.exam.utils;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.UUID;
 
 /**

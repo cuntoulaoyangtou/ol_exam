@@ -523,7 +523,7 @@ textarea:focus {
 
 .login-state {
   position: relative;
-  z-index: 1; }
+  z-index: auto; }
   .login-state .user-name .dropdown .dropdown-toggle {
     font-size: 14px;
     font-weight: 700;
