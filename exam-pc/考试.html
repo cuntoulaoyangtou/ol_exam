@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>考试</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/考试.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-3.5.0.js"></script>
+
+</head>
+<body style="background-image: url(img/dengLu.jpg);">
+<div class="container">
+
+</div>
+<div class="container-fluid clearfix" style="width: 1380px;height: 600px;border: 2px solid #999;">
+    <div class="float-left border-right border-secondary" style="width: 200px;height: 600px;">
+                <span>
+                	答题卡
+                </span>
+        <ul class="nav nav-pills">
+            <li class="nav-item rounded bg-primary">
+                <a href="javascript:void(0);" class="nav-link" >
+                    1
+                </a>
+            </li>
+            <li class="nav-item rounded">
+                <a href="javascript:void(0);" class="nav-link">
+                    2
+                </a>
+            </li>
+            <li class="nav-item rounded">
+                <a href="javascript:void(0);" class="nav-link">
+                    3
+                </a>
+            </li>
+            <li class="nav-item rounded">
+                <a href="javascript:void(0);" class="nav-link">
+                    4
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="float-left" style="width: 1034px;height: 600px;margin-left: 40px;">
+        <div class="border-bottom border-secondary clearfix" style="width: 1034px;height: 45px; margin-top: 15px;">
+					<span class="font-weight-bold h5">
+						标题哈哈哈
+					</span>
+                    <span class="text-warning h3" style="margin-left: 800px;">
+						00:00:00
+					</span>
+        </div>
+        <div style="margin-top: 20px;">
+            <p class="font-weight-bold">下面有关JVM内存，说法错误的是？</p>
+
+        </div>
+        <div class="row align-items-start">
+            <a href="" class="col-12 border border-secondary">
+                <label class="mb-auto" id="checkbox_0">
+                    <input id="notAdmin_A" type="radio" class="radioclass" name="w1" data-toggle="radio" value="">
+                    程序计数器是一个比较小的内存区域，用于指示当前线程所执行的字节码执行到了第几行，是线程隔离的
+                </label>
+            </a>
+            <a href="" class="col-12 border border-secondary">
+                <label class="" id="checkbox_1">
+                    <input id="notAdmin_B" type="radio" class="radioclass" name="w1" data-toggle="radio" value="">
+                    虚拟机栈描述的是Java的内存模型，用于存储局部变量，操作数栈，动态链接，方法出口等信息，是线程隔离的
+                </label>
+            </a>
+            <a href=""  class="col-12 border border-secondary">
+                <label class="" id="checkbox_2">
+                    <input type="radio" id="notAdmin_C" class="radioclass" name="w1" data-toggle="radio" value="">
+                    方法区用于存储JVM加载的类信息、常量、静态变量、以及编译器编译后的代码等数据，是线程隔离的
+                </label>
+            </a>
+            <a href=""  class="col-12 border border-secondary">
+                <label class="" >
+                    <input type="radio"  class="" name="w1" data-toggle="radio" value="">
+                    原则上讲，所有的对象都在堆区上分配内存，是线程之间共享的
+                </label>
+            </a>
+        </div>
+
+
+        <div class="float-right">
+            <form id="submitForm" method="post" action="">
+                <input type="hidden" name="content" id="answer">
+                <input id="next" type="submit" name="button" class="btn btn-primary" value="下一题">
+                <input  type="submit"  name="button" class="btn btn-info" value="提前交卷">
+
+            </form>
+        </div>
+    </div>
+
+</div>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    $(".nav li").click(function(){
+        $(this).addClass("bg-primary").siblings().removeClass("bg-primary");
+    })
+</script>
+</body>
+</html>
